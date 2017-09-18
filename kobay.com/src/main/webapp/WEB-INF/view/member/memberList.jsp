@@ -104,7 +104,6 @@
         </div>
       </div>
     </nav>
-	s
     <!-- Page Content -->
 	<div class="container">
 		<table>
@@ -121,6 +120,7 @@
 					<td>${rs.member_name}</td>
 					<td>${rs.member_rdate}</td>
 				</tr>
+				<c:set var="number" value="${number-1}" />
 			</c:forEach>
 		</table>
 	</div>
