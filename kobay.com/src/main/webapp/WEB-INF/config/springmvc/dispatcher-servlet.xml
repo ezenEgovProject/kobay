@@ -6,6 +6,20 @@
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	
+	<!-- For Json s 맨 위에 넣을 것 -->
+	<mvc:annotation-driven/>
+	<context:annotation-config/>
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	<bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+	<!-- For Json e -->
+		
+	<bean id="spring.RegularCommonsMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	     <property name="maxUploadSize" value="100000000" />
+	     <property name="maxInMemorySize" value="100000000" />
+	</bean>
+	<alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver"/>
+	
 
     <context:component-scan base-package="kobay">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
