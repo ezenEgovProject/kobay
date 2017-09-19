@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import kobay.com.cmmn.PageVO;
 import kobay.com.service.MemberService;
@@ -22,9 +21,6 @@ public class MemberController {
 	
 	@Resource(name = "memberService")
 	private MemberService memberService;
-	
-	@Resource(name = "jsonView")
-	protected MappingJackson2JsonView jsonView;
 	
 	@RequestMapping(value="/memberList")
 	public String memberList(@ModelAttribute("pageVO") PageVO pageVO,Model model) throws Exception {

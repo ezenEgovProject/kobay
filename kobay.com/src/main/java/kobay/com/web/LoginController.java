@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import kobay.com.service.LoginService;
 import kobay.com.service.MemberVO;
@@ -26,14 +25,14 @@ public class LoginController {
 	@Resource(name = "loginService")
 	private LoginService loginService;
 	
-	@Resource(name = "jsonView")
-	protected MappingJackson2JsonView jsonView;
+
 	
 	@RequestMapping("/loginreg")
 	public String loginRegPage(HttpSession session) {
 		String member_id = (String) session.getAttribute("id");
 		
 		if(member_id != null) {
+			// 로그인이 되어있을 경우 main에 관한 내용변경(상단바 수정)
 			return "redirect:/main";
 		}
 		return "login/loginRegWrite";
@@ -62,5 +61,17 @@ public class LoginController {
 		
 		map.put("result", result);
 		return map;
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		
+		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
+		
+		log.info(session.getAttribute("id") + " Logout 현재시간 : "+curTime);
+		
+		session.invalidate();
+		
+		return "redirect:/loginreg";
 	}
 }
