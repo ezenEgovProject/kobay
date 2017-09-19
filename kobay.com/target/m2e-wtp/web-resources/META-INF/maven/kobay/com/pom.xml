@@ -125,6 +125,13 @@
      		<version>1.4</version>
    		</dependency>
    		<!-- /oracle setting -->
+   		
+   		<!-- json -->
+   		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.1</version>
+		</dependency>  
         
         <!-- mysql이나 oracle 필요시 사용 -->
         <!--
