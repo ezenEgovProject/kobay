@@ -1,8 +1,10 @@
 package kobay.com.web;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -19,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
+import kobay.com.service.TestVO;
 
 @Controller
 public class KobayController {
@@ -26,15 +31,38 @@ public class KobayController {
 	private KobayService kobayService;
 	
 	@RequestMapping("/Write")
-	public String Write(){
+	public String Write(KobayVO vo,Model model) throws Exception{
+		
+		List<?> ctgList = kobayService.selectctglist(vo);
+		
+		model.addAttribute("resultList", ctgList);	
+		
 		return "write/kobayWrite";
 	}
 	
-	@RequestMapping(value = "/uploadFileSave")
-	@ResponseBody
-	public Map<String, String> multipartProcess(final MultipartHttpServletRequest multiRequest,
-			HttpServletResponse response, KobayVO vo, Model model) throws Exception {
-		MultipartFile file;
+	@RequestMapping(value="selectMlist")
+	@ResponseBody public Map<String, Object> SelectMlist(KobayVO vo,Model model) throws Exception{
+		
+		List<?> ctgMlist = kobayService.selectctgmlist(vo);
+		
+		//model.addAttribute("resultMList", ctgMlist);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("resultMList", ctgMlist);
+				
+		return map;
+			
+	}
+	@RequestMapping(value="/uploadFileSave2", method = RequestMethod.POST)
+	@ResponseBody public void testest(final MultipartHttpServletRequest multiRequest, HttpServletResponse response, KobayVO vo,  Model model) {
+		System.out.println("sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		System.out.println(vo.getAuction_del());
+	}
+	
+	@RequestMapping(value = "/uploadFileSave", method = RequestMethod.POST)
+	@ResponseBody public Map<String, String> multipartProcess(final MultipartHttpServletRequest multiRequest,
+			HttpServletResponse response,KobayVO vo,  Model model) {
+		System.out.println("11111111111111111111111111111");
+		MultipartFile file = null;
 		String filePath = "";
 		int cnt = 0;
 
@@ -74,7 +102,15 @@ public class KobayController {
 			file = entry.getValue();
 			if (!"".equals(file.getOriginalFilename())) {
 				filePath = uploadPath + "" + file.getOriginalFilename();
-				file.transferTo(new File(filePath));
+				try {
+					file.transferTo(new File(filePath));
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				image += file.getOriginalFilename() + "／";
 				
@@ -87,7 +123,12 @@ public class KobayController {
 		System.out.println("filePath : " + filePath);
 		
 		String result="";
-		result = kobayService.insertWrite(vo);
+		try {
+			result = kobayService.insertWrite(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if(result==null){
 			cnt = cnt+1;
@@ -97,5 +138,7 @@ public class KobayController {
 		System.out.println("cnt -> " + cnt);
 		return map;
 	}
+	
+	
 	
 }

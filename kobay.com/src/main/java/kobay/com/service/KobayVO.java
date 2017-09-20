@@ -15,7 +15,35 @@ public class KobayVO {
 	private int sellerphone;
 	private String detail;
 	private int auction_del;
+	private String ctgcd;
+	private String ctgnm;
+	private String Lcategory;
+	private String Mcategory;
 	
+	public String getMcategory() {
+		return Mcategory;
+	}
+	public void setMcategory(String mcategory) {
+		Mcategory = mcategory;
+	}
+	public String getCtgcd() {
+		return ctgcd;
+	}
+	public String getLcategory() {
+		return Lcategory;
+	}
+	public void setLcategory(String lcategory) {
+		Lcategory = lcategory;
+	}
+	public void setCtgcd(String ctgcd) {
+		this.ctgcd = ctgcd;
+	}
+	public String getCtgnm() {
+		return ctgnm;
+	}
+	public void setCtgnm(String ctgnm) {
+		this.ctgnm = ctgnm;
+	}
 	public int getSprice() {
 		return sprice;
 	}
