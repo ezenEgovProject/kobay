@@ -4,8 +4,4 @@
 <sqlMapConfig>
 
 
-<sqlMap resource="sqlmap/sql/TestSQL.xml" />
-<sqlMap resource="sqlmap/sql/MemberSQL.xml" />
-<sqlMap resource="sqlmap/sql/LoginSQL.xml" />
-
-</sqlMapConfig>
+<sqlMap resource="sqlmap/sql/TestSQL.xml"></sqlMap></sqlMapConfig>
