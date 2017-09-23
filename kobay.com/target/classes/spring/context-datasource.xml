@@ -23,7 +23,7 @@
         <property name="username" value="user"/>
         <property name="password" value="password"/>
     </bean>
-    -->
+  	  -->
     
     <!-- oracle  -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

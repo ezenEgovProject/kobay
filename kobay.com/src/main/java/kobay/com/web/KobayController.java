@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
@@ -29,6 +29,9 @@ import kobay.com.service.TestVO;
 public class KobayController {
 	@Resource(name = "kobayService")
 	private KobayService kobayService;
+	
+	@Resource(name = "multipartResolver")
+	CommonsMultipartResolver multipartResolver;
 	
 	@RequestMapping("/Write")
 	public String Write(KobayVO vo,Model model) throws Exception{
@@ -48,21 +51,16 @@ public class KobayController {
 		//model.addAttribute("resultMList", ctgMlist);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("resultMList", ctgMlist);
-				
+		
 		return map;
 			
 	}
-	@RequestMapping(value="/uploadFileSave2", method = RequestMethod.POST)
-	@ResponseBody public void testest(final MultipartHttpServletRequest multiRequest, HttpServletResponse response, KobayVO vo,  Model model) {
-		System.out.println("sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		System.out.println(vo.getAuction_del());
-	}
-	
-	@RequestMapping(value = "/uploadFileSave", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/uploadFileSave")
 	@ResponseBody public Map<String, String> multipartProcess(final MultipartHttpServletRequest multiRequest,
-			HttpServletResponse response,KobayVO vo,  Model model) {
-		System.out.println("11111111111111111111111111111");
-		MultipartFile file = null;
+			HttpServletResponse response,KobayVO vo,  Model model) throws Exception {
+		
+		MultipartFile file;
 		String filePath = "";
 		int cnt = 0;
 
@@ -95,40 +93,30 @@ public class KobayController {
 		 * dest)업로드 한 파일 데이터를 지정한 파일에 저장한다. --> 요고도 파일쓰는거다.
 		 */
 		
-		String image = "";
+		String filename = "";
 		
 		while (itr.hasNext()) {
 			Entry<String, MultipartFile> entry = itr.next();
 			file = entry.getValue();
 			if (!"".equals(file.getOriginalFilename())) {
-				filePath = uploadPath + "" + file.getOriginalFilename();
-				try {
-					file.transferTo(new File(filePath));
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				filePath = uploadPath + "/" + file.getOriginalFilename();
+				file.transferTo(new File(filePath));
 				
-				image += file.getOriginalFilename() + "／";
+				filename += file.getOriginalFilename() + "／";
 				
 				cnt++;
 			}
 		}
 		
-		vo.setImage(image);
+		System.out.println(filename);
+		
+		vo.setImage(filename);
 		
 		System.out.println("filePath : " + filePath);
 		
 		String result="";
-		try {
-			result = kobayService.insertWrite(vo);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		result = kobayService.insertWrite(vo);
 		
 		if(result==null){
 			cnt = cnt+1;
