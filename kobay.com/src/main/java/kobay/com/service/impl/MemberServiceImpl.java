@@ -35,16 +35,4 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 		return memberDAO.selectMemberList(pageVO);
 	}
 
-
-	@Override
-	public MemberVO selectMemberDetail(MemberVO vo) throws Exception {
-		return memberDAO.selectMemberDetail(vo);
-	}
-
-
-	@Override
-	public int memberCheckId(String member_id) {
-		return  memberDAO.memberCheckId(member_id);
-	}
-
 }

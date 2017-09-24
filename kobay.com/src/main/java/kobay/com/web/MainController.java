@@ -18,11 +18,6 @@ public class MainController {
 	public String mainView() {
 		return "main/main";
 	}
-	
-	@RequestMapping ("/intro")
-	public String introView() {
-		return "main/intro";
-	}
 
 	/**
 	 * Test Server

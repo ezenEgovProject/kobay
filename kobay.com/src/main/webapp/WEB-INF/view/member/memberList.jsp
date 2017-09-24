@@ -116,9 +116,9 @@
 			<c:forEach var="rs" items="${memberList}" varStatus="status">
 				<tr>
 					<td>${number}</td>
-					<td><a href="#">${rs.memberId}</a></td>
-					<td>${rs.memberName}</td>
-					<td>${rs.memberRdate}</td>
+					<td><a href="#">${rs.member_id}</a></td>
+					<td>${rs.member_name}</td>
+					<td>${rs.member_rdate}</td>
 				</tr>
 				<c:set var="number" value="${number-1}" />
 			</c:forEach>

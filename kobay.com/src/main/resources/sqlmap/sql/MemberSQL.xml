@@ -8,7 +8,7 @@
 	
 	
 <insert id="memberDAO.insertMember">
-	INSERT INTO member(
+	INSERT INTO kobay_member(
 		MEMBER_UNQ,
 		MEMBER_ID,
 		MEMBER_PWD,
@@ -26,7 +26,7 @@
 	)
 </insert>
 <select id="memberDAO.selectMemberTotal" resultClass="java.lang.Integer">
-	SELECT COUNT(MEMBER_UNQ) total FROM member
+	SELECT COUNT(MEMBER_UNQ) total FROM kobay_member
 </select>
 
 <select id="memberDAO.selectMemberList" resultClass="egovMap">
@@ -36,21 +36,7 @@
 			member_name,
 			member_phone,
 			TO_CHAR(MEMBER_RDATE, 'yyyy-mm-dd') member_rdate
-	FROM	member
-</select>
-
-<select id="memberDAO.selectMemberDetail" resultClass="memberVO">
-	SELECT member_name,
-			  member_phone,
-			  member_rdate
-	FROM member
-	WHERE member_id = #member_id#
-</select>
-
-<select id="memberDAO.memberCheckId" resultClass="java.lang.Integer">
-	SELECT COUNT(member_id)
-	FROM member
-	WHERE member_id = #member_id#
+	FROM	kobay_member
 </select>
 </sqlMap>
 <!-- 

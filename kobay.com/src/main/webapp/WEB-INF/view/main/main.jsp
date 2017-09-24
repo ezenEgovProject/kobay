@@ -19,17 +19,18 @@
   </head>
 
   <body>
+
     <!-- Navigation -->
     <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
 		<div class="container" style="width: 100%;">
 			<div class="row justify-content-between align-items-center" style="width: 100%;">
 				<div class="col-12 col-sm-auto order-sm-1 text-center">
-					<a class="navbar-brand" href="/main"><label class="logo" >Kobay</label></a>
+					<a class="navbar-brand" href="index.jsp"><label class="logo">Kobay</label></a>
 				</div>
 				<div class="col-4 order-sm-2">
 				    <div class="input-group">
 				      <span class="input-group-btn">
-				        <a class="btn search-btn" href="/action/search"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
+				        <button class="btn search-btn" type="button"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></button>
 				      </span>
 				      <input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
 				    </div><!-- /input-group -->
@@ -39,6 +40,7 @@
 					 <span class="top-icon"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
 				</div>
 			</div>
+			
 		</div> 
 	<!-- /.navbar-top -->
    
@@ -50,30 +52,48 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav mx-auto">
-          	<li class="nav-item px-lg-4 active">
-              <a class="nav-link" href="/main">홈</a>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link" href="#">About</a>
             </li>
-          	<li class="nav-item px-lg-4 dropdown">
+            <li class="nav-item px-lg-4">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item px-lg-4 dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              	  회사소개
+                Portfolio
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="/intro">KOBAY 소개</a>
-                <a class="dropdown-item" href="#">경매방법</a>
-                <a class="dropdown-item" href="#">문의사항</a>
+                <a class="dropdown-item" href="#">1 Column Portfolio</a>
+                <a class="dropdown-item" href="#">2 Column Portfolio</a>
+                <a class="dropdown-item" href="#">3 Column Portfolio</a>
+                <a class="dropdown-item" href="#">4 Column Portfolio</a>
+                <a class="dropdown-item" href="#">Single Portfolio Item</a>
               </div>
             </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">진행경매</a>
+            <li class="nav-item px-lg-4 dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Blog
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <a class="dropdown-item" href="#">Blog Home 1</a>
+                <a class="dropdown-item" href="#">Blog Home 2</a>
+                <a class="dropdown-item" href="#">Blog Post</a>
+              </div>
             </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">예정경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">마감경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">이벤트</a>
+            <li class="nav-item px-lg-4 dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Other Pages
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <a class="dropdown-item" href="#">Full Width Page</a>
+                <a class="dropdown-item" href="#">Sidebar Page</a>
+                <a class="dropdown-item" href="#">FAQ</a>
+                <a class="dropdown-item" href="#">404</a>
+                <a class="dropdown-item" href="#">Pricing Table</a>
+              </div>
             </li>
           </ul>
         </div>
@@ -283,7 +303,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; kobay 2017</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
       </div>
       <!-- /.container -->
     </footer>

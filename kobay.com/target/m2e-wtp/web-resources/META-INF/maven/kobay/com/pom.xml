@@ -51,6 +51,7 @@
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 		<!-- /oracle setting -->
+		
 	</repositories>
 
 	<dependencies>
@@ -125,14 +126,14 @@
      		<version>1.4</version>
    		</dependency>
    		<!-- /oracle setting -->
-   		
-   		<!-- json -->
+ 		
+ 		<!-- json -->
    		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.5.1</version>
-		</dependency>  
-        
+		</dependency> 
+		       
         <!-- mysql이나 oracle 필요시 사용 -->
         <!--
         <dependency>
