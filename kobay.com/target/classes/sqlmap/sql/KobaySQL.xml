@@ -53,14 +53,12 @@
 	</select>
 	
 	<select id="selectMCtgList" resultClass="egovMap">
-	
 		select 
 			ctgcd,
 			ctgnm
 		from
 			category
 		where ctgcd like '%' || #ctgcd# || '%'
-	
 	</select>
 	
 </sqlMap>

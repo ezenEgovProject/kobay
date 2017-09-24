@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CtgSpace">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="ctgVO" type="ezen.service.CtgVO"/>
+
+	<insert id="ctgDAO.insertCtg">
+		INSERT INTO category (
+				ctgcd,
+				ctgnm,
+				comm,
+				use,
+				regdate,
+				upddate,
+				hctgcd
+			) VALUES (
+				#ctgcd#,
+				#ctgnm#,
+				#comm#,
+				#use#,
+				sysdate,
+				sysdate,
+				#hctgcd#
+			)
+	</insert>
+	
+	<update id="ctgDAO.updateCtg">
+		UPDATE category 
+			SET
+				ctgnm = #ctgnm#,
+				comm = #comm#,
+				use = #use#,
+				upddate = sysdate
+		WHERE
+			ctgcd = #ctgcd#
+	</update>
+	
+	<delete id="ctgDAO.deleteCtg">
+		DELETE 
+			FROM category 
+		WHERE
+			ctgcd = #ctgcd#
+	</delete>
+	
+	<select id="ctgDAO.selectCtgList" resultClass="egovMap">
+			SELECT 
+				ctgcd,
+				ctgnm,
+				SUBSTR(SYS_CONNECT_BY_PATH(ctgnm, '>'),1) Path,
+				use
+	 		FROM  
+	 			category 
+	    	WHERE
+    			1 = 1
+    		<isNotNull property="srchContn">
+    			<isNotNull property="srchKeywd">
+	    			<isEqual property="srchContn" compareValue="hctgcd">
+	    				AND hctgcd = #srchKeywd#
+	    			</isEqual>
+	    			<isEqual property="srchContn" compareValue="ctgnm">
+	    				AND ctgnm LIKE '%' || #srchKeywd# || '%' 
+	    			</isEqual>
+	    			<isEqual property="srchContn" compareValue="use">
+	    				AND use = #use#
+	    			</isEqual>
+	    		</isNotNull>
+			</isNotNull>
+			START WITH hctgcd = '0'
+ 			CONNECT BY PRIOR ctgcd=hctgcd
+	</select>
+	
+	<select id="ctgDAO.selectCtgcdMax" resultClass="java.lang.String">
+		SELECT  nvl(MAX(ctgcd),'0') ctgcd FROM 
+			category 
+		WHERE 
+			hctgcd = '$hctgcd$'
+	</select>
+	
+	<select id="ctgDAO.selectCtgDetail" resultClass="ctgVO">
+		SELECT  ctgcd,
+				ctgnm,
+				comm,
+				use,
+				to_char(regdate,'yyyy-mm-dd') regdate,
+				to_char(upddate,'yyyy-mm-dd') upddate,
+				hctgcd
+		FROM 
+			category 
+		WHERE 
+			ctgcd = #ctgcd#
+	</select>
+	
+	<select id="ctgDAO.selectCtgCdCnt" resultClass="java.lang.Integer">
+		SELECT  
+				COUNT(*) FROM 
+			category 
+		WHERE 
+			ctgcd = '$ctgcd$'
+	</select>
+	
+	<select id="ctgDAO.selectCtgLowLevlCnt" resultClass="java.lang.Integer">
+		SELECT  
+				COUNT(*) FROM 
+			category 
+		WHERE 
+			ctgcd LIKE #ctgcd# || '__'
+	</select>
+	
+</sqlMap>
+

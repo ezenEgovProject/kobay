@@ -1,7 +1,6 @@
 package kobay.com.web;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -23,7 +21,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
-import kobay.com.service.TestVO;
 
 @Controller
 public class KobayController {
@@ -34,9 +31,10 @@ public class KobayController {
 	CommonsMultipartResolver multipartResolver;
 	
 	@RequestMapping("/Write")
-	public String Write(KobayVO vo,Model model) throws Exception{
-		
-		List<?> ctgList = kobayService.selectctglist(vo);
+	public String Write(Model model) throws Exception{
+		// 조건절이 없는 select는 vo를 넘겨줄 필요가 없음
+		//List<?> ctgList = kobayService.selectctglist(vo);
+		List<?> ctgList = kobayService.selectctglist();
 		
 		model.addAttribute("resultList", ctgList);	
 		

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-        <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
@@ -17,179 +16,7 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../../../css/kobay.css" >
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   </head>
-  <script>
-		  $(function(){
-			
-			$("#saveBtn").click(function(){
-						
-			var form = new FormData(document.getElementById('frm'));
-// 			var form = $("#frm").serialize();
-			alert(form);
-					
-			$.ajax({
-				type: 'POST',
-				data: form,
-				url: "<c:url value='/uploadFileSave'/>",
-				dataType: "json",
-				processData: false,
-				contentType: false,
-		
-				success: function(data){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-					if(data.cnt>0){
-						alert("저장됐습니다.");
-						location.href = "<c:url value='/Write'/>";
-					}else{
-						alert("저장에실패");
-					}
-				},
-				error: function(error){
-					alert("error : " + error);
-				}
-			});
-			
-			
-		});
-		});
-	  </script>
-  <style type="text/css">
-	.filebox input[type="file"] {
-	    position: absolute;
-	    width: 1px;
-	    height: 1px;
-	    padding: 0;
-	    margin: -1px;
-	    overflow: hidden;
-	    clip:rect(0,0,0,0);
-	    border: 0;
-	}
-
-	.filebox label {
-	    display: inline-block;
-	    padding: .5em .75em;
-	    color: #999;
-	    font-size: inherit;
-	    line-height: normal;
-	    vertical-align: middle;
-	    background-color: #fdfdfd;
-	    cursor: pointer;
-	    border: 1px solid #ebebeb;
-	    border-bottom-color: #e2e2e2;
-	    border-radius: .25em;
-	}
-
-	/* named upload */
-	.filebox .upload-name {
-		display: inline-block;
-		padding: .5em .75em;
-		font-size: inherit;
-		font-family: inherit;
-		line-height: normal;
-		vertical-align: middle;
-		background-color: #f5f5f5;
-		border: 1px solid #ebebeb;
-		border-bottom-color: #e2e2e                                                                                                                               2;
-		border-radius: .25em;
-		-webkit-appearance: none; /* 네이티브 외형 감추기 */
-		-moz-appearance: none;
-		appearance: none;
-	}
-	
-	/* imaged preview */
-	.filebox .upload-display {
-	    margin-bottom: 5px;
-	    
-	}
-	
-	@media(min-width: 768px) {
-	    .filebox .upload-display {
-        display: inline-block;
-        margin-right: 5px;
-        margin-bottom: 0;
-	    }
-	}
-	
-	.filebox .upload-thumb-wrap {
-	    display: inline-block;
-	    width: 240px;
-	    padding: 2px;
-	    vertical-align: middle;
-	    border: 1px solid #ddd;
-	    border-radius: 5px;
-	    background-color: #fff;
-	}
-	
-	.filebox .upload-display img {
-	    display: block;
-	    max-width: 100%;
-	    width: 100% \9;
-	    height: auto;
-	}
-	
-	.filebox.bs3-primary label {
-		color: #fff;
-		background-color: #337ab7;
-		border-color: #2e6da4;
-	}
-		
-	
-	
-	</style>
-  
-  <script>
-
-	$(document).ready(function(){
-	   var fileTarget = $('.filebox .upload-hidden');
-	
-	    fileTarget.on('change', function(){
-	        if(window.FileReader){
-	            // 파일명 추출
-	            var filename = $(this)[0].files[0].name;
-	        } 
-	
-	        else {
-	            // Old IE 파일명 추출
-	            var filename = $(this).val().split('/').pop().split('\\').pop();
-	        };
-	
-	        $(this).siblings('.upload-name').val(filename);
-	    });
-	
-	    //preview image 
-	    var imgTarget = $('.preview-image .upload-hidden');
-	
-	    imgTarget.on('change', function(){
-	        var parent = $(this).parent();
-	        parent.children('.upload-display').remove();
-	
-	        if(window.FileReader){
-	            //image 파일만
-	            if (!$(this)[0].files[0].type.match(/image\//)) return;
-	            
-	            var reader = new FileReader();
-	            reader.onload = function(e){
-	                var src = e.target.result;
-	                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
-	            }
-	            reader.readAsDataURL($(this)[0].files[0]);
-	        }
-	
-	        else {
-	            $(this)[0].select();
-	            $(this)[0].blur();
-	            var imgSrc = document.selection.createRange().text;
-	            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
-	
-	            var img = $(this).siblings('.upload-display').find('img');
-	            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
-	        }
-	    });
-	});
-	
-	</script>
-  
-  
 
   <body>
     <!-- Navigation -->
@@ -253,122 +80,201 @@
       </div>
     </nav>
 	
-	
+	<!-- Main Slider -->
+	<!-- 메인페이지 이외의 페이지에서는 삭제해야할 부분 -->
+    <header>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <!-- Slide One - Set the background image for this slide in the line below -->
+          <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>First Slide</h3>
+              <p>This is a description for the first slide.</p>
+            </div>
+          </div>
+          <!-- Slide Two - Set the background image for this slide in the line below -->
+          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Second Slide</h3>
+              <p>This is a description for the second slide.</p>
+            </div>
+          </div>
+          <!-- Slide Three - Set the background image for this slide in the line below -->
+          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Third Slide</h3>
+              <p>This is a description for the third slide.</p>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </header>
+    <!-- /메엔화면이 아니면 삭제해주세요. -->
+    <!-- /Main Slider -->
 
     <!-- Page Content -->
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
-<form name="frm" method="post" id="frm" enctype="multipart/form-data"  action="">	
-	      <div class="row">
-	        <div class="col-lg-8 mb-4">
-	          <h3>상품등록</h3>
-	          <p></p>
-	          <form name="sentMessage" id="contactForm" novalidate>
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>카테고리:</label>
-	                	<br>
-	               		<input type="radio" name="category" value="pants">바지
-						<input type="radio" name="category" value="Tshirts">티셔츠
-						<input type="radio" name="category" value="accesory">악세서리
-	                <p class="help-block"></p>
-	              </div>
-	            </div>
-	            <div class="control-group form-group">
-	              <div class="controls">
-	              
-	                <label>등록기간:</label>
-	               
-	                <input type="text" class="form-control" name="sdate" id="sdate" style="width:30%;"> ~ 
-	               
-	               
-	                <input type="text" class="form-control" name="edate" id="edate" style="width:30%;">
-	             	
-	              </div>
-	            </div>
-	           
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상품명:</label>
-	                <input type="text" class="form-control" name="title" id="title">
-	              </div>
-	            </div>
-	            
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상품이미지:</label>
-	             	   <div class="filebox bs3-primary preview-image"> 
-							<input class="upload-name" value="파일선택" disabled="disabled" style="width:200px;">
-							<label for="file1">업로드</label> 
-							<input type="file" name="file1" id="file1" class="upload-hidden"> 
-						</div>   
-	              </div>
-	            </div>
-	            
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상품가격:</label>
-	                <input type="text" class="form-control" name="sprice" id="sprice">
-	              </div>
-	            </div>
-	            
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>배송방법:</label>
-	                	<select name="deliveryway" id="deliveryway">
-							<option value="delivery">택배</option>
-							<option value="pickup">직접수령</option>
-						</select>
-	              </div>
-	            </div>
-	            
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>배송료:</label>
-	                <input type="text" class="form-control" name="deliverypee" id="deliverypee">
-	              </div>
-	            </div>
-	            
-	             <div class="control-group form-group">
-	              <div class="controls">
-	                <label>판매자:</label>
-	                <input type="text" class="form-control" name="seller" id="seller">
-	              </div>
-	            </div>
-	            
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>판매자연락처:</label>
-	                <input type="text" class="form-control" id="sellerphone" name="sellerphone">
-	              </div>
-	            </div>
-	            
-	           <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상세정보:</label>
-	                <textarea rows="10" cols="100" class="form-control" name="detail" id="detail" required data-validation-required-message="Please enter your message" maxlength="999" style="resize:none"></textarea>
-	              </div>
-	           </div>
-	            
-	           <div class="control-group form-group">
-	              <div class="controls">
-	                <label>노출여부:</label>
-	                	<select name="auction_del" id="auction_del">
-							<option value="1">노출</option>
-							<option value="2">비노출</option>
-						</select>
-	              </div>
-	            </div>
-	            
-	            <div id="success"></div>
-	            <!-- For success/fail messages -->
-	            <button type="button" class="btn btn-primary" id="saveBtn">등록</button>
-	          </form>
-	        </div>
 
+      <h1 class="my-4">Welcome to Modern Business</h1>
+
+      <!-- Marketing Icons Section -->
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Card Title</h4>
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Card Title</h4>
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Card Title</h4>
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
       </div>
-      </form>
-     
+      <!-- /.row -->
+
+      <!-- Portfolio Section -->
+      <h2>Portfolio Heading</h2>
+
+      <div class="row">
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">Project One</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">Project Two</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">Project Three</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quisquam, error quod sed cumque, odio distinctio velit nostrum temporibus necessitatibus et facere atque iure perspiciatis mollitia recusandae vero vel quam!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">Project Four</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">Project Five</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">Project Six</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates, nemo repellat fugiat excepturi! Nemo, esse.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <!-- Features Section -->
+      <div class="row">
+        <div class="col-lg-6">
+          <h2>Modern Business Features</h2>
+          <p>The Modern Business template by Start Bootstrap includes:</p>
+          <ul>
+            <li>
+              <strong>Bootstrap v4</strong>
+            </li>
+            <li>jQuery</li>
+            <li>Font Awesome</li>
+            <li>Working contact form with validation</li>
+            <li>Unstyled page elements for easy customization</li>
+          </ul>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum ducimus unde.</p>
+        </div>
+        <div class="col-lg-6">
+          <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <hr>
+
+      <!-- Call to Action Section -->
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+        </div>
+        <div class="col-md-4">
+          <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
+        </div>
+      </div>
 
     </div>
     <!-- /.container -->

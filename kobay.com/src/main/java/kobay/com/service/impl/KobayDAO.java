@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import kobay.com.service.KobayVO;
-import kobay.com.service.TestVO;
 
 @Repository("kobayDAO")
 public class KobayDAO extends EgovAbstractDAO {
@@ -15,8 +14,8 @@ public class KobayDAO extends EgovAbstractDAO {
 		return (String) insert("kobayDAO.insertWrite",vo);
 	}
 	
-	public List<?> selectctglist(KobayVO vo){
-		return list("selectCtgList",vo);
+	public List<?> selectctglist(){
+		return list("selectCtgList");
 	}
 	
 	public List<?> selectctgmlist(KobayVO vo){

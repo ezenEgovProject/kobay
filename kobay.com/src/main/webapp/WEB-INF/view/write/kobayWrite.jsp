@@ -4,76 +4,85 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="utf-8">
-  <head>
+<head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <title>Kobay 모두가 판매자이자 구매자이다.</title>
-
+	
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../../../css/kobay.css" >
-     
-    <link rel="stylesheet" href="/jquery.simple-dtpicker.css">
-	<script src="/jquery.simple-dtpicker.js"></script>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	 <!-- Include Date Range Picker -->
+	<script type="text/javascript" src="../../../js/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="../../../js/datepicker/moment.min.js"></script>
+	<script type="text/javascript" src="../../../js/datepicker/daterangepicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../../css/daterangepicker.css" />
 
-    
-  </head>
-  
-  <script>
-  
-	$("#sdate").appendDtpicker({
-	    locale:"ko",
-	    inline:true,           
-	    dateFormat:"YYYY 년 MM 월 DD 일 h:m"
+	
+	<script type="text/javascript">
+	$(function() {
+	    $('input[name="daterange"]').daterangepicker({
+	        timePicker: true,
+	        timePickerIncrement: 30,
+	        locale: {
+	            format: 'YYYY-MM-DD h:mm A',
+	        	cancelLabel: 'clear'
+	        }
+	    });
+	    $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+	        $(this).val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD h:mm A'));
+	    });
+
+	    $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+	        $(this).val('');
+	    });
+
+	    
 	});
 	
-  </script>
-  <script>
-		  $(function(){
-			
-			$("#saveBtn").click(function(){
-						
-			var form = new FormData(document.getElementById('frm'));
-// 			var form = $("#frm").serialize();
-			alert(form);
+	</script>
+	    
+</head>
+	
+	<script>
+		 $(function(){	
+			$("#saveBtn").click(function(){		
+				var form = new FormData(document.getElementById('frm'));
+				alert(form);
 					
-			$.ajax({
-				type: 'POST',
-				data: form,
-				url: "<c:url value='/uploadFileSave'/>",
-				dataType: "json",
-				processData: false,
-				contentType: false,
-		
-				success: function(data){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-					if(data.cnt>0){
-						alert("저장됐습니다.");
-						location.href = "<c:url value='/Write'/>";
-					}else{
-						alert("저장에실패");
+				$.ajax({
+					type: 'POST',
+					data: form,
+					url: "<c:url value='/uploadFileSave'/>",
+					dataType: "json",
+					processData: false,
+					contentType: false,
+					success: function(data){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+						if(data.cnt>0){
+							alert("저장됐습니다.");
+							location.href = "<c:url value='/Write'/>";
+						} else{
+							alert("저장에실패");
+						}
+					},
+					error: function(error){
+						alert("error : " + error);
 					}
-				},
-				error: function(error){
-					alert("error : " + error);
-				}
+				});
 			});
-			
-			
 		});
-		});
-	  </script>
+	</script>
 	<script>
 	function fn_next(ctgcd) {
 	
 		var a = "ctgcd=" + ctgcd;
-	
 		
 		$.ajax({
 			type : 'POST',
@@ -82,41 +91,26 @@
 			dataType : "json",
 	/* 		processData : false,
 			contentType : false, 후.........*/
-
-			success : function(data) {
-				
+			success : function(data) {	
 				if (data.resultMList != null) {
-					
 					$('#Mcategory').children("option").remove();
 				      //data.rows 에 코드, 이름 형태로 되어있다고 가정.
 				      var codeList = data.resultMList;
-
 				      for(var i = 1; i < codeList.length ; i++){
-				        var option = "<option value='" + codeList[i].ctgcd + "'>" + codeList[i].ctgnm + "</option>";
-				        
+				        var option = "<option value='" + codeList[i].ctgcd + "'>" + codeList[i].ctgnm + "</option>";      
 				        //대상 콤보박스에 추가
 				        $('#Mcategory').append(option);
 				      }
-				}
-				      
+				}	      
 			},
-
-			error : function(x, o, e) {
-				
-				
-				var msg = "페이지 호출 중 에러 발생 \n" + x.status + " : " + o + " : "
-						+ e;
-
+			error : function(x, o, e) {	
+				var msg = "페이지 호출 중 에러 발생 \n" + x.status + " : " + o + " : " + e;
 				alert(msg);
-
 			}
-
 		});
-
 	}
-
-</script>
-  <style type="text/css">
+	</script>
+	<style type="text/css">
 	.filebox input[type="file"] {
 	    position: absolute;
 	    width: 1px;
@@ -127,7 +121,7 @@
 	    clip:rect(0,0,0,0);
 	    border: 0;
 	}
-
+	
 	.filebox label {
 	    display: inline-block;
 	    padding: .5em .75em;
@@ -141,7 +135,7 @@
 	    border-bottom-color: #e2e2e2;
 	    border-radius: .25em;
 	}
-
+	
 	/* named upload */
 	.filebox .upload-name {
 		display: inline-block;
@@ -167,9 +161,9 @@
 	
 	@media(min-width: 768px) {
 	    .filebox .upload-display {
-        display: inline-block;
-        margin-right: 5px;
-        margin-bottom: 0;
+	       display: inline-block;
+	       margin-right: 5px;
+	       margin-bottom: 0;
 	    }
 	}
 	
@@ -195,29 +189,23 @@
 		background-color: #337ab7;
 		border-color: #2e6da4;
 	}
-		
-	
 	
 	</style>
-  
-  <script>
-
+	  
+	<script>
 	$(document).ready(function(){
-	   var fileTarget = $('.filebox .upload-hidden');
+	   	var fileTarget = $('.filebox .upload-hidden');
 	
-	    fileTarget.on('change', function(){
-	        if(window.FileReader){
-	            // 파일명 추출
-	            var filename = $(this)[0].files[0].name;
-	        } 
-	
-	        else {
-	            // Old IE 파일명 추출
-	            var filename = $(this).val().split('/').pop().split('\\').pop();
-	        };
-	
-	        $(this).siblings('.upload-name').val(filename);
-	    });
+		fileTarget.on('change', function(){
+		    if(window.FileReader){
+		        // 파일명 추출
+		        var filename = $(this)[0].files[0].name;
+		    } else {
+		        // Old IE 파일명 추출
+		        var filename = $(this).val().split('/').pop().split('\\').pop();
+		    };
+		    $(this).siblings('.upload-name').val(filename);
+		});
 	
 	    //preview image 
 	    var imgTarget = $('.preview-image .upload-hidden');
@@ -228,17 +216,15 @@
 	
 	        if(window.FileReader){
 	            //image 파일만
-	            if (!$(this)[0].files[0].type.match(/image\//)) return;
+	         	if (!$(this)[0].files[0].type.match(/image\//)) return;
 	            
 	            var reader = new FileReader();
 	            reader.onload = function(e){
 	                var src = e.target.result;
-	                
 	                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
 	            }
 	            reader.readAsDataURL($(this)[0].files[0]);
 	        }
-	
 	        else {
 	            $(this)[0].select();
 	            $(this)[0].blur();
@@ -250,12 +236,9 @@
 	        }
 	    });
 	});
-	
 	</script>
-  
-  
-
-  <body>
+	
+	<body>
     <!-- Navigation -->
     <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
 		<div class="container" style="width: 100%;">
@@ -316,136 +299,118 @@
         </div>
       </div>
     </nav>
-	
-	
 
     <!-- Page Content -->
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
-<form name="frm" method="post" id="frm" enctype="multipart/form-data"  action="">	
+	<form name="frm" method="post" id="frm" enctype="multipart/form-data"  action="">	
 	      <div class="row">
 	        <div class="col-lg-8 mb-4">
-	          <h3>상품등록</h3>
+	          <h3>상품등록</h3>        
 	          <p></p>
 	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>카테고리:</label> <br> <select id="Lcategory"
-									name="Lcategory" onchange="fn_next(this.value)">
-									<option value="">대분류</option>
-									<c:forEach var="rs" items="${resultList}" varStatus="status">
-										<tr>
-
-											<td><c:if test="${fn:length(rs.ctgcd)==3}">
-
-													<option value="${rs.ctgcd}">${rs.ctgnm }</option>
-
-												</c:if></td>
-										</tr>
-									</c:forEach>
-
-								</select> 
-								<select id="Mcategory" name="Mcategory">
-									<option value="">중분류</option>
-								</select>
-								<p class="help-block"></p>
-	              </div>
+	             	<div class="controls">
+		                <label>카테고리:</label> <br> 
+		                <select id="Lcategory" name="Lcategory" onchange="fn_next(this.value)">
+							<option value="">대분류</option>
+							<c:forEach var="rs" items="${resultList}" varStatus="status">
+								<tr>
+									<td>
+										<c:if test="${fn:length(rs.ctgcd)==3}">
+											<option value="${rs.ctgcd}">${rs.ctgnm }</option>
+										</c:if>
+									</td>
+								</tr>
+							</c:forEach>
+						</select> 
+						<select id="Mcategory" name="Mcategory">
+							<option value="">중분류</option>
+						</select>
+						<p class="help-block"></p>
+	              	</div>
+	            </div>
+	          
+ 
+	            <div class="control-group form-group date" id="sandbox-container">
+	            <label for="datepicler">등록기간:</label>
+		            <div class="input-daterange input-group" id="datepicker" style="width: 70%">
+		            	<input type="text" class="input-sm form-control" name="daterange" value="" />
+		            	<%-- daterange의 값을 컨트롤러로 넘겨받아 db에 저장하기전 '~'를 기준으로 나누워 sdate/edate로 저장할 것 --%> 
+					</div>
+				</div>
+	            <div class="control-group form-group">
+	              	<div class="controls">
+	                	<label>상품명:</label>
+	                	<input type="text" class="form-control" name="title" id="title">
+	              	</div>
 	            </div>
 	            <div class="control-group form-group">
-	              <div class="controls">
-	              
-	                <label>등록기간:</label>
-	               
-	                <input type="text" class="form-control" name="sdate" id="sdate" style="width:30%;"> ~ 
-	               
-	               
-	                <input type="text" class="form-control" name="edate" id="edate" style="width:30%;">
-	             	
-	              </div>
-	            </div>
-	           
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상품명:</label>
-	                <input type="text" class="form-control" name="title" id="title">
-	              </div>
-	            </div>
-	            
-	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상품이미지:</label>
-	             	   <div class="filebox bs3-primary preview-image"> 
+	              	<div class="controls">
+	               		<label>상품이미지:</label>
+	             	   	<div class="filebox bs3-primary preview-image"> 
 							<input class="upload-name" value="파일선택" disabled="disabled" style="width:200px;">
 							<label for="file1">업로드</label> 
 							<input type="file" name="file1" id="file1" class="upload-hidden"> 
 						</div>   
-	              </div>
+	              	</div>
+	            </div> 
+	            <div class="control-group form-group">
+	             	<div class="controls">
+		                <label>상품가격:</label>
+		                <input type="text" class="form-control" name="sprice" id="sprice">
+	              	</div>
 	            </div>
 	            
 	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상품가격:</label>
-	                <input type="text" class="form-control" name="sprice" id="sprice">
-	              </div>
+	              	<div class="controls">
+		                <label>배송방법:</label>
+		                	<select name="deliveryway" id="deliveryway">
+								<option value="delivery">택배</option>
+								<option value="pickup">직접수령</option>
+							</select>
+	              	</div>
 	            </div>
-	            
 	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>배송방법:</label>
-	                	<select name="deliveryway" id="deliveryway">
-							<option value="delivery">택배</option>
-							<option value="pickup">직접수령</option>
-						</select>
-	              </div>
+					<div class="controls">
+					  	<label>배송료:</label>
+					  	<input type="text" class="form-control" name="deliverypee" id="deliverypee">
+					</div>
 	            </div>
-	            
 	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>배송료:</label>
-	                <input type="text" class="form-control" name="deliverypee" id="deliverypee">
-	              </div>
+	              	<div class="controls">
+	                	<label>판매자:</label>
+	                	<input type="text" class="form-control" name="seller" id="seller">
+	              	</div>
 	            </div>
-	            
-	             <div class="control-group form-group">
-	              <div class="controls">
-	                <label>판매자:</label>
-	                <input type="text" class="form-control" name="seller" id="seller">
-	              </div>
-	            </div>
-	            
 	            <div class="control-group form-group">
-	              <div class="controls">
-	                <label>판매자연락처:</label>
-	                <input type="text" class="form-control" id="sellerphone" name="sellerphone">
-	              </div>
+	              	<div class="controls">
+		               	<label>판매자연락처:</label>
+		               	<input type="text" class="form-control" id="sellerphone" name="sellerphone">
+         	 		</div>
 	            </div>
 	            
 	           <div class="control-group form-group">
-	              <div class="controls">
-	                <label>상세정보:</label>
-	                <textarea rows="10" cols="100" class="form-control" name="detail" id="detail" required data-validation-required-message="Please enter your message" maxlength="999" style="resize:none"></textarea>
-	              </div>
+	              	<div class="controls">
+	                	<label>상세정보:</label>
+	                	<textarea rows="10" cols="100" class="form-control" name="detail" id="detail" required data-validation-required-message="Please enter your message" maxlength="999" style="resize:none"></textarea>
+	              	</div>
 	           </div>
-	            
 	           <div class="control-group form-group">
-	              <div class="controls">
-	                <label>노출여부:</label>
-	                	<select name="auction_del" id="auction_del">
-							<option value="1">노출</option>
-							<option value="2">비노출</option>
-						</select>
-	              </div>
+	              	<div class="controls">
+	               		<label>노출여부:</label>
+	                		<select name="auction_del" id="auction_del">
+								<option value="1">노출</option>
+								<option value="2">비노출</option>
+							</select>
+	              	</div>
 	            </div>
-	            
-	            <div id="success"></div>
+	            <div id="success">
+	            </div>
 	            <!-- For success/fail messages -->
 	            <button type="button" class="btn btn-primary" id="saveBtn">등록</button>
-	       
 	        </div>
-
       </div>
-      </form>
-     
-
+      </form> 
     </div>
     <!-- /.container -->
     <!-- /.Page Content -->
@@ -459,10 +424,9 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="../../../../vendor/jquery/jquery.min.js"></script>
     <script src="../../../../vendor/popper/popper.min.js"></script>
     <script src="../../../../vendor/bootstrap/js/bootstrap.min.js"></script>
-
+    
   </body>
 
 </html>

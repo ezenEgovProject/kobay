@@ -4,6 +4,8 @@ public class KobayVO {
 	private int member_unq;
 	private int auction_unq;
 	private String category;
+	/* view에서 등록기간을 범위로 입력받아 sdate, edate에 저장함 */
+	private String dateRange;
 	private String sdate;
 	private String edate;
 	private String title;
@@ -50,7 +52,6 @@ public class KobayVO {
 	public void setSprice(int sprice) {
 		this.sprice = sprice;
 	}
-	
 	public int getMember_unq() {
 		return member_unq;
 	}
@@ -68,6 +69,12 @@ public class KobayVO {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getDateRange() {
+		return dateRange;
+	}
+	public void setDateRange(String dateRange) {
+		this.dateRange = dateRange;
 	}
 	public String getSdate() {
 		return sdate;

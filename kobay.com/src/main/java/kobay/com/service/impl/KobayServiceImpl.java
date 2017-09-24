@@ -4,13 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
-import kobay.com.service.TestVO;
 
 @Service("kobayService")
 public class KobayServiceImpl extends EgovAbstractServiceImpl implements KobayService {
@@ -25,9 +23,9 @@ public class KobayServiceImpl extends EgovAbstractServiceImpl implements KobaySe
 	}
 
 	@Override
-	public List<?> selectctglist(KobayVO vo) throws Exception {
+	public List<?> selectctglist() throws Exception {
 		
-		return kobayDAO.selectctglist(vo);
+		return kobayDAO.selectctglist();
 	}
 
 	@Override
