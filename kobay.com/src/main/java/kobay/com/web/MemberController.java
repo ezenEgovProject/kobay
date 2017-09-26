@@ -13,7 +13,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kobay.com.cmmn.MemberVaildator;
@@ -80,24 +79,20 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/register")
-	@ResponseBody 
-	public Map<String, Object> Register(@ModelAttribute MemberVO vo, BindingResult bindingResult) throws Exception {
+	@ResponseBody public Map<String, Object> Register(MemberVO vo, BindingResult bindingResult) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		formBack();
 		
 		new MemberVaildator().validate(vo, bindingResult);
 		if(bindingResult.hasErrors()) {
 			System.out.println("에러가 발생하였습니다.");
 			map.put("result", "fail");
-			
 		} else {
-			memberService.insertMember(vo);
-			map.put("result", "ok");			
+			//memberService.insertMember(vo);
+			map.put("result", "ok");
 		}
 //		String member_pwd = vo.getMember_pwd();
 //		vo.setMember_pwd(member_pwd);
 
-		
 		return map;
 	}
 	

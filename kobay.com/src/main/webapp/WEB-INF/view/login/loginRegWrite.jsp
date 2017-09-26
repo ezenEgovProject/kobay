@@ -91,20 +91,14 @@ function member_Login() {
 /* 회원가입 */
 function member_Register() {
 	
-	var id = document.regForm.member_id.value;
-	var pw = document.regForm.member_pwd.value;
-	var name = document.regForm.member_name.value;
-	var phone = document.regForm.member_phone.value;
-
 	var frm = $("#regForm").serialize();
 	
-	 /*  $.ajax({
+	   $.ajax({
 		type:'POST',
 		data:frm,
 		url:"<c:url value='/register' />",
 		dataType:"json",
 		success:function(data) {
-			alert(data.result);
 			if(data.result == "ok") {
 				alert("가입되었습니다.");
 				location.href="<c:url value='/loginreg' />";
@@ -115,24 +109,7 @@ function member_Register() {
 		error:function(error) {
 			alert("error : " + error);
 		}
-	});  */
-	 $.ajax({
-			type:'POST',
-			data:frm,
-			url:"<c:url value='/register' />",
-			dataType:"json",
-			success:function(data) {
-				if(data.result == "ok") {
-					alert("가입 되었습니다.");
-					location.href="<c:url value='/loginreg' />";
-				} else {
-					alert("다시 확인해주세요.");
-				}
-			},
-			error:function(error) {
-				alert("error : " + error);
-			}
-		}); 
+	});
 }
 
 /*  */
@@ -187,6 +164,30 @@ function regEnter() {
 	}
 }
 /*  */
+</script>
+<script>
+$(document)
+.ready(
+        function() {
+            var performAjax = function() {
+                $
+                        .ajax({
+                            method : 'get',
+                            contentType: 'application/json',
+                            dataType: "json",
+                            url : "${pageContext.request.contextPath}/refresh",
+                            success : function(data) {
+                                alert("got something");
+
+                            },
+                            error : function(e) {
+                                alert('Error: ' + e);
+
+                            }
+                        });
+            }
+            setInterval(performAjax, 15000);
+        }); 
 </script>
 <body>
     <!-- Navigation -->
@@ -255,7 +256,7 @@ function regEnter() {
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
 		<!-- 로그인 부분 -->
-		<form name="loginForm" id="loginForm" class="form-horizontal" method="post" action="">
+		<form name="loginForm" id="loginForm" class="form-horizontal" >
 		<h2>
 			<label for="loginTitle">로그인</label>
 		</h2>
@@ -293,8 +294,8 @@ function regEnter() {
 		<h2>
 			<label for="regTitle">회원가입</label>
 		</h2>
-		<form:form commandName="regForm" path="regForm" class="form-horizontal" method="post" action="/register">
-			<div class="form-group" id="div_id">
+		<form:form commandName="regForm" name="regForm" class="form-horizontal" action="">
+			<div class="form-group">
 				<form:label path="member_id" class="col-sm-2 control-label">
 					이메일<i class="fa fa" id="imageCheck" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
