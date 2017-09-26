@@ -1,15 +1,23 @@
 package kobay.com.web;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -32,8 +40,7 @@ public class KobayController {
 	
 	@RequestMapping("/Write")
 	public String Write(Model model) throws Exception{
-		// 조건절이 없는 select는 vo를 넘겨줄 필요가 없음
-		//List<?> ctgList = kobayService.selectctglist(vo);
+		
 		List<?> ctgList = kobayService.selectctglist();
 		
 		model.addAttribute("resultList", ctgList);	
@@ -46,7 +53,6 @@ public class KobayController {
 		
 		List<?> ctgMlist = kobayService.selectctgmlist(vo);
 		
-		//model.addAttribute("resultMList", ctgMlist);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("resultMList", ctgMlist);
 		
@@ -67,10 +73,7 @@ public class KobayController {
 		
 		
 		String uploadPath = "c:/upload";
-//		String uploadPath = egovMessageSource.getMessage("file.upload.path");
 
-		System.out.println("title : " + vo.getTitle());
-		System.out.println("path : " + uploadPath);
 
 		// 폴더의 존재 유무 및 생성
 
@@ -106,11 +109,39 @@ public class KobayController {
 			}
 		}
 		
-		System.out.println(filename);
+
 		
 		vo.setImage(filename);
 		
-		System.out.println("filePath : " + filePath);
+
+		
+		String[] dr = vo.getDateRange().split(" ~ ");	
+		
+		
+		
+
+		
+		try{
+		SimpleDateFormat org_frm = new SimpleDateFormat("yyyy-MM-dd H:mm a", Locale.US);
+		SimpleDateFormat new_frm = new SimpleDateFormat("yyyy-MM-dd H:mm");
+		
+		System.out.println(dr[1]);
+				
+		Date std = org_frm.parse(dr[0]);
+		Date end = org_frm.parse(dr[1]);
+		
+		System.out.println(dr[0]);
+		
+		String new_std = new_frm.format(std);
+		String new_end = new_frm.format(end);
+		
+		vo.setSdate(new_std);
+		vo.setEdate(new_end);
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		
 		String result="";
 		
@@ -122,6 +153,9 @@ public class KobayController {
 		
 		map.put("cnt", Integer.toString(cnt));
 		System.out.println("cnt -> " + cnt);
+		
+		
+		
 		return map;
 	}
 	

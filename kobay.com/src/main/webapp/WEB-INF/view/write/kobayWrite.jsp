@@ -28,19 +28,19 @@
 	
 	<script type="text/javascript">
 	$(function() {
-	    $('input[name="daterange"]').daterangepicker({
+	    $('input[name="dateRange"]').daterangepicker({
 	        timePicker: true,
 	        timePickerIncrement: 30,
 	        locale: {
-	            format: 'YYYY-MM-DD h:mm A',
+	            format: 'YYYY-MM-DD H:mm A',
 	        	cancelLabel: 'clear'
 	        }
 	    });
-	    $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
-	        $(this).val(picker.startDate.format('YYYY-MM-DD h:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD h:mm A'));
+	    $('input[name="dateRange"]').on('apply.daterangepicker', function(ev, picker) {
+	        $(this).val(picker.startDate.format('YYYY-MM-DD H:mm A') + ' ~ ' + picker.endDate.format('YYYY-MM-DD H:mm A'));
 	    });
 
-	    $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+	    $('input[name="dateRange"]').on('cancel.daterangepicker', function(ev, picker) {
 	        $(this).val('');
 	    });
 
@@ -334,7 +334,7 @@
 	            <div class="control-group form-group date" id="sandbox-container">
 	            <label for="datepicler">등록기간:</label>
 		            <div class="input-daterange input-group" id="datepicker" style="width: 70%">
-		            	<input type="text" class="input-sm form-control" name="daterange" value="" />
+		            	<input type="text" class="input-sm form-control" name="dateRange" id="dateRange" value="" />
 		            	<%-- daterange의 값을 컨트롤러로 넘겨받아 db에 저장하기전 '~'를 기준으로 나누워 sdate/edate로 저장할 것 --%> 
 					</div>
 				</div>

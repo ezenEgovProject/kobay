@@ -35,6 +35,8 @@
 				    </div><!-- /input-group -->
 			  	</div>
 				<div class="col-6 col-sm-auto order-sm-3" >
+					 <a href="/Write" class="btn btn-primary">경매등록</a>
+					 
 					 <span class="top-icon"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
 					 <span class="top-icon"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
 				</div>
