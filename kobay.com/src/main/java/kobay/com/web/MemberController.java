@@ -8,10 +8,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kobay.com.cmmn.MemberVaildator;
 import kobay.com.cmmn.PageVO;
 import kobay.com.service.MemberService;
 import kobay.com.service.MemberVO;
@@ -22,10 +27,15 @@ public class MemberController {
 	@Resource(name = "memberService")
 	private MemberService memberService;
 	
+	@ModelAttribute("regForm")
+	protected Object formBack() throws Exception {
+		return new MemberVO();
+	}
+
 	@RequestMapping(value="/memberList")
 	public String memberList(@ModelAttribute("pageVO") PageVO pageVO,Model model) throws Exception {
 		
-	
+		
 		/*1. 한 화면에 출력할 행 개수, 한 화면에 출력할 페이지 개수*/
 		int recordCountPerPage = 10;
 		int pageSize = 5;
@@ -56,7 +66,7 @@ public class MemberController {
 				
 		
 		List<?> list = memberService.selectMemberList(pageVO);
-		
+
 		model.addAttribute("totalCount",totalCount);
 		model.addAttribute("firstPage",firstPage);
 		model.addAttribute("lastPage",lastPage);
@@ -70,14 +80,49 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/register")
-	@ResponseBody public Map<String, Object> Register(MemberVO vo) throws Exception {
-		
+	@ResponseBody 
+	public Map<String, Object> Register(@ModelAttribute MemberVO vo, BindingResult bindingResult) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		formBack();
+		
+		new MemberVaildator().validate(vo, bindingResult);
+		if(bindingResult.hasErrors()) {
+			System.out.println("에러가 발생하였습니다.");
+			map.put("result", "fail");
+			
+		} else {
+			memberService.insertMember(vo);
+			map.put("result", "ok");			
+		}
 //		String member_pwd = vo.getMember_pwd();
 //		vo.setMember_pwd(member_pwd);
-		memberService.insertMember(vo);
+
 		
-		map.put("result", "ok");
 		return map;
 	}
+	
+	@RequestMapping(value="/checkid")
+	@ResponseBody public Map<String, Object> memberCheckId(MemberVO vo,Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String member_id = vo.getMember_id(); 
+		String result = "";
+
+		int checkresult = memberService.memberCheckId(member_id);
+		
+		if(checkresult < 1) { result = "ok"; }
+		
+		map.put("checkresult",checkresult);
+		System.out.println("아이디체크실행 " + checkresult);
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new MemberVaildator());
+	}
+	
 }

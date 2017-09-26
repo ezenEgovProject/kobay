@@ -22,9 +22,8 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../../../css/kobay.css" >
   </head>
-<script src="../../../../vendor/jquery/jquery.js"></script>
-<script src="../../../../vendor/jquery/jquery.min.js"></script>
 <script type="text/javascript">
+var checkresult = 1;
 /* 회원가입 핸드폰번호 숫자만 입력 */
 function onlyNumber(event){
 	event = event || window.event;
@@ -58,7 +57,7 @@ function member_Login() {
 	var id = document.loginForm.member_id.value;
 	var pw = document.loginForm.member_pwd.value;
 	
-	if(id == "" || id.search(/@/) == -1){
+	if(id == "" || id.search(/@/) == -1 || id.search(/\./) == -1){
 		alert("이메일을 다시 확인해주세요.");
 		return;
 	} else if(pw == "") {
@@ -76,7 +75,7 @@ function member_Login() {
 		success:function(data) {
 			if(data.result == "ok") {
 				alert("로그인 되었습니다.");
-				location.href="<c:url value='/main' />"
+				location.href="<c:url value='/main' />";
 			} else{
 				alert("다시 확인해주세요.");
 			}
@@ -96,32 +95,19 @@ function member_Register() {
 	var pw = document.regForm.member_pwd.value;
 	var name = document.regForm.member_name.value;
 	var phone = document.regForm.member_phone.value;
-	
-	if(id == "" || id.search(/@/) == -1){
-		alert("이메일을 다시 확인해주세요.");
-		return;
-	} else if(pw == "") {
-		alert("비밀번호를 다시 확인해주세요.");
-		return;
-	} else if(name == "") {
-		alert("이름을 다시 확인해주세요.");
-		return;
-	} else if(phone == "") {
-		alert("핸드폰 번호를 다시 확인해주세요.");
-		return;
-	} else {
-		
+
 	var frm = $("#regForm").serialize();
 	
-	  $.ajax({
+	 /*  $.ajax({
 		type:'POST',
 		data:frm,
 		url:"<c:url value='/register' />",
 		dataType:"json",
 		success:function(data) {
+			alert(data.result);
 			if(data.result == "ok") {
 				alert("가입되었습니다.");
-				location.href="<c:url value='/loginreg' />"
+				location.href="<c:url value='/loginreg' />";
 			} else{
 				alert("다시 한번 확인해주세요.");
 			}
@@ -129,9 +115,63 @@ function member_Register() {
 		error:function(error) {
 			alert("error : " + error);
 		}
-	}); 
-	}
+	});  */
+	 $.ajax({
+			type:'POST',
+			data:frm,
+			url:"<c:url value='/register' />",
+			dataType:"json",
+			success:function(data) {
+				if(data.result == "ok") {
+					alert("가입 되었습니다.");
+					location.href="<c:url value='/loginreg' />";
+				} else {
+					alert("다시 확인해주세요.");
+				}
+			},
+			error:function(error) {
+				alert("error : " + error);
+			}
+		}); 
 }
+
+/*  */
+/* 아이디 체크 */
+function member_CheckId() {
+		var frm = $("#regForm").serialize();
+		  $.ajax({
+			type:'POST',
+			data:frm,
+			url:"<c:url value='/checkid' />",
+			dataType:"json",
+			success:function(data) {
+				if(data.result == "ok" && id.search(/@/) != -1 && id.search(/\./) != -1) {
+					checkresult = 0;						
+					document.getElementById("imageCheck").className = "fa fa-check";
+					document.getElementById("imageCheck").style.color="#1DDB16";
+				} else {
+					checkresult = 1;
+					document.getElementById("imageCheck").className = "fa fa-ban";
+					document.getElementById("imageCheck").style.color="#FF0000";
+				}
+			},
+			error:function(error) {
+				alert("error : " + error);
+				checkresult = 1;
+			}
+		}); 
+}
+/* function member_IdButton() {
+	if(checkresult == 0) {
+		alert("사용할 수 있는 아이디입니다.");
+		document.getElementById("imageCheck").className = "fa fa-check";
+		document.getElementById("imageCheck").style.color="#1DDB16";
+	} else {
+		alert("사용할 수 없는 아이디입니다.");
+		document.getElementById("imageCheck").className = "fa fa-ban";
+		document.getElementById("imageCheck").style.color="#FF0000";
+	}
+} */
 /*  */
 /* 텍스트박스에서 엔터 누르고 로그인 */
 function loginEnter() {
@@ -181,48 +221,30 @@ function regEnter() {
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav mx-auto">
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">About</a>
+          	<li class="nav-item px-lg-4 active">
+              <a class="nav-link" href="/main">홈</a>
             </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-            <li class="nav-item px-lg-4 dropdown">
+          	<li class="nav-item px-lg-4 dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Portfolio
+              	  회사소개
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="#">1 Column Portfolio</a>
-                <a class="dropdown-item" href="#">2 Column Portfolio</a>
-                <a class="dropdown-item" href="#">3 Column Portfolio</a>
-                <a class="dropdown-item" href="#">4 Column Portfolio</a>
-                <a class="dropdown-item" href="#">Single Portfolio Item</a>
+                <a class="dropdown-item" href="/intro">KOBAY 소개</a>
+                <a class="dropdown-item" href="#">경매방법</a>
+                <a class="dropdown-item" href="#">문의사항</a>
               </div>
             </li>
-            <li class="nav-item px-lg-4 dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Blog
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="#">Blog Home 1</a>
-                <a class="dropdown-item" href="#">Blog Home 2</a>
-                <a class="dropdown-item" href="#">Blog Post</a>
-              </div>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link" href="#">진행경매</a>
             </li>
-            <li class="nav-item px-lg-4 dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Other Pages
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="#">Full Width Page</a>
-                <a class="dropdown-item" href="#">Sidebar Page</a>
-                <a class="dropdown-item" href="#">FAQ</a>
-                <a class="dropdown-item" href="#">404</a>
-                <a class="dropdown-item" href="#">Pricing Table</a>
-              </div>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link" href="#">예정경매</a>
+            </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link" href="#">마감경매</a>
+            </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link" href="#">이벤트</a>
             </li>
           </ul>
         </div>
@@ -233,10 +255,10 @@ function regEnter() {
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
 		<!-- 로그인 부분 -->
+		<form name="loginForm" id="loginForm" class="form-horizontal" method="post" action="">
 		<h2>
 			<label for="loginTitle">로그인</label>
 		</h2>
-		<form name="loginForm" id="loginForm" class="form-horizontal" method="post" action="">
 			<div class="form-group">
 				<label for="loginEmail" class="col-sm-2 control-label">
 					이메일
@@ -267,41 +289,51 @@ function regEnter() {
 		<br>
 		<br>
 		<br>
-		<!-- 회원가입 부분 -->
+		<!-- 회원가입 부분 -->	
 		<h2>
 			<label for="regTitle">회원가입</label>
 		</h2>
-		<form name="regForm" id="regForm" class="form-horizontal" method="post" action="/register">
+		<form:form commandName="regForm" path="regForm" class="form-horizontal" method="post" action="/register">
+			<div class="form-group" id="div_id">
+				<form:label path="member_id" class="col-sm-2 control-label">
+					이메일<i class="fa fa" id="imageCheck" aria-hidden="true" style="color:#1DDB16;"></i>
+				</form:label>
+				<form:input path="member_id" class="form-control"  placeholder="example@example.com" onchange="member_CheckId()" onkeypress="regEnter()" />
+				<br>
+				<form:errors path="member_id" cssStyle="color:red;" />
+				<!-- <button type="button" class="btn btn-default btn-sm" onclick="member_IdButton()" >아이디 중복 체크</button> -->
+			 </div>	
 			<div class="form-group">
-				<label for="regEmail" class="col-sm-2 control-label">
-					이메일
-				</label>
-				<input type="email" name="member_id" id="member_id" class="form-control" placeholder="example@example.com">
-			</div>				
-			<div class="form-group">
-				<label for="regPassword" class="col-sm-2 control-label">
+				<form:label path="member_pwd" class="col-sm-2 control-label">
 					비밀번호
-				</label>
-				<input type="password" name="member_pwd" id="member_pwd" class="form-control" placeholder="비밀번호 8자리 이상" onblur="member_checkPwd()">
+				</form:label>
+				<form:password path="member_pwd" class="form-control" placeholder="비밀번호 8자리 이상" onblur="member_checkPwd()" onkeypress="regEnter()" />
+				<br>
+				<form:errors path="member_pwd" cssStyle="color:red;" />
 			</div>					
 			<div class="form-group">
-				<label for="regName" class="col-sm-2 control-label">
+				<form:label path="member_name" class="col-sm-2 control-label">
 					이름
-				</label>
-				<input type="text" name="member_name" id="member_name" class="form-control">
+				</form:label>
+				<form:input path="member_name"  class="form-control" placeholder="홍길동" onkeypress="regEnter()" />
+				<br>
+				<form:errors path="member_name" cssStyle="color:red;" />
 			</div>
 			<div class="form-group">
-				<label for="regPhone" class="col-sm-2 control-label">
+				<form:label path="member_phone" class="col-sm-2 control-label">
 					핸드폰 번호
-				</label>
-					<input type="text" name="member_phone" id="member_phone" class="form-control" placeholder="숫자만 입력" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' maxlength="11">
+				</form:label>
+				<form:input path="member_phone" class="form-control" placeholder="숫자만 입력" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' maxlength="11" onkeypress="regEnter()" />
+				<br>
+				<form:errors path="member_phone" cssStyle="color:red;" />
 			</div>				
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-primary btn-lg" onclick="member_Register()">가입</button>
+					<!-- <button type="button" class="btn btn-primary btn-lg" onclick="member_Register()">가입</button> -->
+					<form:button class="btn btn-primary btn-lg" onclick="member_Register()">가입</form:button>
 				</div>
 			</div>
-		</form>
+		</form:form>
 		<!--  -->
     </div>
     <!-- /.container -->

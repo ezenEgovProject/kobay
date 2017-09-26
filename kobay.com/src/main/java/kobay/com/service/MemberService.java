@@ -10,6 +10,10 @@ public interface MemberService {
 
 	int selectMemberTotal(PageVO pageVO);
 
-	List<?> selectMemberList(PageVO pageVO);
+	List<?> selectMemberList(PageVO pageVO) throws Exception;
+
+	MemberVO selectMemberDetail(MemberVO vo) throws Exception;
+
+	int memberCheckId(String member_id);
 	
 }

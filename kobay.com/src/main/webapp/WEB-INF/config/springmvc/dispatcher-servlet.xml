@@ -12,14 +12,12 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
-    
-    <!-- For Json s  -->
+
+	<!-- For Json s  -->
 	<mvc:annotation-driven/>
 	<context:annotation-config/>
-	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
-	<bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
 	<!-- For Json e -->
-
+	
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="webBindingInitializer">
             <bean class="kobay.com.cmmn.EgovBindingInitializer"/>
