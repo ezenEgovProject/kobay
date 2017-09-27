@@ -35,17 +35,7 @@ public class LoginController {
 		return new MemberVO();
 	}
 	
-	@RequestMapping("/loginreg")
-	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
-		formBack();
-		String member_id = (String) session.getAttribute("id");
-		
-		if(member_id != null) {
-			return "redirect:/main";
-		}
 	
-		return "login/loginRegWrite";
-	}
 	
 	@RequestMapping(value="/login")
 	@ResponseBody

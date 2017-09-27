@@ -1,11 +1,11 @@
 package kobay.com.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,11 +31,22 @@ public class MemberController {
 	protected Object formBack() throws Exception {
 		return new MemberVO();
 	}
-
+	
+	@RequestMapping("/loginreg")
+	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
+		formBack();
+		String member_id = (String) session.getAttribute("id");
+		
+		if(member_id != null) {
+			return "redirect:/main";
+		}
+	
+		return "login/loginRegWrite";
+	}
+	
 	@RequestMapping(value="/memberList")
 	public String memberList(@ModelAttribute("pageVO") PageVO pageVO,Model model) throws Exception {
-		
-		
+			
 		/*1. 한 화면에 출력할 행 개수, 한 화면에 출력할 페이지 개수*/
 		int recordCountPerPage = 10;
 		int pageSize = 5;
@@ -79,8 +90,9 @@ public class MemberController {
 		return "member/memberList";
 	}
 	
+	
 	@RequestMapping(value="/register")
-	@ResponseBody public Map<String, Object> Register(MemberVO vo, BindingResult bindingResult) throws Exception {
+	@ResponseBody public Map<String, Object> Register(@ModelAttribute("memberVO") MemberVO vo, BindingResult bindingResult) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		new MemberVaildator().validate(vo, bindingResult);
@@ -89,9 +101,8 @@ public class MemberController {
 			map.put("result", "fail");
 			map.put("errors", bindingResult.getAllErrors());
 		} else {
-			memberService.insertMember(vo);
+			//memberService.insertMember(vo);
 			map.put("result", "ok");
-			
 		}
 //		String member_pwd = vo.getMember_pwd();
 //		vo.setMember_pwd(member_pwd);
@@ -99,22 +110,27 @@ public class MemberController {
 		return map;
 	}
 	
-	@RequestMapping(value="/checkid")
-	@ResponseBody public Map<String, Object> memberCheckId(MemberVO vo,Model model) throws Exception {
+	@RequestMapping(value="/checkform")
+	@ResponseBody public Map<String, Object> memberCheckForm(MemberVO vo,Model model, BindingResult bindingResult) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		String member_id = vo.getMember_id(); 
-		String result = "";
 		// 1. 유효성체크(정규식체크/ 공백체크)
 		// 2. 중복체크
 		int checkresult = memberService.memberCheckId(member_id);
 		
-		if(checkresult < 1) { result = "ok"; }
-		
-		map.put("checkresult",checkresult);
+		new MemberVaildator().validate(vo, bindingResult);
 		System.out.println("아이디체크실행 " + checkresult);
-		map.put("result", result);
+		if(checkresult < 1) {
+			if(bindingResult.hasErrors()){
+				map.put("result", "fail");	
+				map.put("errors", bindingResult.getAllErrors());
+			} else {
+			map.put("result", "ok");
+			}
+		}
+		map.put("usingid", checkresult);
 		
 		return map;
 	}

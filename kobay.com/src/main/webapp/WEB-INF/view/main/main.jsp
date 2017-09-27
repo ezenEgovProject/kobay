@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
@@ -18,28 +17,7 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../../../css/kobay.css" >
   </head>
-<script>
-function fn_logout() {
 
-	$.ajax({
-		type: 'POST',
-		data: '',
-		url: "<c:url value='/logout' />",
-		dataType: "json",
-		success: function (data) {
-			if(data.result == "ok") {
-				alert("로그아웃 되었습니다.");
-				location.href = "<c:url value='/main'/>";
-			} else {
-				
-			}
-		},
-		error: function (error) {
-			alert("error : " + error);
-		}
-	});
-}
-</script>
   <body>
     <!-- Navigation -->
     <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
@@ -57,16 +35,8 @@ function fn_logout() {
 				    </div><!-- /input-group -->
 			  	</div>
 				<div class="col-6 col-sm-auto order-sm-3" >
-				<c:if test="${sessionScope.id  != null}">
-					 <span class="top-icon"><font style="color:white;">${sessionScope.name}님</font></span>
 					 <span class="top-icon"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-					 <span class="top-icon"><a onclick="fn_logout()"><i class="fa fa-power-off fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
 					 <span class="top-icon"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-				</c:if>
-				<c:if test="${sessionScope.id == null}">
-					 <span class="top-icon"><a href="/loginreg"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-					 <span class="top-icon"><a href="/loginreg"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-				</c:if>
 				</div>
 			</div>
 		</div> 

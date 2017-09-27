@@ -25,7 +25,7 @@ public class MemberVaildator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "member_name", "required","필수입력 사항입니다.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "member_phone", "required","필수입력 사항입니다.");
 		
-		/*//아이디 체크
+		//아이디 체크
 		String mId = member.getMember_id();
 		boolean check = Pattern.matches("^[a-zA-Z0-9]+@[a-z]+\\.[a-z]+$", mId);
 		if(!check) {
@@ -57,7 +57,7 @@ public class MemberVaildator implements Validator {
 		if(!check) {
 			errors.rejectValue("member_phone", "유효한 핸드폰 번호가 아닙니다.");
 			System.out.println("핸드폰 번호 정규식 에러");
-		}*/
+		}
 	}
 
 }
