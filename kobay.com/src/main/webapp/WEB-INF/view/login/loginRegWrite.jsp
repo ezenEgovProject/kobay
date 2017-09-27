@@ -87,29 +87,42 @@ function member_Login() {
 	}
 	
 }
+ var checkId = "";
 /*  */
 /* 회원가입 */
 function member_Register() {
-	
 	var frm = $("#regForm").serialize();
-	
+
 	   $.ajax({
 		type:'POST',
 		data:frm,
 		url:"<c:url value='/register' />",
 		dataType:"json",
+		async: false,
 		success:function(data) {
 			if(data.result == "ok") {
 				alert("가입되었습니다.");
-				location.href="<c:url value='/loginreg' />";
+				// location.href="<c:url value='/loginreg' />";
 			} else{
 				alert("다시 한번 확인해주세요.");
+				for(var i=0; i<data.errors.length; i++) {
+					alert(data.errors[i].field + ": " + data.errors[i].defaultMessage);
+				/* 	if(data.errors[i].field == "member_id") {
+						//alert($('#member_id').val());
+						//document.getElementById('member_id').value=data.errors[i].defaultMessage;
+						$('#member_id_error').val(data.errors[i].defaultMessage);
+						
+					}	 */
+				}  
 			}
+			return false;
 		},
 		error:function(error) {
 			alert("error : " + error);
+			return false;
 		}
 	});
+	   
 }
 
 /*  */
@@ -126,6 +139,7 @@ function member_CheckId() {
 					checkresult = 0;						
 					document.getElementById("imageCheck").className = "fa fa-check";
 					document.getElementById("imageCheck").style.color="#1DDB16";
+					checkId = dateReuslt;
 				} else {
 					checkresult = 1;
 					document.getElementById("imageCheck").className = "fa fa-ban";
@@ -165,30 +179,7 @@ function regEnter() {
 }
 /*  */
 </script>
-<script>
-$(document)
-.ready(
-        function() {
-            var performAjax = function() {
-                $
-                        .ajax({
-                            method : 'get',
-                            contentType: 'application/json',
-                            dataType: "json",
-                            url : "${pageContext.request.contextPath}/refresh",
-                            success : function(data) {
-                                alert("got something");
 
-                            },
-                            error : function(e) {
-                                alert('Error: ' + e);
-
-                            }
-                        });
-            }
-            setInterval(performAjax, 15000);
-        }); 
-</script>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
@@ -264,7 +255,7 @@ $(document)
 				<label for="loginEmail" class="col-sm-2 control-label">
 					이메일
 				</label>
-				<input type="email" name="member_id" id="member_id" class="form-control" placeholder="example@example.com" onkeypress="loginEnter()">
+				<input type="email" name="login_id" id="login_id" class="form-control" placeholder="example@example.com" onkeypress="loginEnter()">
 			</div>				
 			<div class="form-group">
 				<label for="loginPassword" class="col-sm-2 control-label">
@@ -294,14 +285,15 @@ $(document)
 		<h2>
 			<label for="regTitle">회원가입</label>
 		</h2>
-		<form:form commandName="regForm" name="regForm" class="form-horizontal" action="">
+		<form:form commandName="regForm" name="regForm" class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
 				<form:label path="member_id" class="col-sm-2 control-label">
 					이메일<i class="fa fa" id="imageCheck" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
 				<form:input path="member_id" class="form-control"  placeholder="example@example.com" onchange="member_CheckId()" onkeypress="regEnter()" />
 				<br>
-				<form:errors path="member_id" cssStyle="color:red;" />
+				<div id="member_id_error"> </div>
+				
 				<!-- <button type="button" class="btn btn-default btn-sm" onclick="member_IdButton()" >아이디 중복 체크</button> -->
 			 </div>	
 			<div class="form-group">

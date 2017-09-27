@@ -1,5 +1,6 @@
 package kobay.com.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,9 +87,11 @@ public class MemberController {
 		if(bindingResult.hasErrors()) {
 			System.out.println("에러가 발생하였습니다.");
 			map.put("result", "fail");
+			map.put("errors", bindingResult.getAllErrors());
 		} else {
-			//memberService.insertMember(vo);
+			memberService.insertMember(vo);
 			map.put("result", "ok");
+			
 		}
 //		String member_pwd = vo.getMember_pwd();
 //		vo.setMember_pwd(member_pwd);
@@ -103,7 +106,8 @@ public class MemberController {
 		
 		String member_id = vo.getMember_id(); 
 		String result = "";
-
+		// 1. 유효성체크(정규식체크/ 공백체크)
+		// 2. 중복체크
 		int checkresult = memberService.memberCheckId(member_id);
 		
 		if(checkresult < 1) { result = "ok"; }
