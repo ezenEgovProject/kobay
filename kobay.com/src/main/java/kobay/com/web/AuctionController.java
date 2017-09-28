@@ -112,6 +112,18 @@ public class AuctionController {
 		return "auction/kobayDetail_pay";
 	}
 	
+	// pop-up return
+	@RequestMapping(value="/kobayDetail_BidPopup")
+	public String kobayDetail_BidPopup(BidVO vo, Model model) throws Exception {
+		
+		vo = bService.selectBid(vo.getAuction_unq());
+		model.addAttribute("bid", vo);
+		//bService.insertBid(vo);
+		
+		
+		return "auction/popup/kobayDetail_bidpopup";
+	}
+	
 	@RequestMapping(value="/kobayDetail_BidInsert", method= RequestMethod.POST)
 	public String kobayDetail_BidInsert(BidVO vo) throws Exception {
 		

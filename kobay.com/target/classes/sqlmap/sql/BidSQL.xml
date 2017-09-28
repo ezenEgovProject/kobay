@@ -2,6 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="QnaSpace">
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="bidVO" type="kobay.com.service.BidVO"/>
 	
 	<select id="bid.selectBidList" resultClass="egovMap">
 		SELECT  
@@ -54,7 +55,7 @@
 	</insert>
 	
 	<!-- 경매참여 내용 불러오기 -->
-	<select id="bid.selectBid">
+	<select id="bid.selectBid" resultClass="bidVO">
 		SELECT  
 				bid_unq,
 			    auction_unq,
@@ -68,7 +69,7 @@
 			    bid_rdate,
 			    bid_status
 		FROM 	bid
-		WHERE	bid_unq=#bid_unq#
+		WHERE	bid_unq=#bid_unq# AND action_unq=#auction_unq#
 	</select>
 	
 	<!-- 경매참여 내용 수정 -->

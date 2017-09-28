@@ -297,6 +297,46 @@
 			location.href="<c:url value='"+url+"'/>";
 		}
 
+		function bid_popup(aunq){
+			var unq = aunq;
+			var url = "kobayDetail_pay?Auction_unq="+unq;
+			
+			var inputBid = prompt("입찰 참여 금액을 입력하세요", unq);
+
+			if(inputBid != null){
+				if (inputBid > 10){
+					alert(inputBid+"원으로 경매에 참여하셨습니다.");
+					location.href="<c:url value='"+url+"'/>";
+				} else {
+					alert("가격을 올려서 입력하세요");
+				}
+			} else if(inputBid == null){
+				alert("경매에 참여하지 않으셨습니다.");
+			}
+			
+		
+		}
+		<%-- 경매 테이블과 연결 후 
+			function bid_popup(aunq,price){
+			var unq = aunq;
+			var url = "kobayDetail_pay?Auction_unq="+unq;
+			var price = price;
+			
+			var inputBid = prompt("입찰 참여 금액을 입력하세요", price);
+			
+			if(inputBid != null){
+				if (inputBid > price){
+					alert(inputBid+"원으로 경매에 참여하셨습니다.");
+					location.href="<c:url value='"+url+"'/>";
+				} else {
+					alert("가격을 올려서 입력하세요");
+				}
+			} else if(inputBid == null){
+				alert("경매에 참여하지 않으셨습니다.");
+			}
+		}
+		--%>
+		
 		
 		<%-- 답변 창 열기 시작 --%>
 		$(document).ready(function(){
@@ -468,6 +508,7 @@
 					<table class="kobayDetail_info_rightbtn">
 						<tr>
 							<td>
+								<input type="button" class="kobayDetail_bidbtn"" value="팝업" onclick="bid_popup('${list.auctionUnq}')">		
 								<input type="button" class="kobayDetail_bidbtn"" value="경매 참여" onclick="bid('${list.auctionUnq}')">													
 							</td>
 						</tr>
