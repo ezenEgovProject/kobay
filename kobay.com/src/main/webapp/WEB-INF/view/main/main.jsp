@@ -64,13 +64,13 @@
               </div>
             </li>
             <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">진행경매</a>
+              <a class="nav-link" href="/list_1" >진행경매</a>
             </li>
             <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">예정경매</a>
+              <a class="nav-link" href="/list_2">예정경매</a>
             </li>
             <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">마감경매</a>
+              <a class="nav-link" href="/list_3">마감경매</a>
             </li>
             <li class="nav-item px-lg-4">
               <a class="nav-link" href="#">이벤트</a>
