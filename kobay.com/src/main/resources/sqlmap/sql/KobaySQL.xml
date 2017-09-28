@@ -5,6 +5,7 @@
 	<typeAlias alias="kobayVO" type="kobay.com.service.KobayVO"/>
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
+	
 	<insert id="kobayDAO.insertWrite">
 		insert into auction(
 							member_unq,
@@ -60,7 +61,6 @@
 			category
 		where ctgcd like '%' || #ctgcd# || '%'
 	</select>
-	
 	
 	
 </sqlMap>

@@ -27,6 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import egovframework.rte.psl.dataaccess.mapper.Mapper;
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
 
@@ -108,19 +111,11 @@ public class KobayController {
 				cnt++;
 			}
 		}
-		
-
-		
+			
 		vo.setImage(filename);
 		
-
-		
 		String[] dr = vo.getDateRange().split(" ~ ");	
-		
-		
-		
-
-		
+				
 		try{
 		SimpleDateFormat org_frm = new SimpleDateFormat("yyyy-MM-dd H:mm a", Locale.US);
 		SimpleDateFormat new_frm = new SimpleDateFormat("yyyy-MM-dd H:mm");
@@ -142,7 +137,6 @@ public class KobayController {
 			e.printStackTrace();
 		}
 		
-		
 		String result="";
 		
 		result = kobayService.insertWrite(vo);
@@ -152,9 +146,7 @@ public class KobayController {
 		}
 		
 		map.put("cnt", Integer.toString(cnt));
-		System.out.println("cnt -> " + cnt);
-		
-		
+		System.out.println("cnt -> " + cnt);	
 		
 		return map;
 	}

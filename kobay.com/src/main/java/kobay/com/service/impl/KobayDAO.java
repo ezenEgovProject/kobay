@@ -1,7 +1,12 @@
 package kobay.com.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
@@ -21,5 +26,5 @@ public class KobayDAO extends EgovAbstractDAO {
 	public List<?> selectctgmlist(KobayVO vo){
 		return list("selectMCtgList",vo);
 	}
-	
+
 }
