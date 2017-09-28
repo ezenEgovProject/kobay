@@ -3,14 +3,9 @@
 
 <sqlMapConfig>
 
-
-<<<<<<< HEAD
 <sqlMap resource="sqlmap/sql/TestSQL.xml"></sqlMap>
 <sqlMap resource="sqlmap/sql/KobaySQL.xml"></sqlMap>
-
-
+<sqlMap resource="sqlmap/sql/BidSQL.xml"></sqlMap>
+<sqlMap resource="sqlmap/sql/QnaSQL.xml"></sqlMap>
 
 </sqlMapConfig>
-=======
-<sqlMap resource="sqlmap/sql/TestSQL.xml"></sqlMap><sqlMap resource="sqlmap/sql/BidSQL.xml"></sqlMap><sqlMap resource="sqlmap/sql/QnaSQL.xml"></sqlMap></sqlMapConfig>
->>>>>>> detail
