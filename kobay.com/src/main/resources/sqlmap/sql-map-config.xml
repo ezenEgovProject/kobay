@@ -4,4 +4,9 @@
 <sqlMapConfig>
 
 
-<sqlMap resource="sqlmap/sql/TestSQL.xml"></sqlMap></sqlMapConfig>
+<sqlMap resource="sqlmap/sql/TestSQL.xml"></sqlMap>
+<sqlMap resource="sqlmap/sql/KobaySQL.xml"></sqlMap>
+
+
+
+</sqlMapConfig>
