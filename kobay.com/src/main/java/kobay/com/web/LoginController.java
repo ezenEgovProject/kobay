@@ -30,13 +30,16 @@ public class LoginController {
 	@Resource(name = "memberService")
 	private MemberService memberService;
 	
-	@ModelAttribute("regForm")
-	protected Object formBack() throws Exception {
+	@ModelAttribute("loginForm")
+	protected Object loginBack() throws Exception {
 		return new MemberVO();
 	}
 	
-	
-	
+	@ModelAttribute("regForm")
+	protected Object regBack() throws Exception {
+		return new MemberVO();
+	}
+		
 	@RequestMapping(value="/login")
 	@ResponseBody
 	public Map<String, Object> login(MemberVO vo, HttpSession session) throws Exception {
@@ -57,15 +60,16 @@ public class LoginController {
 			
 			String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
 			log.info(session.getAttribute("id") + " Login 현재시간 : "+curTime);
+			
+			vo = memberService.selectMemberDetail(vo);
+			
+			name = vo.getMember_name();
+			session.setAttribute("name", name);
+			System.out.println(name);
 		}
 		
 		map.put("result", result);
 		
-		vo = memberService.selectMemberDetail(vo);
-		
-		name = vo.getMember_name();
-		session.setAttribute("name", name);
-		System.out.println(name);
 		return map;
 	}
 	

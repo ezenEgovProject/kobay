@@ -27,44 +27,16 @@ var checkId = "";
 var checkPwd = "";
 var checkName = "";
 var checkPhone = "";
-var checkAll = "";
+/* var checkAll = "";
 if(checkId == true &&
 		checkPwd == true &&
 		checkName == true &&
 		checkPhone == true) {
 	checkAll = true;
-}
-/* 회원가입 핸드폰번호 숫자만 입력 */
-function onlyNumber(event){
-	event = event || window.event;
-	var keyID = (event.which) ? event.which : event.keyCode;
-	if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 || keyID == 13) 
-		return;
-	else
-		return false;
-}
-function removeChar(event) {
-	event = event || window.event;
-	var keyID = (event.which) ? event.which : event.keyCode;
-	if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
-		return;
-	else
-		event.target.value = event.target.value.replace(/[^0-9]/g, "");
-}
+} */
 /*  */
 /* 로그인 */
 function member_Login() {
-	var id = document.loginForm.member_id.value;
-	var pw = document.loginForm.member_pwd.value;
-	
-	if(id == "" || id.search(/@/) == -1 || id.search(/\./) == -1){
-		alert("이메일을 다시 확인해주세요.");
-		return;
-	} else if(pw == "") {
-		alert("비밀번호를 다시 확인해주세요.");
-		return;
-	} else {
-		
 	var frm = $("#loginForm").serialize();
 	
 	  $.ajax({
@@ -84,15 +56,11 @@ function member_Login() {
 			alert("error : " + error);
 		}
 	}); 
-	}
-	
 }
-
 /*  */
 /* 회원가입 */
 function member_Register() {
 	var frm = $("#regForm").serialize();
-if(checkAll == true) {
 	
 	   $.ajax({
 		type:'POST',
@@ -122,9 +90,7 @@ if(checkAll == true) {
 			return false;
 		}
 	});
-}	   
 }
-
 /*  */
 /* 아이디 체크 */
 function member_CheckForm(va) {
@@ -141,30 +107,21 @@ function member_CheckForm(va) {
 					$("#regForm i[id='icon_"+va+"']").css({
 						 "color":"#1DDB16"
 						});
-					checkAll = true;
-				} else if (data.usingid != 0 && va == "member_id") {
-					$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
-					$("#regForm i[id='icon_"+va+"']").css({
-						 "color":"#FF0000"
-						});
-				}
-				else {
+				//	checkAll = true;
+				} else {
 					for(var i=0; i<data.errors.length; i++) {
 						if(data.errors[i].field == va) {
 						$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
 						$("#regForm i[id='icon_"+va+"']").css({
 							 "color":"#FF0000"
 							});
+						return;
 						} else {
 						$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
 						$("#regForm i[id='icon_"+va+"']").css({
 							 "color":"#1DDB16"
 							});
-						if(va == "member_id") {checkId == true}
-						if(va == "member_pwd") {checkPwd == true}
-						if(va == "member_name") {checkName == true}
-						if(va == "member_phone") {checkPhone == true}
-						}
+						} 
 					}  
 				}
 				return false;
@@ -174,17 +131,6 @@ function member_CheckForm(va) {
 			}
 		}); 
 }
-/* function member_IdButton() {
-	if(checkresult == 0) {
-		alert("사용할 수 있는 아이디입니다.");
-		document.getElementById("imageCheck").className = "fa fa-check";
-		document.getElementById("imageCheck").style.color="#1DDB16";
-	} else {
-		alert("사용할 수 없는 아이디입니다.");
-		document.getElementById("imageCheck").className = "fa fa-ban";
-		document.getElementById("imageCheck").style.color="#FF0000";
-	}
-} */
 /*  */
 /* 텍스트박스에서 엔터 누르고 로그인 */
 function loginEnter() {
@@ -269,33 +215,33 @@ function regEnter() {
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
 		<!-- 로그인 부분 -->
-		<form name="loginForm" id="loginForm" class="form-horizontal" >
 		<h2>
 			<label for="loginTitle">로그인</label>
 		</h2>
+		<form:form commandName="loginForm" name="loginForm"  class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
-				<label for="loginEmail" class="col-sm-2 control-label">
+				<form:label path="member_id" class="col-sm-2 control-label">
 					이메일
-				</label>
-				<input type="email" name="login_id" id="login_id" class="form-control" placeholder="example@example.com" onkeypress="loginEnter()">
+				</form:label>
+				<form:input path="member_id" name="member_id" class="form-control" placeholder="example@example.com" onkeypress="loginEnter()" />
 			</div>				
 			<div class="form-group">
-				<label for="loginPassword" class="col-sm-2 control-label">
+				<form:label path="member_pwd" class="col-sm-2 control-label">
 					비밀번호
-				</label>
-				<input type="password" name="member_pwd" id="member_pwd" class="form-control" placeholder="비밀번호 8자리 이상" onblur="member_checkPwd()" onkeypress="loginEnter()">
+				</form:label>
+				<form:password path="member_pwd" name="member_pwd"  class="form-control" placeholder="비밀번호 8자리 이상" onkeypress="loginEnter()" />
 			</div>
 			<div class="form-group">
-				<label>
-					<input type="checkbox" value="rememberID"> 아이디 저장
-				</label>
+				<form:label path="member_id">
+					<form:checkbox path="member_id" value="remember_ID" /> 아이디 저장
+				</form:label>
 			</div>
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
 					<button type="button" class="btn btn-primary btn-lg" onclick="member_Login()">로그인</button>
 				</div>
 			</div>			
-		</form>
+		</form:form>
 		<!--  -->
 		<br>
 		<br>

@@ -27,14 +27,24 @@ public class MemberController {
 	@Resource(name = "memberService")
 	private MemberService memberService;
 	
-	@ModelAttribute("regForm")
-	protected Object formBack() throws Exception {
+	@ModelAttribute("loginForm")
+	protected Object loginBack() throws Exception {
 		return new MemberVO();
 	}
 	
+	@ModelAttribute("regForm")
+	protected Object regBack() throws Exception {
+		return new MemberVO();
+	}
+	
+	
+	
 	@RequestMapping("/loginreg")
 	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
-		formBack();
+		
+		loginBack();
+		regBack();
+		
 		String member_id = (String) session.getAttribute("id");
 		
 		if(member_id != null) {
@@ -101,7 +111,7 @@ public class MemberController {
 			map.put("result", "fail");
 			map.put("errors", bindingResult.getAllErrors());
 		} else {
-			//memberService.insertMember(vo);
+			memberService.insertMember(vo);
 			map.put("result", "ok");
 		}
 //		String member_pwd = vo.getMember_pwd();
@@ -114,7 +124,7 @@ public class MemberController {
 	@ResponseBody public Map<String, Object> memberCheckForm(MemberVO vo,Model model, BindingResult bindingResult) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		String result="fail";
 		String member_id = vo.getMember_id(); 
 		// 1. 유효성체크(정규식체크/ 공백체크)
 		// 2. 중복체크
@@ -124,14 +134,14 @@ public class MemberController {
 		System.out.println("아이디체크실행 " + checkresult);
 		if(checkresult < 1) {
 			if(bindingResult.hasErrors()){
-				map.put("result", "fail");	
+				result="fail";	
 				map.put("errors", bindingResult.getAllErrors());
 			} else {
-			map.put("result", "ok");
+				result="ok";
 			}
-		}
+		} 
 		map.put("usingid", checkresult);
-		
+		map.put("result",result);
 		return map;
 	}
 	
