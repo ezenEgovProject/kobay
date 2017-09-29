@@ -3,7 +3,8 @@
 <sqlMap namespace="kobaySQL">
 	
 	<typeAlias alias="kobayVO" type="kobay.com.service.KobayVO"/>
-	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="tableVO" type="kobay.com.service.TableVO"/>
 	
 	
 	<insert id="kobayDAO.insertWrite">
@@ -26,7 +27,7 @@
 					
 					values(
 					#member_unq#,
-					auction_seq.nextval,
+					AUCTION_SEQ.nextval,
 					#Lcategory#,
 					#Mcategory#,
 					#sdate#,
@@ -62,5 +63,22 @@
 		where ctgcd like '%' || #ctgcd# || '%'
 	</select>
 	
+	<select id="selectSeqNumber" resultClass="java.lang.Integer">
+	
+		select last_number seqNumber from user_sequences where sequence_name='AUCTION_SEQ'	
+	
+	</select>
+	
+	
+	<insert id="createTable">
+	
+		create table bidder$auction_unq$
+			( auction_unq number,
+			  member_unq number,
+			  bid_price number,
+			  bid_time timestamp	
+			)
+	
+	</insert>
 	
 </sqlMap>
