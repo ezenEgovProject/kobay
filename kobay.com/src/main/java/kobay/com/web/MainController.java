@@ -34,7 +34,12 @@ public class MainController {
 	public String testView(@RequestParam("deptno") int deptno, Model model) throws Exception {
 		TestVO dept = testService.getDept(deptno);
 		model.addAttribute("dept", dept);
-		
+
 		return "main/test";
+	}
+	
+	@RequestMapping(value="/c")
+	public String test() {
+		return "main/cal";
 	}
 }
