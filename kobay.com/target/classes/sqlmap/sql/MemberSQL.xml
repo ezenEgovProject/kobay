@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MemberSpace">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="memberVO" type="kobay.com.service.MemberVO"/>
+	<typeAlias alias="pageVO" type="kobay.com.cmmn.PageVO"/>
+	
+	
+<insert id="memberDAO.insertMember">
+	INSERT INTO kobay_member(
+		MEMBER_UNQ,
+		MEMBER_ID,
+		MEMBER_PWD,
+		MEMBER_NAME,
+		MEMBER_PHONE,
+		MEMBER_RDATE
+	)
+	VALUES(
+		MEMBER_UNQ.NEXTVAL,
+		'$member_id$',
+		'$member_pwd$',
+		'$member_name$',
+		'$member_phone$',
+		sysdate
+	)
+</insert>
+<select id="memberDAO.selectMemberTotal" resultClass="java.lang.Integer">
+	SELECT COUNT(MEMBER_UNQ) total FROM kobay_member
+</select>
+
+<select id="memberDAO.selectMemberList" resultClass="egovMap">
+	SELECT  member_unq,
+			member_id,
+			member_pwd,
+			member_name,
+			member_phone,
+			TO_CHAR(MEMBER_RDATE, 'yyyy-mm-dd') member_rdate
+	FROM	kobay_member
+</select>
+
+<select id="memberDAO.selectMemberDetail" resultClass="memberVO">
+	SELECT member_name,
+			  member_phone,
+			  member_rdate
+	FROM kobay_member
+	WHERE member_id = #member_id#
+</select>
+
+<select id="memberDAO.memberCheckId" resultClass="java.lang.Integer">
+	SELECT COUNT(member_id)
+	FROM kobay_member
+	WHERE member_id = #member_id#
+</select>
+</sqlMap>
+<!-- 
+CREATE TABLE member(
+MEMBER_UNQ number,
+MEMBER_ID varchar2(100),
+MEMBER_PWD varchar2(100),
+MEMBER_NAME varchar2(10),
+MEMBER_PHONE varchar2(20),
+MEMBER_RDATE timestamp);
+
+create sequence MEMBER_UNQ
+INCREMENT BY 1
+START WITH 1
+MAXVALUE 999999;
+ -->

@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/action/search")
 public class SearchController {
 
-	
 	public ModelAndView searchView() {
 		ModelAndView mv = new ModelAndView();
 		

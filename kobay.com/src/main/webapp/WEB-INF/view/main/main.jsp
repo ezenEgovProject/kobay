@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="utf-8">
 <head>
-
 </head>
 
   <body>
+
 	<!-- Main Slider -->
 	<!-- 메인페이지 이외의 페이지에서는 삭제해야할 부분 -->
     <header>
@@ -206,7 +207,7 @@
     </div>
     <!-- /.container -->
     <!-- /.Page Content -->
-    
+
     <!-- Bootstrap core JavaScript -->
 	<script src="../../../vendor/jquery/jquery.min.js"></script>
 	<script src="../../../vendor/popper/popper.min.js"></script>

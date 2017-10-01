@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="utf-8">
+
 <head>
 <script src="../../../../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script>
@@ -69,6 +70,5 @@
 	<script src="../../../vendor/popper/popper.min.js"></script>
 
 	<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
-  </body>
-
+</body>
 </html>

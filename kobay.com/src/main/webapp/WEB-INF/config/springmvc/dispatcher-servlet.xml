@@ -17,7 +17,8 @@
 	<mvc:annotation-driven/>
 	<!-- context내의 등록된 빈들의 annotation을 활성화하기 위해 사용 -->
 	<context:annotation-config/>
-	
+
+
 	<!-- Tiles -->
  	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
 			p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" /> 
@@ -83,6 +84,6 @@
 	</bean>
 	<alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver"/>
 	<!-- /MultipartResolver -->
-	
+
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
 </beans>

@@ -12,6 +12,7 @@ utime timestamp,
 auction_del number(1),
 v_time timestamp);
 
+
 insert into RecentList_test values('1','1','1','20000','p',sysdate,'10000','신발'
 ,sysdate,'0',sysdate);
 insert into RecentList_test values('2','2','2','3000','p',sysdate,'1000','이어폰'
