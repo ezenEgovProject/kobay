@@ -14,3 +14,11 @@ INCREMENT BY 1
 START WITH 1
 MAXVALUE 999999;
 
+insert into kobay_member(
+member_seq.nextval,
+'test@test.com',
+'test1234',
+'홍길동',
+'01012345678',
+sysdate
+);

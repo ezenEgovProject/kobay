@@ -1,5 +1,8 @@
 /**
  * Kobay.sql (database 최종본)
+ * 계정 생성 - create user kobay identified by kobay1234;
+ * 권한 주기 - grant connect, resource to kobay;
+ * 
  * 기존의 테이블과 비교하여 다른 컬럼명 및 컬럼타입을 수정해 주세요. 
  * db테이블 수정시, jsp, vo 모두 수정해야 합니다!!
  */
