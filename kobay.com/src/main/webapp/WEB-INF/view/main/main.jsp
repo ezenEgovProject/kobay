@@ -3,13 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="utf-8">
-<head>
-</head>
-
   <body>
-
 	<!-- Main Slider -->
-	<!-- 메인페이지 이외의 페이지에서는 삭제해야할 부분 -->
     <header>
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">

@@ -1,4 +1,11 @@
 /**
+ * Kobay.sql (database 최종본)
+ * 기존의 테이블과 비교하여 다른 컬럼명 및 컬럼타입을 수정해 주세요. 
+ * db테이블 수정시, jsp, vo 모두 수정해야 합니다!!
+ */
+
+
+/**
  * MemberTable
  */
 CREATE TABLE kobay_member(
@@ -9,13 +16,12 @@ memberName varchar2(10) not null /* 회원이름 */,
 memberPhone varchar2(20) /* 회원 전화번호 */,
 memberRdate timestamp /* 회원가입날짜 */
 );
-
 /**
  * AuctionTable
  */
 create table kobayAuction(
 memberUnq number not null /* 회원 unique value */, 
-aucUnq number not null primary key /* 경매 unique value */, 
+auctionUnq number not null primary key /* 경매 unique value */, 
 lCtg varchar2(10) not null /*대분류*/, 
 mCtg varchar2(10) not null /*중분류*/, 
 sCtg varchar2(10) /*소분류*/,
@@ -28,8 +34,8 @@ aucImageSub2 varchar2(4000) /* 상품서브이미지1 */,
 aucImageSub3 varchar2(4000) /* 상품서브이미지1 */, 
 sPrice number not null /* 경매시작가격 */,
 ePrice number /* 경매종료가격 */, 
-delWay varchar2(10) not null /* 수령방법 */, 
-delFee number /* 배송료 */, 
+deliveryWay varchar2(10) not null /* 수령방법 */, 
+deliveryFee number /* 배송료 */, 
 sellerName varchar2(100) not null /* 결제 후 배송지에 들어갈 실명 */,
 sellerPhone number not null /* 결제 후 배송지에 들어갈 연락처 */, 
 aucDetail varchar2(4000) not null /* 경매상세정보 */, 
@@ -37,7 +43,6 @@ curStatus varchar2(5) not null /* 경매진행 상태 - 예정, 진행, 마감 *
 aucStatus number(2) /* 경매결과 (낙찰, 유찰) */, 
 delStatus number(2) default 0 /* 게시글 삭제여부 (0=노출, 1=비노출) */ 
 ); 
-
 /**
  * Auction Category Table
  */
@@ -45,7 +50,6 @@ create table aucCategory(
 ctgcd varchar2(10) not null /* 카테고리 코드 */, 
 ctgnm varchar2(50) not null /* 카테고리 이름 */
 ); 
-
 /**
  * Auction Q&A Table
  */
@@ -93,13 +97,16 @@ create table auctionPayment (
     memberPost varchar2(10) not null /* 경매 참여자 우편번호 */,
     memberAddr1 varchar2(100) not null /* 경매 참여자 주소1 */,
     memberAddr2 varchar2(100) not null/* 경매 참여자 주소2 */,
-    delWay varchar2(10) not null /* 수령방법 */, 
-	delFee number /* 배송료 */, 
+    deliveryWay varchar2(10) not null /* 수령방법 */, 
+	deliveryFee number /* 배송료 */, 
 	sellerName varchar2(100) not null /* 판매자이름 */,
 	sellerPhone number not null /* 판매자 연락처 */,
 	payDline timestamp not null /* 결제 마감기한 */
 );
-
+/**
+ * 우편번호 테이블(국내)
+ * imp 사용자/비밀번호 file=저장한경로\postTable.dmp full=y
+ */
 /**
  * Auction Result Table
  */
@@ -110,9 +117,8 @@ create table auctionResult (
 /* 낙찰 가격 */
 /* 낙찰 날짜 */
 /* 경매참여자수 */
-/* 총경매횟수 */
+/* 총입찰횟수 */
 );
-
 /**
  * Auction Recently Table
  * 경매상품 클릭시 게시물 고유번호와 게시물 시간을 저장
@@ -120,11 +126,9 @@ create table auctionResult (
  */
 create table auctionRecent (
 /* 경매게시글 고유번호 */
+/* 회원 고유번호 */
 /* 게시물 본 시간 */
-
 );
-
-
 /**
 * Sequences
 */
@@ -133,19 +137,16 @@ create sequence member_seq
 INCREMENT BY 1
 START WITH 1
 MAXVALUE 999999;
-
 -- auction sequence
 create sequence auction_seq 
 increment by 1 
 start with 1 
 maxvalue 999999; 
-
 -- qustion sequence
 create sequence question_seq 
 start with 1
 increment by 1
 maxvalue 9999999;
-
 -- bid seqeunce
 create sequence bid_seq
 start with 1

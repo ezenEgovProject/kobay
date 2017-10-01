@@ -151,7 +151,6 @@ function regEnter() {
 <body>
     
     <!-- Page Content -->
-    <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
 		<!-- 로그인 부분 -->
 		<h2>
@@ -233,12 +232,7 @@ function regEnter() {
     <!-- /.Page Content -->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>
