@@ -158,7 +158,7 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="checkbox" name="question_secret" value="1"> 비밀글 &nbsp
+						<input type="checkbox" name="question_secret" value="1"> 비밀글 &nbsp;
 						<input type="button" value="문의 하기" onclick="kobayDetail_questionInsert()">
 					</td>
 				</tr>

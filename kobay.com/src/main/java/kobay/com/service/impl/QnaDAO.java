@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import kobay.com.service.QnaVO;
-import kobay.com.service.TestVO;
 
 @Repository(value="qnaDAO")
 public class QnaDAO extends EgovAbstractDAO {

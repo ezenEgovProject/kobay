@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import kobay.com.service.BidService;
 import kobay.com.service.BidVO;
-import kobay.com.service.QnaVO;
-import kobay.com.service.TestService;
-import kobay.com.service.TestVO;
 
 @Repository(value="BidService")
 public class BidServiceImpl implements BidService {

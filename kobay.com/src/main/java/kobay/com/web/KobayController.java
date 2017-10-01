@@ -24,6 +24,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
+import kobay.com.service.TableVO;
 
 @Controller
 public class KobayController {
@@ -57,7 +58,7 @@ public class KobayController {
 
 	@RequestMapping(value = "/uploadFileSave")
 	@ResponseBody public Map<String, String> multipartProcess(final MultipartHttpServletRequest multiRequest,
-			HttpServletResponse response,KobayVO vo,  Model model) throws Exception {
+			HttpServletResponse response,KobayVO vo,Model model,TableVO tvo) throws Exception {
 		
 		MultipartFile file;
 		String filePath = "";
@@ -139,6 +140,21 @@ public class KobayController {
 		
 		map.put("cnt", Integer.toString(cnt));
 		System.out.println("cnt -> " + cnt);	
+				
+//		Map<String, Integer> createMap = new HashMap<String, Integer>();
+//		
+//		int auction_unq = 1;
+//		int member_unq = 2;
+//		
+//		createMap.put("auction_unq", auction_unq);
+//		createMap.put("member_unq", member_unq);
+		
+		int seqn = kobayService.selectSeqNumber();
+		
+		tvo.setAuction_unq(seqn);
+		tvo.setMember_unq(1);
+		
+		kobayService.createTable(tvo);
 		
 		return map;
 	}

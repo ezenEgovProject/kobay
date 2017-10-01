@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import kobay.com.service.QnaService;
 import kobay.com.service.QnaVO;
-import kobay.com.service.TestService;
-import kobay.com.service.TestVO;
 
 @Repository(value="QnaService")
 public class QnaServiceImpl implements QnaService {

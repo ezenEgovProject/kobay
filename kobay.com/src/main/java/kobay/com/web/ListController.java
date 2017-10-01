@@ -28,7 +28,7 @@ public class ListController {
 	@RequestMapping(value="/list_1")
 	public String selectList(@ModelAttribute("listVO") ListVO vo,Model model) throws Exception{
 		
-		Map<String, Object> map = new HashMap<String,Object>();
+		//Map<String, Object> map = new HashMap<String,Object>();
 		List<?> list = listService.selectList(vo);
 		int totcnt = listService.selectListTotal(vo);
 		//ModelAndView mav = new ModelAndView();
