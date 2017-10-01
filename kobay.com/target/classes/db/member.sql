@@ -1,3 +1,5 @@
+
+
 /* Table */
 CREATE TABLE member(
 MEMBER_UNQ number,
@@ -14,3 +16,4 @@ INCREMENT BY 1
 START WITH 1
 MAXVALUE 999999;
 /* --Sequence */
+

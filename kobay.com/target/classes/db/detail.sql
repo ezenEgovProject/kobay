@@ -1,4 +1,4 @@
-/* Table */
+
 create table qna (
     qna_unq number(11) not null primary key /*qna고유번호*/,
     qna_group number(11) /*질문과 답변을 묶는 그룹값*/,
@@ -27,19 +27,19 @@ create table bid(
     bid_rdate date not null /*경매참여날짜 */,
     bid_status number(2) default '0' /*낙찰여부*/,
     constraint bid_status_ck check(bid_status='0' or bid_status='1'));
-/* --Table */
-    
-/* Sequence */
+
+/* sequence */    
 create sequence question_unq_seq 
 start with 1
 increment by 1
 maxvalue 9999999;
 
+/* sequence */
 create sequence bid_unq_seq
 start with 1
 increment by 1
 maxvalue 9999999;
-/* --Sequence */
+
 
 insert into qna (
     qna_unq,
