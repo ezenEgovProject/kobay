@@ -15,7 +15,7 @@
 	memberUnq number primary key not null /* 회원고유번호 */,
 	memberId varchar2(100) not null /* 회원아이디(이메일주소) */,
 	memberPwd varchar2(100) not null /* 회원비밀번호 */,
-	memberName varchar2(10) not null /* 회원이름 */,
+	memberName varchar2(20) not null /* 회원이름 */,
 	memberPhone varchar2(20) /* 회원 전화번호 */,
 	memberRdate timestamp /* 회원가입날짜 */,
 	memberMdate timestamp /* 회원정보 수정날짜 */
