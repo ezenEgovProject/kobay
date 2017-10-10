@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <script src="../../../js/jquery-2.2.2.js"></script>
-	<script src="../../../js/jquery-ui.js"></script>
+  <!--   <script src="../../../js/jquery-2.2.2.js"></script>
+	<script src="../../../js/jquery-ui.js"></script> -->
 
     <title>Kobay_LIST1</title>
     
@@ -66,12 +66,12 @@
   
   function fn_detail(a) {
 	var f = document.hiddenFrm;
-	f.memberUnq.value = a;
+	f.auctionUnq.value = a;
 	f.submit();
 	}
   
   function fn_CardClick(b){
-	  location.href = "auction/auctionDetail";  
+	  location.href = "/kobayDetail_detail";  
   }
   
 /*   $(function(){ 
@@ -151,9 +151,9 @@
 
   <body>
   
-  <form name="hiddenFrm" method="post" action="#">
-	<input type="hidden" name="member_unq" id="member_unq"/>
-
+  <form name="hiddenFrm" method="post" action="/list_1">
+	<input type="hidden" name="auctionUnq" id="auctionUnq"/>
+  </form>
     <!-- Navigation -->
     <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
 		<div class="container" style="width: 100%;">
@@ -329,20 +329,21 @@
         	
     <!-- Marketing Icons Section -->
        <div class="row">
-       <c:forEach var="i"  begin="1" end="${totcnt}" varStatus="status">    
-        <c:forEach var="list" items="${resultList}" varStatus="status">         	
-        <div class="col-lg-4 mb-4">
-        <a href="www.naver.com">
+   		 <c:forEach var="list" items="${resultList}" varStatus="status"> 
+              <div class="col-lg-4 mb-4">
+        
           <div class="card h-100">
            
-            <h4 class="card-header">진행중${i}</h4>
+            <h4 class="card-header">진행중${totcnt}</h4>
             <div class="card-body">
               <p class="card-text"></p>
               	<div class="dropdown">
-              	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</span>
+              	<a href="#" onclick="fn_detail('${list.auctionUnq}')">
+              	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</span> </a>
              		  <div class="dropdown-content">
-             		  	 <p> 경매 이름: ${list.title}<br>
-      						 경매 가격: ${list.auctionPrice}원<br>
+             		  	 <p> 경매 번호: ${list.auctionunq}<br>
+             		  	 	 경매 이름: ${list.auctitle}<br>
+      						 경매 가격: ${list.sprice}원<br>
       						 남은 시간: ${list.sdate}
    						 </p>
   					  </div>
@@ -350,11 +351,39 @@
             </div>
             <div class="card-footer">상세보기</div>
           </div>
-          </a>
+         
+         </div>
+        <c:set var="totcnt" value="${totcnt-1}"/>
+		</c:forEach>
+ <%--      <c:forEach var="i"  begin="1" end="${totcnt}" varStatus="status"> 
+          
+        <div class="col-lg-4 mb-4">
+        
+          <div class="card h-100">
+           
+            <h4 class="card-header">진행중${i}</h4>
+            <div class="card-body">
+              <p class="card-text"></p>
+              	<div class="dropdown">
+              	<a href="#" onclick="fn_detail('${list.auctionUnq}')">
+              	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</span> </a>
+             		 <c:forEach var="list" items="${resultList}" varStatus="status"> 
+             		  <div class="dropdown-content">
+             		  	 <p> 경매 번호: ${list.auctionUnq}<br>
+             		  	 	 경매 이름: ${list.aucTitle}<br>
+      						 경매 가격: ${list.sPrice}원<br>
+      						 남은 시간: ${list.sDate}
+   						 </p>
+  					  </div>
+  					</c:forEach>
+             </div> 
+            </div>
+            <div class="card-footer">상세보기</div>
+          </div>
+         
          </div>
          </c:forEach>
-        </c:forEach>
-      </div>
+  --%>     </div>
       <!-- /.row -->
       
 	</head>
@@ -434,6 +463,7 @@
     <script src="../../../../vendor/popper/popper.min.js"></script>
     <script src="../../../../vendor/bootstrap/js/bootstrap.min.js"></script>
     
-   </form>
+   
+   
   </body>
 </html>

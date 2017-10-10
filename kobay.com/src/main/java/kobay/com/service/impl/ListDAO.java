@@ -21,9 +21,9 @@ public class ListDAO extends EgovAbstractDAO {
 		return (int) select("listDAO.selectListTotal", vo);
 	}
 
-	public String selectListArray(String arrayType) {
+	public String selectListArray(String orderCondition) {
 		
-		return (String) select("listDAO.selectListArray", arrayType);
+		return (String) select("listDAO.selectListArray", orderCondition);
 	}
 
 	public List<?> selectList2(ListVO vo) {

@@ -12,8 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <script src="../../../js/jquery-2.2.2.js"></script>
-	<script src="../../../js/jquery-ui.js"></script>
+ <!--    <script src="../../../js/jquery-2.2.2.js"></script>
+	<script src="../../../js/jquery-ui.js"></script> -->
 
     <title>Kobay_LIST2</title>
     
@@ -278,9 +278,9 @@
             	 <c:forEach var="list" items="${resultList}" varStatus="status">
              		  <div class="dropdown-content">
              		 
-             		  	 <p> 경매 이름: ${list.title}<br>
-      						 경매 가격: ${list.auctionPrice}원<br>
-      						 남은 시간: ${list.sdate}
+             		  	 <p> 경매 이름: ${list.aucTitle}<br>
+      						 경매 가격: ${list.sPrice}원<br>
+      						 남은 시간: ${list.sDate}
    						 </p>
   					  </div>
   				</c:forEach>

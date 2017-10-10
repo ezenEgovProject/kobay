@@ -29,9 +29,9 @@ public class ListServiceImpl implements ListService {
 	}
 
 	@Override
-	public String selectListArray(String arrayType) throws Exception {
+	public String selectListArray(String orderCondition) throws Exception {
 		
-		return listDAO.selectListArray(arrayType);
+		return listDAO.selectListArray(orderCondition);
 	}
 
 	@Override

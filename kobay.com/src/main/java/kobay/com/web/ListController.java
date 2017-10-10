@@ -59,6 +59,7 @@ public class ListController {
 		model.addAttribute("totcnt", totcnt);
 		model.addAttribute("resultList", list); 
 		
+		
 		return "auction/list_1";
 	}
 	
