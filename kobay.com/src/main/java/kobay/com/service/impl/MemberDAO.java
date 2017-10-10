@@ -21,13 +21,13 @@ public class MemberDAO extends EgovAbstractDAO {
 	public List<?> selectMemberList(PageVO pageVO) {
 		return list("memberDAO.selectMemberList", pageVO);
 	}
-
+	
 	public MemberVO selectMemberDetail(MemberVO vo) {
 		return (MemberVO) select("memberDAO.selectMemberDetail", vo);
 	}
 
-	public int memberCheckId(String member_id) {
-		return (int) select("memberDAO.memberCheckId",member_id);
+	public int memberCheckId(String memberId) {
+		return (int) select("memberDAO.memberCheckId",memberId);
 	}
 
 }

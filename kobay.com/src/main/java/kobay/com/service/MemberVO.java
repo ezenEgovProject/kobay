@@ -1,47 +1,55 @@
 package kobay.com.service;
 
 public class MemberVO {
-	private int member_unq;
-	private String member_id;
-	private String member_pwd;
-	private String member_name;
-	private String member_phone;
-	private String member_rdate;
-	public int getMember_unq() {
-		return member_unq;
+	private int memberUnq;
+	private String memberId;
+	private String memberPwd;
+	private String memberName;
+	private String memberPhone;
+	private String memberRdate;
+	private String memberMdate;
+	
+	public int getMemberUnq() {
+		return memberUnq;
 	}
-	public void setMember_unq(int member_unq) {
-		this.member_unq = member_unq;
+	public void setMemberUnq(int memberUnq) {
+		this.memberUnq = memberUnq;
 	}
-	public String getMember_id() {
-		return member_id;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setMember_id(String member_id) {
-		this.member_id = member_id;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-	public String getMember_pwd() {
-		return member_pwd;
+	public String getMemberPwd() {
+		return memberPwd;
 	}
-	public void setMember_pwd(String member_pwd) {
-		this.member_pwd = member_pwd;
+	public void setMemberPwd(String memberPwd) {
+		this.memberPwd = memberPwd;
 	}
-	public String getMember_name() {
-		return member_name;
+	public String getMemberName() {
+		return memberName;
 	}
-	public void setMember_name(String member_name) {
-		this.member_name = member_name;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
-	public String getMember_phone() {
-		return member_phone;
+	public String getMemberPhone() {
+		return memberPhone;
 	}
-	public void setMember_phone(String member_phone) {
-		this.member_phone = member_phone;
+	public void setMemberPhone(String memberPhone) {
+		this.memberPhone = memberPhone;
 	}
-	public String getMember_rdate() {
-		return member_rdate;
+	public String getMemberRdate() {
+		return memberRdate;
 	}
-	public void setMember_rdate(String member_rdate) {
-		this.member_rdate = member_rdate;
+	public void setMemberRdate(String memberRdate) {
+		this.memberRdate = memberRdate;
+	}
+	public String getMemberMdate() {
+		return memberMdate;
+	}
+	public void setMemberMdate(String memberMdate) {
+		this.memberMdate = memberMdate;
 	}
 	
 }

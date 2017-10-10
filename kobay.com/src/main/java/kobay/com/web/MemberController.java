@@ -45,9 +45,9 @@ public class MemberController {
 		loginBack();
 		regBack();
 		
-		String member_id = (String) session.getAttribute("id");
+		String memberId = (String) session.getAttribute("id");
 		
-		if(member_id != null) {
+		if(memberId != null) {
 			return "redirect:/main";
 		}
 	
@@ -105,12 +105,20 @@ public class MemberController {
 	@ResponseBody public Map<String, Object> Register(@ModelAttribute("memberVO") MemberVO vo, BindingResult bindingResult) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		String memberId = vo.getMemberId();
+		
+		int checkResult = memberService.memberCheckId(memberId);
+		
 		new MemberVaildator().validate(vo, bindingResult);
 		if(bindingResult.hasErrors()) {
 			System.out.println("에러가 발생하였습니다.");
 			map.put("result", "fail");
 			map.put("errors", bindingResult.getAllErrors());
-		} else {
+		} else if(checkResult !=0 ) {
+			System.out.println("this Id already exists");
+			map.put("result", "exists");
+		}
+		else {
 			memberService.insertMember(vo);
 			map.put("result", "ok");
 		}
@@ -125,22 +133,26 @@ public class MemberController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		String result="fail";
-		String member_id = vo.getMember_id(); 
+		String checkId="ok";
+		String memberId = vo.getMemberId(); 
 		// 1. 유효성체크(정규식체크/ 공백체크)
 		// 2. 중복체크
-		int checkresult = memberService.memberCheckId(member_id);
+		int checkResult = memberService.memberCheckId(memberId);
 		
 		new MemberVaildator().validate(vo, bindingResult);
-		System.out.println("아이디체크실행 " + checkresult);
-		if(checkresult < 1) {
-			if(bindingResult.hasErrors()){
-				result="fail";	
-				map.put("errors", bindingResult.getAllErrors());
-			} else {
-				result="ok";
-			}
-		} 
-		map.put("usingid", checkresult);
+		System.out.println("아이디체크실행 " + checkResult);
+		if(bindingResult.hasErrors()){	
+			map.put("errors", bindingResult.getAllErrors());
+		}
+		if(checkResult != 0) {
+			checkId="exists";
+			System.out.println("exists at checkForm");
+		}
+		
+		result = "ok";
+		
+		System.out.println(result);
+		map.put("checkResult", checkId);
 		map.put("result",result);
 		return map;
 	}

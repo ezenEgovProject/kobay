@@ -6,4 +6,6 @@
 	<select id="test.getDept" resultClass="testVO">
 		select deptno, dname, loc from dept where deptno=#deptno#
 	</select>
+	
+
 </sqlMap>

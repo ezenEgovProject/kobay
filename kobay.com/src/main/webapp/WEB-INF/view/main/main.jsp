@@ -3,115 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="utf-8">
-  <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay 모두가 판매자이자 구매자이다.</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../../../css/kobay.css" >
-  </head>
-<script>
-function fn_logout() {
-
-	$.ajax({
-		type: 'POST',
-		data: '',
-		url: "<c:url value='/logout' />",
-		dataType: "json",
-		success: function (data) {
-			if(data.result == "ok") {
-				alert("로그아웃 되었습니다.");
-				location.href = "<c:url value='/main'/>";
-			} else {
-				
-			}
-		},
-		error: function (error) {
-			alert("error : " + error);
-		}
-	});
-}
-</script>
   <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
-		<div class="container" style="width: 100%;">
-			<div class="row justify-content-between align-items-center" style="width: 100%;">
-				<div class="col-12 col-sm-auto order-sm-1 text-center">
-					<a class="navbar-brand" href="/main"><label class="logo" >Kobay</label></a>
-				</div>
-				<div class="col-4 order-sm-2">
-				    <div class="input-group">
-				      <span class="input-group-btn">
-				        <a class="btn search-btn" href="/action/search"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
-				      </span>
-				      <input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
-				    </div><!-- /input-group -->
-			  	</div>
-				<div class="col-6 col-sm-auto order-sm-3" >
-				<c:if test="${sessionScope.id  != null}">
-					 <span class="top-icon"><font style="color:white;">${sessionScope.name}님</font></span>
-					 <span class="top-icon"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-					 <span class="top-icon"><a onclick="fn_logout()"><i class="fa fa-power-off fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-					 <span class="top-icon"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-				</c:if>
-				<c:if test="${sessionScope.id == null}">
-					 <span class="top-icon"><a href="/loginreg"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-					 <span class="top-icon"><a href="/loginreg"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-				</c:if>
-				</div>
-			</div>
-		</div> 
-	<!-- /.navbar-top -->
-   
-    </nav>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light subnav">
-      <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav mx-auto">
-          	<li class="nav-item px-lg-4 active">
-              <a class="nav-link" href="/main">홈</a>
-            </li>
-          	<li class="nav-item px-lg-4 dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              	  회사소개
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="/intro">KOBAY 소개</a>
-                <a class="dropdown-item" href="#">경매방법</a>
-                <a class="dropdown-item" href="#">문의사항</a>
-              </div>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">진행경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">예정경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">마감경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">이벤트</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-	
 	<!-- Main Slider -->
-	<!-- 메인페이지 이외의 페이지에서는 삭제해야할 부분 -->
     <header>
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -162,7 +55,7 @@ function fn_logout() {
       <h1 class="my-4">Welcome to Modern Business</h1>
 
       <!-- Marketing Icons Section -->
-      <div class="row">
+      <div class="row" id="pills-tabContent">
         <div class="col-lg-4 mb-4">
           <div class="card h-100">
             <h4 class="card-header">Card Title</h4>
@@ -310,18 +203,11 @@ function fn_logout() {
     <!-- /.container -->
     <!-- /.Page Content -->
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; kobay 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
-
     <!-- Bootstrap core JavaScript -->
-    <script src="../../../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../../../vendor/popper/popper.min.js"></script>
-    <script src="../../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../../vendor/jquery/jquery.min.js"></script>
+	<script src="../../../vendor/popper/popper.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+   
 
   </body>
 

@@ -43,8 +43,8 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 
 	@Override
-	public int memberCheckId(String member_id) {
-		return  memberDAO.memberCheckId(member_id);
+	public int memberCheckId(String memberId) {
+		return  memberDAO.memberCheckId(memberId);
 	}
 
 }

@@ -46,8 +46,9 @@ public class LoginController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		String id = vo.getMember_id();
-		String pwd =  vo.getMember_pwd();
+		int unq = 0;
+		String id = vo.getMemberId();
+		String pwd =  vo.getMemberPwd();
 		String name = "";
 		String result = "";
 
@@ -63,8 +64,12 @@ public class LoginController {
 			
 			vo = memberService.selectMemberDetail(vo);
 			
-			name = vo.getMember_name();
+			unq = vo.getMemberUnq();
+			name = vo.getMemberName();
+			
+			session.setAttribute("unq", unq);
 			session.setAttribute("name", name);
+			
 			System.out.println(name);
 		}
 		
@@ -73,7 +78,7 @@ public class LoginController {
 		return map;
 	}
 	
-	@RequestMapping(value = "/logout")
+/*	@RequestMapping(value = "/logout")
 	@ResponseBody
 	public  Map<String, Object> logout(HttpSession session) {
 		
@@ -88,6 +93,17 @@ public class LoginController {
 		map.put("result", result);
 		
 		return map;
+	}*/
+	
+	@RequestMapping(value = "/logout")
+	public String logout(HttpSession session) {
+		
+		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
+		log.info(session.getAttribute("ld") + " Logout 현재시간 : "+curTime);
+	
+		session.invalidate();
+		
+		return "redirect:/main";
 	}
 }
 

@@ -8,19 +8,19 @@
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
-	<meta charset="utf-8">
+	<!-- <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <title>Kobay 로그인 및 회원가입</title>
 
-    <!-- Bootstrap core CSS -->
+    Bootstrap core CSS
     <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../../../css/kobay.css" >
+    Custom styles for this template
+    <link rel="stylesheet" href="../../../css/kobay.css" > -->
   </head>
 <script type="text/javascript">
 var checkId = "";
@@ -71,8 +71,16 @@ function member_Register() {
 		success:function(data) {
 			if(data.result == "ok") {
 				alert("가입되었습니다.");
-				// location.href="<c:url value='/loginreg' />";
-			} else{
+				location.href="<c:url value='/loginreg' />";
+			}
+			else if(data.result == "exists") {
+				alert("exists");
+				$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
+				$("#regForm i[id='icon_memberId']").css({
+					 "color":"#FF0000"
+					});
+			}
+			else{
 				alert("다시 한번 확인해주세요.");
 				for(var i=0; i<data.errors.length; i++) {
 					alert(data.errors[i].field + ": " + data.errors[i].defaultMessage);
@@ -103,27 +111,37 @@ function member_CheckForm(va) {
 			dataType:"json",
 			success:function(data) {
 				if(data.result == "ok") {
-					$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
-					$("#regForm i[id='icon_"+va+"']").css({
-						 "color":"#1DDB16"
-						});
-				//	checkAll = true;
-				} else {
-					for(var i=0; i<data.errors.length; i++) {
+					if(data.errors.length > 0) {
+						for(var i=0; i<data.errors.length; i++) {		
 						if(data.errors[i].field == va) {
-						$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
-						$("#regForm i[id='icon_"+va+"']").css({
-							 "color":"#FF0000"
-							});
-						return;
-						} else {
-						$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
-						$("#regForm i[id='icon_"+va+"']").css({
-							 "color":"#1DDB16"
-							});
-						} 
-					}  
+							$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
+							$("#regForm i[id='icon_"+va+"']").css({
+								 "color":"#FF0000"
+								});
+							alert("유효성 걸림");
+							return;
+								}
+						else {
+							$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
+							$("#regForm i[id='icon_"+va+"']").css({
+								 "color":"#1DDB16"
+								});			
+						}
+					}
 				}
+				if(data.checkResult == "exists") {
+					$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
+					$("#regForm i[id='icon_memberId']").css({
+						 "color":"#FF0000"
+						});
+				}				
+				else {
+					$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
+					$("#regForm i[id='icon_"+va+"']").css({
+						 "color":"#FF0000"
+						});
+							}
+					}
 				return false;
 			},
 			error:function(error) {
@@ -149,70 +167,8 @@ function regEnter() {
 </script>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
-		<div class="container" style="width: 100%;">
-			<div class="row justify-content-between align-items-center" style="width: 100%;">
-				<div class="col-12 col-sm-auto order-sm-1 text-center">
-					<a class="navbar-brand" href="index.jsp"><label class="logo">Kobay</label></a>
-				</div>
-				<div class="col-4 order-sm-2">
-				    <div class="input-group">
-				      <span class="input-group-btn">
-				        <button class="btn search-btn" type="button"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></button>
-				      </span>
-				      <input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
-				    </div><!-- /input-group -->
-			  	</div>
-				<div class="col-6 col-sm-auto order-sm-3" >
-					 <span class="top-icon"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-					 <span class="top-icon"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-				</div>
-			</div>
-			
-		</div> 
-	<!-- /.navbar-top -->
-   
-    </nav>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light subnav">
-      <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav mx-auto">
-          	<li class="nav-item px-lg-4 active">
-              <a class="nav-link" href="/main">홈</a>
-            </li>
-          	<li class="nav-item px-lg-4 dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              	  회사소개
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="/intro">KOBAY 소개</a>
-                <a class="dropdown-item" href="#">경매방법</a>
-                <a class="dropdown-item" href="#">문의사항</a>
-              </div>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">진행경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">예정경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">마감경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">이벤트</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-	
+    
     <!-- Page Content -->
-    <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
 		<!-- 로그인 부분 -->
 		<h2>
@@ -220,20 +176,20 @@ function regEnter() {
 		</h2>
 		<form:form commandName="loginForm" name="loginForm"  class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
-				<form:label path="member_id" class="col-sm-2 control-label">
+				<form:label path="memberId" class="col-sm-2 control-label">
 					이메일
 				</form:label>
-				<form:input path="member_id" name="member_id" class="form-control" placeholder="example@example.com" onkeypress="loginEnter()" />
+				<form:input path="memberId" name="memberId" class="form-control" placeholder="example@example.com" onkeypress="loginEnter()" />
 			</div>				
 			<div class="form-group">
-				<form:label path="member_pwd" class="col-sm-2 control-label">
+				<form:label path="memberPwd" class="col-sm-2 control-label">
 					비밀번호
 				</form:label>
-				<form:password path="member_pwd" name="member_pwd"  class="form-control" placeholder="비밀번호 8자리 이상" onkeypress="loginEnter()" />
+				<form:password path="memberPwd" name="memberPwd"  class="form-control" placeholder="비밀번호 8자리 이상" onkeypress="loginEnter()" />
 			</div>
 			<div class="form-group">
-				<form:label path="member_id">
-					<form:checkbox path="member_id" value="remember_ID" /> 아이디 저장
+				<form:label path="memberId">
+					<form:checkbox path="memberId" value="rememberId" /> 아이디 저장
 				</form:label>
 			</div>
 			<div class="form-group">
@@ -255,31 +211,30 @@ function regEnter() {
 		</h2>
 		<form:form commandName="regForm" name="regForm" class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
-				<form:label path="member_id" class="col-sm-2 control-label">
-					이메일<i class="fa fa" id="icon_member_id" aria-hidden="true" style="color:#1DDB16;"></i>
+				<form:label path="memberId" class="col-sm-2 control-label">
+					이메일<i class="fa fa" id="icon_memberId" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:input path="member_id" class="form-control"  placeholder="example@example.com" onchange="member_CheckForm('member_id')" onkeypress="regEnter()" />
-				<!-- <button type="button" class="btn btn-default btn-sm" onclick="member_IdButton()" >아이디 중복 체크</button> -->
+				<form:input path="memberId" class="form-control"  placeholder="example@example.com" onchange="member_CheckForm('memberId')" onkeypress="regEnter()" />
 			 </div>	
 			<div class="form-group">
-				<form:label path="member_pwd" class="col-sm-2 control-label">
-					비밀번호<i class="fa fa" id="icon_member_pwd" aria-hidden="true" style="color:#1DDB16;"></i>
+				<form:label path="memberPwd" class="col-sm-2 control-label">
+					비밀번호<i class="fa fa" id="icon_memberPwd" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:password path="member_pwd" class="form-control" placeholder="비밀번호 8자리 이상" onchange="member_CheckForm('member_pwd')" onkeypress="regEnter()" />
+				<form:password path="memberPwd" class="form-control" placeholder="비밀번호 8자리 이상" onchange="member_CheckForm('memberPwd')" onkeypress="regEnter()" />
 			</div>					
 			<div class="form-group">
-				<form:label path="member_name" class="col-sm-2 control-label">
-					이름<i class="fa fa" id="icon_member_name" aria-hidden="true" style="color:#1DDB16;"></i>
+				<form:label path="memberName" class="col-sm-2 control-label">
+					이름<i class="fa fa" id="icon_memberName" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:input path="member_name"  class="form-control" placeholder="홍길동" onchange="member_CheckForm('member_name')" onkeypress="regEnter()" />
+				<form:input path="memberName"  class="form-control" placeholder="홍길동" onchange="member_CheckForm('memberName')" onkeypress="regEnter()" />
 			</div>
 			<div class="form-group">
-				<form:label path="member_phone" class="col-sm-2 control-label">
-					핸드폰 번호<i class="fa fa" id="icon_member_phone" aria-hidden="true" style="color:#1DDB16;"></i>
+				<form:label path="memberPhone" class="col-sm-2 control-label">
+					핸드폰 번호<i class="fa fa" id="icon_memberPhone" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:input path="member_phone" class="form-control" placeholder="숫자만 입력" onchange="member_CheckForm('member_phone')" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' maxlength="11" onkeypress="regEnter()" />
+				<form:input path="memberPhone" class="form-control" placeholder="숫자만 입력" onchange="member_CheckForm('memberPhone')" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' maxlength="11" onkeypress="regEnter()" />
 				<br>
-				<form:errors path="member_phone" cssStyle="color:red;" />
+				<form:errors path="memberPhone" cssStyle="color:red;" />
 			</div>				
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
@@ -294,12 +249,7 @@ function regEnter() {
     <!-- /.Page Content -->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>
