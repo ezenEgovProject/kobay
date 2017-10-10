@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,7 @@ public class ListController {
 	@Resource(name="listService")
 	private ListService listService;
 
-	@RequestMapping(value="/list_1")
+/*	@RequestMapping(value="/list_1")
 	public String selectList(@ModelAttribute("listVO") ListVO vo,Model model) throws Exception{
 		
 		//Map<String, Object> map = new HashMap<String,Object>();
@@ -34,11 +35,11 @@ public class ListController {
 		//ModelAndView mav = new ModelAndView();
 		//String ListArrayType = request.getParamater("arrayType");
 		//model.addAttribute("arrayType", ListArrayType);
-		/*map.put("list", list);
+		map.put("list", list);
 		map.put("totcnt", totcnt);
 		map.put("arrayType", arrayType);
 		mav.addObject("map",map);
-		mav.setViewName("auction/list_1");*/
+		mav.setViewName("auction/list_1");
 		
 		//return mav;
 		
@@ -46,32 +47,71 @@ public class ListController {
 		model.addAttribute("resultList", list);  
 		
 		return "auction/list_1";
-	}
+	}*/
 	
-	@RequestMapping(value="/list_1",method={RequestMethod.GET,RequestMethod.POST}) //정렬관련 controll
-	@ResponseBody public Map<String, Object> selectListArray(@RequestParam("arrayType") String arrayType, HttpServletRequest request,
-										HttpServletResponse response) throws Exception{
+	@RequestMapping(value="/list_1")
+	public String selectList(@ModelAttribute("listVO") ListVO vo,Model model) throws Exception{
 		
-		String tag = request.getParameter(arrayType);
-		System.out.println("=========arrayType========="+tag);
+		//Map<String, Object> map = new HashMap<String,Object>();
+		List<?> list = listService.selectList(vo);
+		int totcnt = listService.selectListTotal(vo);
 		
-		String result="";
-		HashMap<String, Object> map = new HashMap<String, Object>();		
-		result = listService.selectListArray(tag);
+		model.addAttribute("totcnt", totcnt);
+		model.addAttribute("resultList", list); 
 		
-		if(result == null) result = "ok";
-		map.put("result", result);
-		
-		return map;
+		return "auction/list_1";
 	}
 	
 	@RequestMapping(value="/list_2")
-	public String ListView2(){
+	public String selectList2(@ModelAttribute("listVO") ListVO vo,Model model) throws Exception{
+		
+		//Map<String, Object> map = new HashMap<String,Object>();
+		List<?> list = listService.selectList2(vo);
+		int totcnt = listService.selectListTotal(vo);
+		
+		model.addAttribute("totcnt", totcnt);
+		model.addAttribute("resultList", list); 
+		
 		return "auction/list_2";
 	}
 	
 	@RequestMapping(value="/list_3")
-	public String ListView3(){
+	public String selectList3(@ModelAttribute("listVO") ListVO vo,Model model) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		List<?> list = listService.selectList3(vo);
+		int totcnt = listService.selectListTotal(vo);
+		
+		model.addAttribute("totcnt", totcnt);
+		model.addAttribute("resultList", list); 
+		
 		return "auction/list_3";
+	}
+	
+/*	@RequestMapping(value="/order" ,method={RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody public Map<String,Object> selectListArray(@RequestParam("orderCondition") String orderCondition,
+					ListVO vo,HttpServletRequest request) throws Exception{
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		String order = request.getParameter(orderCondition);
+		System.out.println("===========order==========="+order);
+		map.put("order", order);
+		
+		return map;
+	}*/
+	
+	@RequestMapping(value = "/order", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> selectListArray(@RequestBody Map<String,Object> orderCondition){
+
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		try{
+			listService.selectListArray(orderCondition);
+		}catch(Exception e){
+			resultMap.put("message", e.getMessage());
+			return resultMap;
+		}
+		resultMap.put("message", "ok");
+		return resultMap;
 	}
 }

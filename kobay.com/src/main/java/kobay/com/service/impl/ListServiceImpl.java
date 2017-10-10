@@ -1,6 +1,7 @@
 package kobay.com.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -31,5 +32,23 @@ public class ListServiceImpl implements ListService {
 	public String selectListArray(String arrayType) throws Exception {
 		
 		return listDAO.selectListArray(arrayType);
+	}
+
+	@Override
+	public List<?> selectList2(ListVO vo) throws Exception {
+	
+		return listDAO.selectList2(vo);
+	}
+
+	@Override
+	public List<?> selectList3(ListVO vo) throws Exception {
+		
+		return listDAO.selectList3(vo);
+	}
+
+	@Override
+	public void selectListArray(Map<String, Object> orderCondition) {
+
+		return ;
 	}
 }

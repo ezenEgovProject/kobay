@@ -2,6 +2,20 @@ package kobay.com.service;
 
 public class ListVO {
 	
+/*	private int memberUnq; //회원 unique
+	private int auctionUnq; //경매 unique
+	private String sDate; //경매시작시간
+	private int sPrice; //경매시작가격
+	private int aucPrice; //낙찰 중 or 낙찰 된 가격
+	private String aucTitle; //상품명
+	private String aucImageMain; //상품메인이미지
+	private String uTime; //경매종료까지 남은시간 (경매마감시간-현재시간)
+	private int delStatus; //게시글 삭제여부 (0=노출)
+	private String vTime; //게시글 상세보기를 한 시간
+	private String orderCondition; //리스트 정렬 조건
+	private String curStatus; //경매 진행상태 (예정,진행,마감)-?사용?
+*/
+	
 	private int member_unq;
 	private int action_unq;
 	private int ar_unq;

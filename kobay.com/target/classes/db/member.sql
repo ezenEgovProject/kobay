@@ -14,7 +14,7 @@ INCREMENT BY 1
 START WITH 1
 MAXVALUE 999999;
 
-insert into kobay_member(
+insert into kobay_member values(
 member_seq.nextval,
 'test@test.com',
 'test1234',

@@ -1,6 +1,7 @@
 package kobay.com.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,19 @@ public class ListDAO extends EgovAbstractDAO {
 	public String selectListArray(String arrayType) {
 		
 		return (String) select("listDAO.selectListArray", arrayType);
+	}
+
+	public List<?> selectList2(ListVO vo) {
+		return list("listDAO.selectList2", vo);
+	}
+
+	public List<?> selectList3(ListVO vo) {
+		return list("listDAO.selectList3", vo);
+	}
+
+	public Object selectListArray(Map<String, Object> orderCondition) {
+		
+		return list("listDAO.selectListArray", orderCondition);
 	}
 	
 	
