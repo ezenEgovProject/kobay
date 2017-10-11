@@ -14,11 +14,13 @@ seller varchar2(100) not null,
 sellerPhone number not null, 
 detail varchar2(4000) not null, 
 state varchar2(5), 
-auction_del number(1) not null /* 게시글 노출여부 (1=노출, 2=비노출) */); 
+auction_del number(1) not null /* 게시글 노출여부 (1=노출, 2=비노출) */
+); 
 
 create table category( 
 ctgcd varchar2(10) not null /* 카테고리 코드 */, 
-ctgnm varchar2(50) not null)/* 카테고리 이름 */
+ctgnm varchar2(50) not null
+);/* 카테고리 이름 */
 
 /* Sequence */
 create sequence auction_seq 

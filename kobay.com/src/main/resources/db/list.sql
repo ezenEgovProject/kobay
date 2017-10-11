@@ -11,7 +11,7 @@ title varchar2(100) not null,
 utime timestamp,
 auction_del number(1),
 v_time timestamp);
-/* --Table */
+
 
 insert into RecentList_test values('1','1','1','20000','p',sysdate,'10000','신발'
 ,sysdate,'0',sysdate);

@@ -10,9 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @category search
  */
 @Controller
+@RequestMapping("/action/search")
 public class SearchController {
 
-	@RequestMapping("/action/search")
 	public ModelAndView searchView() {
 		ModelAndView mv = new ModelAndView();
 		

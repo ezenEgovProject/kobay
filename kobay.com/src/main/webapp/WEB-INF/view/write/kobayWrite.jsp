@@ -1,30 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="utf-8">
 <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay 모두가 판매자이자 구매자이다.</title>
-	
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../../../css/kobay.css" >
-	
-	 <!-- Include Date Range Picker -->
+	<!-- Include Date Range Picker -->
 	<script type="text/javascript" src="../../../js/jquery-3.1.1.js"></script>
 	<script type="text/javascript" src="../../../js/datepicker/moment.min.js"></script>
 	<script type="text/javascript" src="../../../js/datepicker/daterangepicker.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../../css/daterangepicker.css" />
+	
+	
+	<script type="text/javascript" charset="UTF-8" src="../../../smarteditor/js/HuskyEZCreator.js"></script>
 
+	<script>
+	    $(function() {
+	        //전역변수선언
+	        var editor_object = [];
+	 
+	        nhn.husky.EZCreator
+	                .createInIFrame({
+	                    oAppRef : editor_object,
+	                    elPlaceHolder : "aucdetail",
+	                    sSkinURI : "../../../smarteditor/SmartEditor2Skin.html",
+	                    htParams : {
+	                        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+	                        bUseToolbar : true,
+	                        // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+	                        bUseVerticalResizer : true,
+	                        // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+	                        bUseModeChanger : true,
+	                    }
+	                });
+	        //전송버튼 클릭이벤트
+	        $("#saveBtn").click(function() {
+	            //id가 smarteditor인 textarea에 에디터에서 대입
+	            editor_object.getById["aucdetail"].exec("UPDATE_CONTENTS_FIELD", []);
+	 
+	            
+	           
+	        });
+	    });
+	 
+	   
+	</script>
+	
 	
 	<script type="text/javascript">
 	$(function() {
@@ -46,16 +68,19 @@
 
 	    
 	});
-	
-	</script>
-	    
+	</script>    
 </head>
-	
 	<script>
 		 $(function(){	
-			$("#saveBtn").click(function(){		
+			$("#saveBtn").click(function(){
+				
+				var a = frm.auctitle.value;
+				
+				alert(a);
+				
 				var form = new FormData(document.getElementById('frm'));
 				alert(form);
+				
 					
 				$.ajax({
 					type: 'POST',
@@ -67,7 +92,7 @@
 					success: function(data){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 						if(data.cnt>0){
 							alert("저장됐습니다.");
-							location.href = "<c:url value='/Write'/>";
+							location.href = "<c:url value='/write'/>";
 						} else{
 							alert("저장에실패");
 						}
@@ -93,13 +118,13 @@
 			contentType : false, 후.........*/
 			success : function(data) {	
 				if (data.resultMList != null) {
-					$('#Mcategory').children("option").remove();
+					$('#mctg').children("option").remove();
 				      //data.rows 에 코드, 이름 형태로 되어있다고 가정.
 				      var codeList = data.resultMList;
 				      for(var i = 1; i < codeList.length ; i++){
 				        var option = "<option value='" + codeList[i].ctgcd + "'>" + codeList[i].ctgnm + "</option>";      
 				        //대상 콤보박스에 추가
-				        $('#Mcategory').append(option);
+				        $('#mctg').append(option);
 				      }
 				}	      
 			},
@@ -239,91 +264,34 @@
 	</script>
 	
 	<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
-		<div class="container" style="width: 100%;">
-			<div class="row justify-content-between align-items-center" style="width: 100%;">
-				<div class="col-12 col-sm-auto order-sm-1 text-center">
-					<a class="navbar-brand" href="/main"><label class="logo" >Kobay</label></a>
-				</div>
-				<div class="col-4 order-sm-2">
-				    <div class="input-group">
-				      <span class="input-group-btn">
-				        <a class="btn search-btn" href="/action/search"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
-				      </span>
-				      <input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
-				    </div><!-- /input-group -->
-			  	</div>
-				<div class="col-6 col-sm-auto order-sm-3" >
-					 <span class="top-icon"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-					 <span class="top-icon"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-				</div>
-			</div>
-		</div> 
-	<!-- /.navbar-top -->
-   
-    </nav>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light subnav">
-      <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav mx-auto">
-          	<li class="nav-item px-lg-4 active">
-              <a class="nav-link" href="/main">홈</a>
-            </li>
-          	<li class="nav-item px-lg-4 dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              	  회사소개
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="/intro">KOBAY 소개</a>
-                <a class="dropdown-item" href="#">경매방법</a>
-                <a class="dropdown-item" href="#">문의사항</a>
-              </div>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">진행경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">예정경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">마감경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">이벤트</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
 
     <!-- Page Content -->
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
-	<form name="frm" method="post" id="frm" enctype="multipart/form-data"  action="">	
+	<form name="frm" method="post" id="frm" enctype="multipart/form-data"  action="">
+		
+		
+	      
 	      <div class="row">
-	        <div class="col-lg-8 mb-4">
+	        <div class="col-lg-9 mb-4">
 	          <h3>상품등록</h3>        
 	          <p></p>
 	            <div class="control-group form-group">
 	             	<div class="controls">
 		                <label>카테고리:</label> <br> 
-		                <select id="Lcategory" name="Lcategory" onchange="fn_next(this.value)">
+		                <select id="lctg" name="lctg" onchange="fn_next(this.value)">
 							<option value="">대분류</option>
 							<c:forEach var="rs" items="${resultList}" varStatus="status">
 								<tr>
 									<td>
 										<c:if test="${fn:length(rs.ctgcd)==3}">
-											<option value="${rs.ctgcd}">${rs.ctgnm }</option>
+											<option value="${rs.ctgcd}">${rs.ctgnm}</option>
 										</c:if>
 									</td>
 								</tr>
 							</c:forEach>
 						</select> 
-						<select id="Mcategory" name="Mcategory">
+						<select id="mctg" name="mctg">
 							<option value="">중분류</option>
 						</select>
 						<p class="help-block"></p>
@@ -332,7 +300,7 @@
 	          
  
 	            <div class="control-group form-group date" id="sandbox-container">
-	            <label for="datepicler">등록기간:</label>
+	            <label for="datepicker">등록기간:</label>
 		            <div class="input-daterange input-group" id="datepicker" style="width: 70%">
 		            	<input type="text" class="input-sm form-control" name="dateRange" id="dateRange" value="" />
 		            	<%-- daterange의 값을 컨트롤러로 넘겨받아 db에 저장하기전 '~'를 기준으로 나누워 sdate/edate로 저장할 것 --%> 
@@ -341,7 +309,7 @@
 	            <div class="control-group form-group">
 	              	<div class="controls">
 	                	<label>상품명:</label>
-	                	<input type="text" class="form-control" name="title" id="title">
+	                	<input type="text" class="form-control" name="auctitle" id="auctitle">
 	              	</div>
 	            </div>
 	            <div class="control-group form-group">
@@ -365,21 +333,21 @@
 	              	<div class="controls">
 		                <label>배송방법:</label>
 		                	<select name="deliveryway" id="deliveryway">
-								<option value="delivery">택배</option>
-								<option value="pickup">직접수령</option>
+								<option value="0">택배</option>
+								<option value="1">직접수령</option>
 							</select>
 	              	</div>
 	            </div>
 	            <div class="control-group form-group">
 					<div class="controls">
 					  	<label>배송료:</label>
-					  	<input type="text" class="form-control" name="deliverypee" id="deliverypee">
+					  	<input type="text" class="form-control" name="deliveryfee" id="deliveryfee">
 					</div>
 	            </div>
 	            <div class="control-group form-group">
 	              	<div class="controls">
 	                	<label>판매자:</label>
-	                	<input type="text" class="form-control" name="seller" id="seller">
+	                	<input type="text" class="form-control" name="sellername" id="sellername">
 	              	</div>
 	            </div>
 	            <div class="control-group form-group">
@@ -392,18 +360,10 @@
 	           <div class="control-group form-group">
 	              	<div class="controls">
 	                	<label>상세정보:</label>
-	                	<textarea rows="10" cols="100" class="form-control" name="detail" id="detail" required data-validation-required-message="Please enter your message" maxlength="999" style="resize:none"></textarea>
+	                	<textarea class="form-control" id="aucdetail" style="HEIGHT: 220px; WIDTH: 660px" rows="10" cols="30" name="aucdetail"></textarea>
 	              	</div>
 	           </div>
-	           <div class="control-group form-group">
-	              	<div class="controls">
-	               		<label>노출여부:</label>
-	                		<select name="auction_del" id="auction_del">
-								<option value="1">노출</option>
-								<option value="2">비노출</option>
-							</select>
-	              	</div>
-	            </div>
+	           
 	            <div id="success">
 	            </div>
 	            <!-- For success/fail messages -->
@@ -416,12 +376,7 @@
     <!-- /.Page Content -->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; kobay 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/popper/popper.min.js"></script>
