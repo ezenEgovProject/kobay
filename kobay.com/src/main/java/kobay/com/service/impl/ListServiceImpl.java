@@ -51,4 +51,16 @@ public class ListServiceImpl implements ListService {
 
 		return ;
 	}
+	
+	@Override
+	public ListVO selectAucImageMain(ListVO vo) {
+	
+		return listDAO.selectAucImageMain(vo);
+	}
+
+	@Override
+	public List<?> selectAucImageMain2(int auctionUnq) throws Exception {
+	
+		return listDAO.selectAucImageMain2(auctionUnq);
+	}
 }

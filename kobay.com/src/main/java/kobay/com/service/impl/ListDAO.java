@@ -38,6 +38,16 @@ public class ListDAO extends EgovAbstractDAO {
 		
 		return list("listDAO.selectListArray", orderCondition);
 	}
+
+	public ListVO selectAucImageMain(ListVO vo) {
+		
+		return (ListVO) select("listDAO.selectAucImageMain", vo);
+	}
+
+	public List<?> selectAucImageMain2(int auctionUnq) {
+		
+		return (List<?>) select("listDAO.selectAunImageMain2", auctionUnq);
+	}
 	
 	
 }

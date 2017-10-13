@@ -128,7 +128,7 @@
 		vertical-align: middle;
 		background-color: #f5f5f5;
 		border: 1px solid #ebebeb;
-		border-bottom-color: #e2e2e                                                                                                                               2;
+		border-bottom-color: #e2e2e2;
 		border-radius: .25em;
 		-webkit-appearance: none; /* 네이티브 외형 감추기 */
 		-moz-appearance: none;

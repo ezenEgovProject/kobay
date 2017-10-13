@@ -269,32 +269,31 @@
         
       <!-- Marketing Icons Section -->
        <div class="row">
-       <c:forEach var="i"  begin="1" end="${totcnt}" varStatus="status">    
-                	
+              <c:forEach var="list" items="${resultList}" varStatus="status">   	
         <div class="col-lg-4 mb-4">
-        <a href="www.naver.com">
           <div class="card h-100">
-            <h4 class="card-header">낙찰${i}</h4>
+          
+            <h4 class="card-header">낙찰${totcnt}</h4>
             <div class="card-body">
               <p class="card-text"></p>
               	<div class="dropdown">
-              	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</span>
-            	<c:forEach var="list" items="${resultList}" varStatus="status"> 
+              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
+              	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</span></a>
+            	
              		  <div class="dropdown-content">
-             		  	 <p> 경매 이름: ${list.aucTitle}<br>
-      						 경매 가격: ${list.sPrice}원<br>
-      						 남은 시간: ${list.sDate}
+             		  	 <p> 경매 번호: ${list.auctionunq}<br>
+             		  	 	 경매 이름: ${list.auctitle}<br>
+      						 경매 가격: ${list.sprice}원<br>
+      						 마감 시간: ${list.edate}
    						 </p>
   					  </div>
-  				</c:forEach>
              </div> 
             </div>
             <div class="card-footer">상세보기</div>
           </div>
-          </a>
          </div>
+         <c:set var="totcnt" value="${totcnt-1}"/>
         </c:forEach>
-    
         </div>
         
       <!-- /.row -->

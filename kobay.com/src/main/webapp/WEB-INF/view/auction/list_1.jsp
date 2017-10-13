@@ -74,6 +74,7 @@
 	  location.href = "/kobayDetail_detail";  
   }
   
+  
 /*   $(function(){ 
 	  $("#btn").click(function(){
 		  // 정렬대상(날짜, 가격object), 정렬기준(asc, desc/standard)
@@ -119,6 +120,27 @@
  				 alert(response.message);
  			 }
  		 });
+ 		 
+ 	/* $(function(){
+ 		var unq = document.getElementsByName('auctionunq').value;
+ 			  
+ 		 $.ajax({
+ 		  type: "POST",
+ 		  url: "<c:url value='/image'/>",
+ 		  data: data,
+ 		  cache: false,
+ 		  beforeSend: function(i)
+ 		  {
+ 			  i.setRequestHeader(header,token);
+ 		  },
+ 		  success: function(data){
+ 			  location.href("<c:url value='auction/list_1'/>");
+ 		  },
+ 		  error:function(request,status,error){
+ 			  alert("code:"+request.status+"\n"+"message:"+requestText+"\n"+"error:"+error);
+ 		  }
+ 		 });
+ 	 }); */
 	
  /*	var c = $("#orderCondition").val();
  	
@@ -226,7 +248,7 @@
       <div class="row">
       
         <div class="col-lg-4 mb-4">
-          <div class="card h-100" onclick="fn_CardClick('${memberUnq}')">
+          <div class="card h-100" onclick="fn_CardClick('${memberunq}')">
             <h4 class="card-header">best1</h4>
             <div class="card-body">
             <!-- <div class="best1"> -->
@@ -339,51 +361,24 @@
               <p class="card-text"></p>
               	<div class="dropdown">
               	<a href="#" onclick="fn_detail('${list.auctionUnq}')">
-              	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</span> </a>
+              	<span>
+              	<img src="image?auctionunq = [${list.auctionunq}]"/></span> </a>
              		  <div class="dropdown-content">
              		  	 <p> 경매 번호: ${list.auctionunq}<br>
              		  	 	 경매 이름: ${list.auctitle}<br>
       						 경매 가격: ${list.sprice}원<br>
-      						 남은 시간: ${list.sdate}
+      						 마감 시간: ${list.edate}<br>
    						 </p>
   					  </div>
              </div> 
             </div>
             <div class="card-footer">상세보기</div>
           </div>
-         
          </div>
         <c:set var="totcnt" value="${totcnt-1}"/>
 		</c:forEach>
- <%--      <c:forEach var="i"  begin="1" end="${totcnt}" varStatus="status"> 
-          
-        <div class="col-lg-4 mb-4">
-        
-          <div class="card h-100">
-           
-            <h4 class="card-header">진행중${i}</h4>
-            <div class="card-body">
-              <p class="card-text"></p>
-              	<div class="dropdown">
-              	<a href="#" onclick="fn_detail('${list.auctionUnq}')">
-              	<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</span> </a>
-             		 <c:forEach var="list" items="${resultList}" varStatus="status"> 
-             		  <div class="dropdown-content">
-             		  	 <p> 경매 번호: ${list.auctionUnq}<br>
-             		  	 	 경매 이름: ${list.aucTitle}<br>
-      						 경매 가격: ${list.sPrice}원<br>
-      						 남은 시간: ${list.sDate}
-   						 </p>
-  					  </div>
-  					</c:forEach>
-             </div> 
-            </div>
-            <div class="card-footer">상세보기</div>
-          </div>
-         
-         </div>
-         </c:forEach>
-  --%>     </div>
+		</div>
+		
       <!-- /.row -->
       
 	</head>

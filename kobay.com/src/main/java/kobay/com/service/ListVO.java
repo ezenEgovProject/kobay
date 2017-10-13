@@ -11,7 +11,7 @@ public class ListVO {
 	private int sPrice; //경매시작가격
 	private int ePrice; //경매마감가격
 	private String aucTitle; //경매글제목
-	private String aucImageMain; //상품메인이미지
+	private int aucImageMain; //상품메인이미지
 	private int delStatus; //게시글 삭제여부 (0=노출)
 	private String uTime; //경매종료까지 남은시간 (경매마감시간-현재시간)
 	private String vTime; //게시글 상세보기를 한 시간
@@ -72,10 +72,10 @@ public class ListVO {
 	public void setAucTitle(String aucTitle) {
 		this.aucTitle = aucTitle;
 	}
-	public String getAucImageMain() {
+	public int getAucImageMain() {
 		return aucImageMain;
 	}
-	public void setAucImageMain(String aucImageMain) {
+	public void setAucImageMain(int aucImageMain) {
 		this.aucImageMain = aucImageMain;
 	}
 	public int getDelStatus() {

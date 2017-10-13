@@ -12,5 +12,9 @@ public interface ListService {
 	public int selectListTotal(ListVO vo) throws Exception;
 	public String selectListArray(String orderCondition) throws Exception;
 	public void selectListArray(Map<String, Object> orderCondition);
+	public ListVO selectAucImageMain(ListVO vo);
+	
+	public List<?> selectAucImageMain2(int auctionUnq) throws Exception;
+	
 }
 
