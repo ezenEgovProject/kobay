@@ -40,7 +40,7 @@ public class LoginController {
 		return new MemberVO();
 	}
 		
-	@RequestMapping(value="/login")
+	@RequestMapping(value="/login") /*로그인 실행*/
 	@ResponseBody
 	public Map<String, Object> login(MemberVO vo, HttpSession session) throws Exception {
 		
@@ -48,15 +48,14 @@ public class LoginController {
 		
 		int unq = 0;
 		String id = vo.getMemberId();
-		String pwd =  vo.getMemberPwd();
 		String name = "";
 		String result = "";
 
-		int loginIdentify = loginService.loginCheck(vo);
+		int loginIdentify = loginService.loginCheck(vo); /*아이디 패스워드 확인*/
 
 		if(loginIdentify == 1) {
+			/*로그인 성공*/
 			session.setAttribute("id", id);
-			session.setAttribute("pwd", pwd);
 			result = "ok";
 			
 			String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
@@ -67,7 +66,7 @@ public class LoginController {
 			unq = vo.getMemberUnq();
 			name = vo.getMemberName();
 			
-			session.setAttribute("unq", unq);
+			session.setAttribute("unq", unq); 
 			session.setAttribute("name", name);
 			
 			System.out.println(name);
@@ -78,49 +77,16 @@ public class LoginController {
 		return map;
 	}
 	
-/*	@RequestMapping(value = "/logout")
-	@ResponseBody
-	public  Map<String, Object> logout(HttpSession session) {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
-		String result = "";
-
-		log.info(session.getAttribute("ld") + " Logout 현재시간 : "+curTime);
-		
-		result = "ok";
-		session.invalidate();
-		map.put("result", result);
-		
-		return map;
-	}*/
 	
-	@RequestMapping(value = "/logout")
+	@RequestMapping(value = "/logout") /*로그아웃 실행*/
 	public String logout(HttpSession session) {
 		
 		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
-		log.info(session.getAttribute("ld") + " Logout 현재시간 : "+curTime);
-	
+		log.info(session.getAttribute("id") + " Logout 현재시간 : "+curTime);
+		
 		session.invalidate();
 		
 		return "redirect:/main";
 	}
-}
-
-
-
-/*
-public String loginRegPage(MemberVO vo, HttpSession session) {
-	String member_id = (String) session.getAttribute("id");
 	
-	if(member_id != null) {
-		return "redirect:/main";
-	}
-	
-	else if(vo.getMember_id().isEmpty() == false) {
-	member_id = vo.getMember_id();
-	int check = memberService.memberCheckId(member_id);
-	}
-	return "login/loginRegWrite";
 }
-*/

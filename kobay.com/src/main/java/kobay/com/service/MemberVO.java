@@ -2,6 +2,7 @@ package kobay.com.service;
 
 public class MemberVO {
 	private int memberUnq;
+	private int memberCount;
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
@@ -14,6 +15,12 @@ public class MemberVO {
 	}
 	public void setMemberUnq(int memberUnq) {
 		this.memberUnq = memberUnq;
+	}
+	public int getMemberCount() {
+		return memberCount;
+	}
+	public void setMemberCount(int memberCount) {
+		this.memberCount = memberCount;
 	}
 	public String getMemberId() {
 		return memberId;

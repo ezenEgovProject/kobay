@@ -15,5 +15,9 @@ public interface MemberService {
 	MemberVO selectMemberDetail(MemberVO vo) throws Exception;
 
 	int memberCheckId(String memberId);
+
+	void editProfile(MemberVO vo);
+
+	MemberVO findMember(MemberVO vo);
 	
 }

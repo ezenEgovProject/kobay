@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kobay.com.cmmn.MemberVaildator;
 import kobay.com.cmmn.PageVO;
+import kobay.com.service.LoginService;
 import kobay.com.service.MemberService;
 import kobay.com.service.MemberVO;
 
@@ -26,6 +27,9 @@ public class MemberController {
 	
 	@Resource(name = "memberService")
 	private MemberService memberService;
+	
+	@Resource(name = "loginService")
+	private LoginService loginService;
 	
 	@ModelAttribute("loginForm")
 	protected Object loginBack() throws Exception {
@@ -37,9 +41,27 @@ public class MemberController {
 		return new MemberVO();
 	}
 	
+	@ModelAttribute("confirmForm")
+	protected Object confirmBack() throws Exception {
+		return new MemberVO();
+	}
 	
+	@ModelAttribute("editForm")
+	protected Object editBack() throws Exception {
+		return new MemberVO();
+	}
 	
-	@RequestMapping("/loginreg")
+	@ModelAttribute("findIdForm")
+	protected Object findIdBack() throws Exception {
+		return new MemberVO();
+	}
+	
+	@ModelAttribute("findPwdForm")
+	protected Object findPwdBack() throws Exception {
+		return new MemberVO();
+	}
+	
+	@RequestMapping("/loginreg") /*로그인 회원가입 페이지*/
 	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
 		
 		loginBack();
@@ -84,7 +106,7 @@ public class MemberController {
 		
 		pageVO.setFirstIndex(firstIndex);
 		pageVO.setLastIndex(lastIndex);
-				
+		
 		
 		List<?> list = memberService.selectMemberList(pageVO);
 
@@ -101,7 +123,7 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value="/register")
+	@RequestMapping(value="/register") /*회원가입 실행*/
 	@ResponseBody public Map<String, Object> Register(@ModelAttribute("memberVO") MemberVO vo, BindingResult bindingResult) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -111,19 +133,17 @@ public class MemberController {
 		
 		new MemberVaildator().validate(vo, bindingResult);
 		if(bindingResult.hasErrors()) {
-			System.out.println("에러가 발생하였습니다.");
+			/*유효성에 걸림*/
+			System.out.println("폼 내용이 패턴과 일치하지 않습니다.");
 			map.put("result", "fail");
 			map.put("errors", bindingResult.getAllErrors());
 		} else if(checkResult !=0 ) {
-			System.out.println("this Id already exists");
-			map.put("result", "exists");
+			map.put("result", "exists"); /*해당 아이디가 이미 존재*/
 		}
 		else {
 			memberService.insertMember(vo);
 			map.put("result", "ok");
 		}
-//		String member_pwd = vo.getMember_pwd();
-//		vo.setMember_pwd(member_pwd);
 
 		return map;
 	}
@@ -135,31 +155,184 @@ public class MemberController {
 		String result="fail";
 		String checkId="ok";
 		String memberId = vo.getMemberId(); 
-		// 1. 유효성체크(정규식체크/ 공백체크)
-		// 2. 중복체크
-		int checkResult = memberService.memberCheckId(memberId);
 		
-		new MemberVaildator().validate(vo, bindingResult);
-		System.out.println("아이디체크실행 " + checkResult);
-		if(bindingResult.hasErrors()){	
-			map.put("errors", bindingResult.getAllErrors());
-		}
+		int checkResult = memberService.memberCheckId(memberId); /*아이디 중복 확인*/
+		
 		if(checkResult != 0) {
-			checkId="exists";
-			System.out.println("exists at checkForm");
+			checkId="exists"; /*해당 아이디가 이미 존재*/
+		} else if (checkResult == 0) {
+			checkId="ok"; /*아이디 사용 가능*/
 		}
 		
-		result = "ok";
+		result = "ok"; /*메소드에 문제없음*/
+
+		new MemberVaildator().validate(vo, bindingResult);
+		if(bindingResult.hasErrors()){	
+			map.put("errors", bindingResult.getAllErrors()); /*유효성 검사 후 에러 발생*/
+		} else {
+			result="perfect"; /*유효성에 문제없음*/
+		}
 		
-		System.out.println(result);
+		System.out.println("checkId : " + checkId);
 		map.put("checkResult", checkId);
 		map.put("result",result);
 		return map;
 	}
-	
-	@InitBinder
+		
+	@InitBinder /*validator 사용*/
 	protected void initBinder(WebDataBinder binder) {
 		binder.setValidator(new MemberVaildator());
 	}
 	
+	static String authorization = ""; /*아이디 수정 시 패스워드 재입력 성공해야 권한 부여*/
+
+	@RequestMapping(value="/confirm") /*패스워드 재입력 페이지*/
+	public String confirmPage(HttpSession session) {	
+		if(session.getAttribute("id") != null)
+		{	/*로그인 되어있음*/
+			authorization = "fail";
+			return "member/confirm";	
+		}
+		else 
+		{
+			/*로그인 안 되어있음*/
+			return "redirect:/loginreg";
+		}
+	}	
+	
+	@RequestMapping(value="/confirmid") /*아이디 패스워드 확인 (ajax 사용)*/
+	@ResponseBody
+	public Map<String, Object> confirmId(MemberVO vo, Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String result = "fail";
+		authorization = "fail";
+		int loginIdentify = loginService.loginCheck(vo); /*아이디 패스워드 일치하는지 확인*/
+
+		if(loginIdentify == 1) {
+			/*아이디 패스워드 일치하는지 확인 후 권한 부여*/
+			authorization = "ok";
+			result="ok";
+		}
+		
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping(value="/profile") /*회원정보 확인 페이지*/
+	public String editProfilePage(MemberVO vo,Model model ,HttpSession session) throws Exception {	
+		if(authorization == "ok" && session.getAttribute("id") != null) /*로그인이 되어있고 권한이 있는지 확인*/
+		{	
+			vo.setMemberId((String) session.getAttribute("id"));
+			vo = memberService.selectMemberDetail(vo); /*회원정보 불러옴*/
+			authorization = "end"; /*권한 확인 후 권한 다시 삭제*/
+			
+			model.addAttribute("vo",vo);
+			
+			return "member/editProfile";
+		} 
+		else 
+		{
+			return "redirect:/confirm"; /*권한이 없거나 로그인이 되어있지 않음*/
+		}
+		
+	}
+	
+	@RequestMapping(value="/edit") /*정보 수정 (ajax 사용)*/
+	@ResponseBody public Map<String, Object> EditProfile(@ModelAttribute("memberVO") MemberVO vo, BindingResult bindingResult,HttpSession session) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int unq = (int) session.getAttribute("unq"); /*unq값 저장*/
+		
+		new MemberVaildator().validate(vo, bindingResult); /*유효성 검사 실행*/
+		if(bindingResult.hasErrors()) {
+			/*유효성에 걸림*/
+			System.out.println("폼 내용이 패턴과 일치하지 않습니다.");
+			map.put("result", "fail");
+			map.put("errors", bindingResult.getAllErrors());
+		} 
+		else {
+			vo.setMemberUnq(unq); /*session에 저장되어있는 unq값을 기준으로 정보를 수정*/
+			memberService.editProfile(vo); /*회원정보 수정*/
+			map.put("result", "ok");
+		}
+
+		return map;
+	}  
+	
+	@RequestMapping(value="/lost") /*아이디 패스워드 찾는 페이지*/
+	public String lostPage(HttpSession session) {	
+		if(session.getAttribute("id") != null)
+		{	/*로그인 되어있음*/
+			return "redirect:/main";	
+		}
+		else 
+		{
+			/*로그인 안 되어있음*/
+			return "member/lost";
+		}
+	}
+	
+	@RequestMapping(value="/find") /*회원 정보 검색 (ajax 사용)*/
+	@ResponseBody public Map<String, Object> Find(MemberVO vo, Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String result = "fail";
+		
+		if(!vo.getMemberName().isEmpty() && !vo.getMemberPhone().isEmpty()) 
+		{	
+			if(vo.getMemberId() == null) 
+			{
+				vo = memberService.findMember(vo);
+				if(vo != null) 
+				{
+					if(vo.getMemberCount() == 1)
+					{
+						result = "ok";
+						model.addAttribute("find", vo);
+					}
+					else 
+					{
+						result = "fail";
+					}
+				}
+				else
+				{
+					result = "fail";
+				}
+			} 
+			else 
+			{
+				vo = memberService.findMember(vo);
+				if(vo != null) 
+				{
+					if(vo.getMemberCount() == 1)
+					{
+						result = "ok";
+						model.addAttribute("find", vo);
+					}
+					else
+					{
+						result = "fail";
+					}
+				} 
+				else 
+				{
+					result = "fail";
+				}
+			}
+		} 
+		else 
+		{
+			result="fail";
+		}
+		
+		
+		map.put("result", result);
+		
+		return map;
+	}
 }

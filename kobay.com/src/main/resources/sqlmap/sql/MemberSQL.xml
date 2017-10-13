@@ -8,7 +8,7 @@
 	
 	
 <insert id="memberDAO.insertMember">
-	INSERT INTO kobay_member(
+	INSERT INTO kobayMember(
 		memberUnq,
 		memberId,
 		memberPwd,
@@ -28,7 +28,7 @@
 	)
 </insert>
 <select id="memberDAO.selectMemberTotal" resultClass="java.lang.Integer">
-	SELECT COUNT(memberUnq) total FROM kobay_member
+	SELECT COUNT(memberUnq) total FROM kobayMember
 </select>
 
 <select id="memberDAO.selectMemberList" resultClass="egovMap">
@@ -38,36 +38,57 @@
 			memberName,
 			memberPhone,
 			TO_CHAR(memberRdate, 'yyyy-mm-dd') memberRdate
-	FROM	kobay_member
+	FROM	kobayMember
 </select>
 
 <select id="memberDAO.selectMemberDetail" resultClass="memberVO">
 	SELECT memberUnq,
+		   memberId,
 		   memberName,
 		   memberPhone,
-		   TO_CHAR(memberRdate, 'yyyy-mm-dd') memberRdate
-	FROM kobay_member
-	WHERE memberId = #memberId#
+		   TO_CHAR(memberRdate, 'yyyy-mm-dd') memberRdate,
+		   TO_CHAR(memberMdate, 'yyyy-mm-dd') memberMdate
+	FROM kobayMember
+	WHERE memberId = '$memberId$'
 </select>
 
 <select id="memberDAO.memberCheckId" resultClass="java.lang.Integer">
 	SELECT COUNT(memberId)
-	FROM kobay_member
+	FROM kobayMember
 	WHERE memberId = #memberId#
 </select>
-</sqlMap>
-<!-- 
-CREATE TABLE kobay_member(
-memberUnq number,
-memberId varchar2(100),
-memberPwd varchar2(100),
-memberName varchar2(10),
-memberPhone varchar2(20),
-memberRdate timestamp),
-memberRdate timestamp);
 
-create sequence member_seq
-INCREMENT BY 1
-START WITH 1
-MAXVALUE 999999;
- -->
+<update id="memberDAO.editProfile">
+	UPDATE kobayMember SET memberPwd='$memberPwd$',
+						   memberName='$memberName$', 
+						   memberPhone='$memberPhone$',
+						   memberMdate = sysdate
+				  WHERE memberUnq = '$memberUnq$'
+</update>
+
+<select id="memberDAO.findMember" resultClass="memberVO">
+	<isNotNull property="memberId">
+		<isNotEmpty property="memberId">
+			SELECT a.memberPwd, a.memberCount FROM
+			(SELECT memberPwd, COUNT(memberPwd) memberCount, memberName, memberPhone, MemberId
+			FROM kobayMember
+			GROUP BY memberPwd) a
+			WHERE a.memberName = '$memberName$'
+			AND a.memberPhone = '$memberPhone$'
+			AND a.memberId = '$memberId$'			
+		</isNotEmpty>
+	</isNotNull>
+	<isNull property="memberId">
+		<isEmpty property="memberId">
+			SELECT a.memberId, a.memberCount FROM
+			(SELECT memberId, COUNT(memberId) memberCount, memberName, memberPhone
+			FROM kobayMember
+			GROUP BY memberId) a
+			WHERE a.memberName = '$memberName$'
+			AND a.memberPhone = '$memberPhone$'
+		</isEmpty>
+	</isNull>
+
+</select>
+
+</sqlMap>

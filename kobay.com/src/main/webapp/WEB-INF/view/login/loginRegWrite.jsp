@@ -23,18 +23,8 @@
     <link rel="stylesheet" href="../../../css/kobay.css" > -->
   </head>
 <script type="text/javascript">
-var checkId = "";
-var checkPwd = "";
-var checkName = "";
-var checkPhone = "";
-/* var checkAll = "";
-if(checkId == true &&
-		checkPwd == true &&
-		checkName == true &&
-		checkPhone == true) {
-	checkAll = true;
-} */
-/*  */
+var regList = ["memberId","memberPwd","memberName","memberPhone"];
+
 /* 로그인 */
 function member_Login() {
 	var frm = $("#loginForm").serialize();
@@ -74,21 +64,19 @@ function member_Register() {
 				location.href="<c:url value='/loginreg' />";
 			}
 			else if(data.result == "exists") {
-				alert("exists");
 				$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
 				$("#regForm i[id='icon_memberId']").css({
 					 "color":"#FF0000"
 					});
+				alert("해당 아이디가 이미 존재합니다.");
 			}
 			else{
-				alert("다시 한번 확인해주세요.");
+				alert("다시 확인해주세요.");
 				for(var i=0; i<data.errors.length; i++) {
-					alert(data.errors[i].field + ": " + data.errors[i].defaultMessage);
 					$("#regForm i[id='icon_"+data.errors[i].field+"']").attr("class","fa fa-ban");
 					$("#regForm i[id='icon_"+data.errors[i].field+"']").css({
 						 "color":"#FF0000"
 						});
-
 				}  
 			}
 			return false;
@@ -100,7 +88,7 @@ function member_Register() {
 	});
 }
 /*  */
-/* 아이디 체크 */
+/* 유효성 온체인지로 체크 */
 function member_CheckForm(va) {
 		var frm = $("#regForm").serialize();
 		
@@ -110,58 +98,45 @@ function member_CheckForm(va) {
 			url:"<c:url value='/checkform' />",
 			dataType:"json",
 			success:function(data) {
-				if(data.result == "ok") {
-					if(data.errors.length > 0) {
-						for(var i=0; i<data.errors.length; i++) {		
-						if(data.errors[i].field == va) {
-							$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
-							$("#regForm i[id='icon_"+va+"']").css({
-								 "color":"#FF0000"
-								});
-							alert("유효성 걸림");
-							return;
-								}
-						else {
-							$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
-							$("#regForm i[id='icon_"+va+"']").css({
-								 "color":"#1DDB16"
-								});			
+				if(data.result == "ok") 
+				{
+					if(data.errors.length > 0) 
+					{
+						for(var i=0; i<data.errors.length; i++) 
+						{
+							if(data.errors[i].field == va)
+							{
+								$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
+								$("#regForm i[id='icon_"+va+"']").css({"color":"#FF0000"});
+								return;
+							}							
+							else 
+							{
+								$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
+								$("#regForm i[id='icon_"+va+"']").css({"color":"#1DDB16"});
+							}
 						}
 					}
 				}
-				if(data.checkResult == "exists") {
-					$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
-					$("#regForm i[id='icon_memberId']").css({
-						 "color":"#FF0000"
-						});
-				}				
-				else {
-					$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
-					$("#regForm i[id='icon_"+va+"']").css({
-						 "color":"#FF0000"
-						});
-							}
+				else 
+				{
+					for(var i=0; i<regList.length; i++)
+					{
+						$("#regForm i[id='icon_"+regList[i]+"']").attr("class","fa fa-check");
+						$("#regForm i[id='icon_"+regList[i]+"']").css({"color":"#1DDB16"});
 					}
+				} 
+				if(data.checkResult == "exists" && data.checkResult != "ok") 
+				{
+					$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
+					$("#regForm i[id='icon_memberId']").css({"color":"#FF0000"});
+				}
 				return false;
 			},
 			error:function(error) {
 				alert("error : " + error);
 			}
 		}); 
-}
-/*  */
-/* 텍스트박스에서 엔터 누르고 로그인 */
-function loginEnter() {
-	if(event.keyCode==13) {
-		member_Login();	
-	}
-}
-/*  */
-/* 텍스트박스에서 엔터 누르고 회원가입*/
-function regEnter() {
-	if(event.keyCode==13) {
-		member_Register();	
-	}
 }
 /*  */
 </script>
@@ -179,13 +154,13 @@ function regEnter() {
 				<form:label path="memberId" class="col-sm-2 control-label">
 					이메일
 				</form:label>
-				<form:input path="memberId" name="memberId" class="form-control" placeholder="example@example.com" onkeypress="loginEnter()" />
+				<form:input path="memberId" name="memberId" class="form-control" placeholder="example@example.com" />
 			</div>				
 			<div class="form-group">
 				<form:label path="memberPwd" class="col-sm-2 control-label">
 					비밀번호
 				</form:label>
-				<form:password path="memberPwd" name="memberPwd"  class="form-control" placeholder="비밀번호 8자리 이상" onkeypress="loginEnter()" />
+				<form:password path="memberPwd" name="memberPwd"  class="form-control" placeholder="비밀번호 8자리 이상" />
 			</div>
 			<div class="form-group">
 				<form:label path="memberId">
@@ -194,17 +169,14 @@ function regEnter() {
 			</div>
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-primary btn-lg" onclick="member_Login()">로그인</button>
+					<form:button class="btn btn-primary btn-lg" onclick="member_Login()">로그인</form:button>
 				</div>
 			</div>			
 		</form:form>
 		<!--  -->
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<!-- 아이디/비밀번호 찾기 -->
+		<a href="/lost">아이디/비밀번호 찾기</a>
+		<!--  -->
 		<!-- 회원가입 부분 -->	
 		<h2>
 			<label for="regTitle">회원가입</label>
@@ -214,28 +186,27 @@ function regEnter() {
 				<form:label path="memberId" class="col-sm-2 control-label">
 					이메일<i class="fa fa" id="icon_memberId" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:input path="memberId" class="form-control"  placeholder="example@example.com" onchange="member_CheckForm('memberId')" onkeypress="regEnter()" />
+				<form:input path="memberId" class="form-control"  placeholder="ex) example@example.com" onchange="member_CheckForm('memberId')" />
 			 </div>	
 			<div class="form-group">
 				<form:label path="memberPwd" class="col-sm-2 control-label">
 					비밀번호<i class="fa fa" id="icon_memberPwd" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:password path="memberPwd" class="form-control" placeholder="비밀번호 8자리 이상" onchange="member_CheckForm('memberPwd')" onkeypress="regEnter()" />
+				<form:password path="memberPwd" class="form-control" placeholder="비밀번호 8자리 이상" onchange="member_CheckForm('memberPwd')" />
 			</div>					
 			<div class="form-group">
 				<form:label path="memberName" class="col-sm-2 control-label">
 					이름<i class="fa fa" id="icon_memberName" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:input path="memberName"  class="form-control" placeholder="홍길동" onchange="member_CheckForm('memberName')" onkeypress="regEnter()" />
+				<form:input path="memberName"  class="form-control" placeholder="ex) 홍길동" onchange="member_CheckForm('memberName')" />
 			</div>
 			<div class="form-group">
 				<form:label path="memberPhone" class="col-sm-2 control-label">
 					핸드폰 번호<i class="fa fa" id="icon_memberPhone" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
-				<form:input path="memberPhone" class="form-control" placeholder="숫자만 입력" onchange="member_CheckForm('memberPhone')" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' maxlength="11" onkeypress="regEnter()" />
+				<form:input path="memberPhone" class="form-control" placeholder="ex) 010-1234-5678" onchange="member_CheckForm('memberPhone')" />
 				<br>
-				<form:errors path="memberPhone" cssStyle="color:red;" />
-			</div>				
+				</div>				
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
 					<!-- <button type="button" class="btn btn-primary btn-lg" onclick="member_Register()">가입</button> -->

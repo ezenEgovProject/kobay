@@ -4,13 +4,13 @@
 	<typeAlias alias="memberVO" type="kobay.com.service.MemberVO"/>
 
 <select id="loginDAO.loginCheck" resultClass="java.lang.Integer">
-	SELECT COUNT(member_id) result
+	SELECT COUNT(memberId) result
 	FROM
-		kobay_member
+		kobayMember
 	WHERE
-		member_id = #member_id#
+		memberId = #memberId#
 	AND
-		member_pwd = #member_pwd#	
+		memberPwd = #memberPwd#	
 </select>
 
 </sqlMap>

@@ -35,7 +35,7 @@ function fn_logout() {
 				<c:if test="${sessionScope.id  != null}">
 					 <span class="top-icon"><font style="color:white;">${sessionScope.name}님</font></span>
 					 <span class="top-icon"><a href="/write"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-					 <span class="top-icon"><a href="#"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
+					 <span class="top-icon"><a href="/confirm"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
 					 <span class="top-icon"><a href="javascript:fn_logout()"><i class="fa fa-power-off fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
 				</c:if>
 				<c:if test="${sessionScope.id == null}">

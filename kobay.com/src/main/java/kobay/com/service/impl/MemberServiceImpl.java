@@ -47,4 +47,16 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 		return  memberDAO.memberCheckId(memberId);
 	}
 
+
+	@Override
+	public void editProfile(MemberVO vo) {
+		memberDAO.editProfile(vo);
+	}
+
+
+	@Override
+	public MemberVO findMember(MemberVO vo) {
+		return memberDAO.findMember(vo);
+	}
+
 }

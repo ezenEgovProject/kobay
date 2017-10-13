@@ -34,7 +34,7 @@ public class MemberVaildator implements Validator {
 			System.out.println("비밀번호 정규식 에러");
 		}
 		
-		//이름 체크(한글 안됨)
+		//이름 체크
 		String mName = member.getMemberName();
 		boolean check1 = Pattern.matches("^[a-zA-Z]+$", mName);
 		boolean check2 = Pattern.matches("^[가-힣]+$", mName);
@@ -45,9 +45,9 @@ public class MemberVaildator implements Validator {
 		
 		//핸드폰 번호 체크
 		String mPhone = member.getMemberPhone();
-		check = Pattern.matches("^01[0-9][0-9]{3,4}[0-9]{4}$", mPhone);
+		check = Pattern.matches("^01[0-9]-[0-9]{3,4}-[0-9]{4}$", mPhone);
 		if(!check) {
-			errors.rejectValue("memberPhone","phone","유효한 핸드폰 번호가 아닙니다.");
+			errors.rejectValue("memberPhone","phonenumber","유효한 핸드폰 번호가 아닙니다.");
 			System.out.println("핸드폰 번호 정규식 에러");
 		}
 	}
