@@ -6,7 +6,7 @@
 <select id="loginDAO.loginCheck" resultClass="java.lang.Integer">
 	SELECT COUNT(member_id) result
 	FROM
-		kobay_member
+		member
 	WHERE
 		member_id = #member_id#
 	AND

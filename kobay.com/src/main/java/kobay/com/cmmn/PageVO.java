@@ -2,6 +2,10 @@ package kobay.com.cmmn;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * @author SuyeonKang
+ *
+ */
 public class PageVO {
 	/**
 	 * Page Value
@@ -77,6 +81,7 @@ public class PageVO {
 	 * Search Value
 	 */
 	
+	
 	/** 검색조건 */
 	private String searchCondition = "";
 
@@ -86,7 +91,15 @@ public class PageVO {
 	/** 검색사용여부 */
 	private String searchUseYn = "";
 	
+	private String orderCondition = "";
+	public String getOrderCondition() {
+		return orderCondition;
+	}
 	
+	public void setOrderCondition(String orderCondition) {
+		this.orderCondition = orderCondition;
+	}
+
 	public String getSearchCondition() {
 		return searchCondition;
 	}
