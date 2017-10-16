@@ -1,205 +1,139 @@
 package kobay.com.service;
 
 public class KobayVO {
-	
-	private int memberunq;
-	private int auctionunq;
-	private String dateRange;
+	private int member_unq;
+	private int auction_unq;
+	private String category;
 	/* view에서 등록기간을 범위로 입력받아 sdate, edate에 저장함 */
+	private String dateRange;
 	private String sdate;
 	private String edate;
-	private String ctgcd;
-	private String lctg;
-	private String mctg;
-	private String auctitle;
-	private String aucimagemain;
-	private String aucimagesub1;
-	private String aucimagesub2;
-	private String aucimagesub3;
+	private String title;
+	private String image;
 	private int sprice;
-	private int eprice;
-	private int deliveryway;
-	private int deliveryfee;
-	private String sellername;
-	private String sellerphone;
-	private String aucdetail;
-	private int aucstatus;
-	private int delstatus;
-
-	public int getMemberunq() {
-		return memberunq;
+	private String deliveryway;
+	private int deliverypee;
+	private String seller;
+	private int sellerphone;
+	private String detail;
+	private int auction_del;
+	private String ctgcd;
+	private String ctgnm;
+	private String Lcategory;
+	private String Mcategory;
+	
+	public String getMcategory() {
+		return Mcategory;
 	}
-
-	public void setMemberunq(int memberunq) {
-		this.memberunq = memberunq;
+	public void setMcategory(String mcategory) {
+		Mcategory = mcategory;
 	}
-
-	public int getAuctionunq() {
-		return auctionunq;
-	}
-
-	public void setAuctionunq(int auctionunq) {
-		this.auctionunq = auctionunq;
-	}
-
 	public String getCtgcd() {
 		return ctgcd;
 	}
-
+	public String getLcategory() {
+		return Lcategory;
+	}
+	public void setLcategory(String lcategory) {
+		Lcategory = lcategory;
+	}
 	public void setCtgcd(String ctgcd) {
 		this.ctgcd = ctgcd;
 	}
-
-	public String getDateRange() {
-		return dateRange;
+	public String getCtgnm() {
+		return ctgnm;
 	}
-
-	public void setDateRange(String dateRange) {
-		this.dateRange = dateRange;
+	public void setCtgnm(String ctgnm) {
+		this.ctgnm = ctgnm;
 	}
-
-	public String getSdate() {
-		return sdate;
-	}
-
-	public void setSdate(String sdate) {
-		this.sdate = sdate;
-	}
-
-	public String getEdate() {
-		return edate;
-	}
-
-	public void setEdate(String edate) {
-		this.edate = edate;
-	}
-
-	public String getLctg() {
-		return lctg;
-	}
-
-	public void setLctg(String lctg) {
-		this.lctg = lctg;
-	}
-
-	public String getMctg() {
-		return mctg;
-	}
-
-	public void setMctg(String mctg) {
-		this.mctg = mctg;
-	}
-
-	public String getAuctitle() {
-		return auctitle;
-	}
-
-	public void setAuctitle(String auctitle) {
-		this.auctitle = auctitle;
-	}
-
-	public String getAucimagemain() {
-		return aucimagemain;
-	}
-
-	public void setAucimagemain(String aucimagemain) {
-		this.aucimagemain = aucimagemain;
-	}
-
-	public String getAucimagesub1() {
-		return aucimagesub1;
-	}
-
-	public void setAucimagesub1(String aucimagesub1) {
-		this.aucimagesub1 = aucimagesub1;
-	}
-
-	public String getAucimagesub2() {
-		return aucimagesub2;
-	}
-
-	public void setAucimagesub2(String aucimagesub2) {
-		this.aucimagesub2 = aucimagesub2;
-	}
-
-	public String getAucimagesub3() {
-		return aucimagesub3;
-	}
-
-	public void setAucimagesub3(String aucimagesub3) {
-		this.aucimagesub3 = aucimagesub3;
-	}
-
 	public int getSprice() {
 		return sprice;
 	}
-
 	public void setSprice(int sprice) {
 		this.sprice = sprice;
 	}
-
-	public int getEprice() {
-		return eprice;
+	public int getMember_unq() {
+		return member_unq;
 	}
-
-	public void setEprice(int eprice) {
-		this.eprice = eprice;
+	public void setMember_unq(int member_unq) {
+		this.member_unq = member_unq;
 	}
-
-	public int getDeliveryway() {
+	public int getAuction_unq() {
+		return auction_unq;
+	}
+	public void setAuction_unq(int auction_unq) {
+		this.auction_unq = auction_unq;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getDateRange() {
+		return dateRange;
+	}
+	public void setDateRange(String dateRange) {
+		this.dateRange = dateRange;
+	}
+	public String getSdate() {
+		return sdate;
+	}
+	public void setSdate(String sdate) {
+		this.sdate = sdate;
+	}
+	public String getEdate() {
+		return edate;
+	}
+	public void setEdate(String edate) {
+		this.edate = edate;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	public String getDeliveryway() {
 		return deliveryway;
 	}
-
-	public void setDeliveryway(int deliveryway) {
+	public void setDeliveryway(String deliveryway) {
 		this.deliveryway = deliveryway;
 	}
-
-	public int getDeliveryfee() {
-		return deliveryfee;
+	public int getDeliverypee() {
+		return deliverypee;
 	}
-
-	public void setDeliveryfee(int deliveryfee) {
-		this.deliveryfee = deliveryfee;
+	public void setDeliverypee(int deliverypee) {
+		this.deliverypee = deliverypee;
 	}
-
-	public String getSellername() {
-		return sellername;
+	public String getSeller() {
+		return seller;
 	}
-
-	public void setSellername(String sellername) {
-		this.sellername = sellername;
+	public void setSeller(String seller) {
+		this.seller = seller;
 	}
-
-	public String getSellerphone() {
+	public int getSellerphone() {
 		return sellerphone;
 	}
-
-	public void setSellerphone(String sellerphone) {
+	public void setSellerphone(int sellerphone) {
 		this.sellerphone = sellerphone;
 	}
-
-	public String getAucdetail() {
-		return aucdetail;
+	public String getDetail() {
+		return detail;
 	}
-
-	public void setAucdetail(String aucdetail) {
-		this.aucdetail = aucdetail;
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
-
-	public int getAucstatus() {
-		return aucstatus;
+	public int getAuction_del() {
+		return auction_del;
 	}
-
-	public void setAucstatus(int aucstatus) {
-		this.aucstatus = aucstatus;
+	public void setAuction_del(int auction_del) {
+		this.auction_del = auction_del;
 	}
-
-	public int getDelstatus() {
-		return delstatus;
-	}
-
-	public void setDelstatus(int delstatus) {
-		this.delstatus = delstatus;
-	}
-
 }
