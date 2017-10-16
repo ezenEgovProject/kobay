@@ -17,7 +17,10 @@
 							sDate, 
 							eDate, 
 							aucTitle,
-							aucimagemain, 
+							aucimagemain,
+							AUCIMAGESUB1,
+							AUCIMAGESUB2,
+							AUCIMAGESUB3, 
 							sPrice, 
 							deliveryWay,
 							deliveryFee, 
@@ -34,6 +37,9 @@
 					#edate#,
 					#auctitle#,
 					#aucimagemain#,
+					#aucimagesub1#,
+					#aucimagesub2#,
+					#aucimagesub3#,
 					#sprice#,
 					#deliveryway#,
 					#deliveryfee#,
@@ -51,6 +57,7 @@
 		CTGNM
 		FROM
 		AUCCATEGORY
+		where length(AUCCATEGORY.ctgcd) = 3
 	</select>
 
 	<select id="selectMCtgList" resultClass="egovMap">
@@ -59,7 +66,7 @@
 		ctgnm
 		from
 		AUCCATEGORY
-		where ctgcd like '%' || #ctgcd# || '%'
+		where ctgcd like #ctgcd# || '_%'
 	</select>
 
 	<select id="selectSeqNumber" resultClass="java.lang.Integer">

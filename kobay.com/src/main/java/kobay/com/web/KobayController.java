@@ -2,9 +2,9 @@ package kobay.com.web;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +16,21 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import kobay.com.service.Editor;
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
 import kobay.com.service.TableVO;
@@ -69,14 +66,14 @@ public class KobayController {
 
 	}
 
-	@RequestMapping(value = "/uploadFileSave" )
+	@RequestMapping(value = "/uploadFileSave")
 	@ResponseBody
 	public Map<String, String> multipartProcess(final MultipartHttpServletRequest multiRequest,
 			HttpServletResponse response, KobayVO vo, Model model, TableVO tvo) throws Exception {
-		
+
 		System.out.println("=================================");
 		System.out.println(vo.getAuctitle());
-		
+
 		MultipartFile file;
 		String filePath = "";
 		int cnt = 0;
@@ -120,7 +117,10 @@ public class KobayController {
 			}
 		}
 
-		vo.setAucimagemain(filename);
+		String[] filelist = filename.split("／");
+
+		vo.setAucimagemain(filelist[0]);
+		vo.setAucimagesub1(filelist[1]);
 
 		String[] dr = vo.getDateRange().split(" ~ ");
 
@@ -173,5 +173,34 @@ public class KobayController {
 
 		return map;
 	}
+	
+	@RequestMapping(value="/image")
+	public void profileUpload(String email, MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("profileUpload");
+		UUID uuid = UUID.randomUUID();
+
+		// 업로드할 파일 이름
+		String org_filename = file.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+
+		System.out.println("원본 파일명 : " + org_filename);
+		System.out.println("저장할 파일명 : " + str_filename);
+
+		String filepath = realFolder + "\\" + email + "\\" + str_filename;
+		System.out.println("파일경로 : " + filepath);
+
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		file.transferTo(f);
+		out.println("profileUpload/"+email+"/"+str_filename);
+		out.close();
+	}
+
+
 
 }
