@@ -55,8 +55,20 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl implements Member
 
 
 	@Override
-	public MemberVO findMember(MemberVO vo) {
+	public int findMember(MemberVO vo) {
 		return memberDAO.findMember(vo);
+	}
+
+
+	@Override
+	public List<?> foundId(MemberVO vo) {
+		return memberDAO.foundId(vo);
+	}
+
+
+	@Override
+	public void updateRandomPassword(MemberVO vo) {
+		memberDAO.updateRandomPassword(vo);
 	}
 
 }

@@ -66,26 +66,38 @@
 				  WHERE memberUnq = '$memberUnq$'
 </update>
 
-<select id="memberDAO.findMember" resultClass="memberVO">
+<select id="memberDAO.foundId" resultClass="egovMap">
+	SELECT memberId
+	FROM   kobayMember
+	WHERE  memberName = '$memberName$' AND
+		   memberPhone = '$memberPhone$'
+	
+</select>
+
+<update id="memberDAO.updateRandomPassword">
+	UPDATE kobayMember SET memberPwd='$memberPwd$'
+	WHERE  memberId = '$memberId$' AND
+		   memberName = '$memberName$' AND
+		   memberPhone = '$memberPhone$'
+</update>
+
+
+<select id="memberDAO.findMember" resultClass="java.lang.Integer">
 	<isNotNull property="memberId">
 		<isNotEmpty property="memberId">
-			SELECT a.memberPwd, a.memberCount FROM
-			(SELECT memberPwd, COUNT(memberPwd) memberCount, memberName, memberPhone, MemberId
-			FROM kobayMember
-			GROUP BY memberPwd) a
-			WHERE a.memberName = '$memberName$'
-			AND a.memberPhone = '$memberPhone$'
-			AND a.memberId = '$memberId$'			
+			SELECT COUNT(memberPwd) 
+			FROM   kobayMember
+			WHERE  memberId = '$memberId$' AND
+				   memberName = '$memberName$' AND
+				   memberPhone = '$memberPhone$'	
 		</isNotEmpty>
 	</isNotNull>
 	<isNull property="memberId">
 		<isEmpty property="memberId">
-			SELECT a.memberId, a.memberCount FROM
-			(SELECT memberId, COUNT(memberId) memberCount, memberName, memberPhone
+			SELECT COUNT(memberId) 
 			FROM kobayMember
-			GROUP BY memberId) a
-			WHERE a.memberName = '$memberName$'
-			AND a.memberPhone = '$memberPhone$'
+			WHERE  memberName = '$memberName$' AND
+				   memberPhone = '$memberPhone$'	
 		</isEmpty>
 	</isNull>
 

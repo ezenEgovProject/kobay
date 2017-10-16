@@ -18,6 +18,10 @@ public interface MemberService {
 
 	void editProfile(MemberVO vo);
 
-	MemberVO findMember(MemberVO vo);
+	int findMember(MemberVO vo);
+
+	List<?> foundId(MemberVO vo);
+
+	void updateRandomPassword(MemberVO vo);
 	
 }

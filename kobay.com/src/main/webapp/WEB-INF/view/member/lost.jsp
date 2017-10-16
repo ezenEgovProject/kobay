@@ -26,7 +26,8 @@
 /* 아이디 찾기 */
 function member_Find(va) {
 	var frm = $("#"+va).serialize();
-	
+	var popTitle = "popUp";
+
 	  $.ajax({
 		type:'POST',
 		data:frm,
@@ -34,9 +35,31 @@ function member_Find(va) {
 		dataType:"json",
 		success:function(data) {
 			if(data.result == "ok") {
-				alert("확인되었습니다");
-			} else {
-				alert("다시 확인해주세요.");
+				alert("found " + va);
+					
+				if(va == "findIdForm")
+				{	
+					var formData = document.findIdForm;
+					formData.action = "/foundid";
+				}
+				else
+				{
+					var formData = document.findPwdForm;
+					formData.action = "/foundpwd";
+				}
+
+					formData.target = popTitle;
+					window.open("/foundid",popTitle,"width=500, height=500");
+					alert("idForm");
+
+					/* window.open("/foundpwd",popTitle,"width=300, height=200, left=0, top=0, toolbar=no, location=no, directories=no, status=no, menubar=no, resizable=no, scrollbars=no, copyhistory=no");
+					alert("pwdForm"); */
+
+				formData.submit();
+				alert("submit");
+			}
+			else {
+				alert("일치하는 정보가 없습니다.");
 			}
 		},
 		error:function(error) {

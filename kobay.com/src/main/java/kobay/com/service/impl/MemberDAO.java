@@ -34,8 +34,16 @@ public class MemberDAO extends EgovAbstractDAO {
 		update("memberDAO.editProfile", vo);
 	}
 
-	public MemberVO findMember(MemberVO vo) {
-		return (MemberVO) select("memberDAO.findMember", vo);
+	public int findMember(MemberVO vo) {
+		return (int) select("memberDAO.findMember", vo);
+	}
+
+	public List<?> foundId(MemberVO vo) {
+		return list("memberDAO.foundId", vo);
+	}
+
+	public void updateRandomPassword(MemberVO vo) {
+		update("memberDAO.updateRandomPassword", vo);
 	}
 
 }
