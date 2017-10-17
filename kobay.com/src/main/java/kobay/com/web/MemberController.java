@@ -187,7 +187,7 @@ public class MemberController {
 	static String authorization = ""; /*아이디 수정 시 패스워드 재입력 성공해야 권한 부여*/
 
 	@RequestMapping(value="/confirm") /*패스워드 재입력 페이지*/
-	public String confirmPage(HttpSession session) {	
+	public String confirmPage(HttpSession session) {
 		if(session.getAttribute("id") != null)
 		{	/*로그인 되어있음*/
 			authorization = "fail";
@@ -311,7 +311,7 @@ public class MemberController {
 		{
 			List<?> list = memberService.foundId(vo);
 			model.addAttribute("foundid",list);
-			return "member/foundId";
+			return "member/pop/foundId";
 		}
 		else
 		{
@@ -328,7 +328,7 @@ public class MemberController {
 			vo.setMemberPwd(memberPwd);
 			memberService.updateRandomPassword(vo);
 			model.addAttribute("foundpwd",memberPwd);
-			return "member/foundPwd";
+			return "member/pop/foundPwd";
 		}
 		else
 		{
@@ -340,10 +340,8 @@ public class MemberController {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' }; 
 		int idx = 0; 
 		StringBuffer sb = new StringBuffer(); 
-		System.out.println("charSet.length :::: "+charSet.length); 
 		for (int i = 0; i < len; i++) { 
 			idx = (int) (charSet.length * Math.random()); // 36 * 생성된 난수를 Int로 추출 (소숫점제거) 
-			System.out.println("idx :::: "+idx);
 			sb.append(charSet[idx]); 
 		} 
 		return sb.toString(); 

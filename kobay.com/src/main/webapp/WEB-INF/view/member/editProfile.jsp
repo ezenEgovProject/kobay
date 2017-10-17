@@ -21,6 +21,7 @@
 
     Custom styles for this template
     <link rel="stylesheet" href="../../../css/kobay.css" > -->
+	<link rel="stylesheet" type="text/css" href="../../../css/member.css">
   </head>
 <script type="text/javascript">
 var editList = ["memberId","memberPwd","memberName","memberPhone"];
@@ -109,8 +110,9 @@ function member_CheckForm(va) {
     <!-- Page Content -->
     <div class="container">
 		<!-- 수정 부분 -->
+		<div class="table-margin-settings">
 		<h2>
-			<label for="editTitle">회원 수정</label>
+			<label for="editTitle" class="title-margin-settings">회원 수정</label>
 		</h2>
 		<form:form commandName="editForm" name="editForm" class="form-horizontal" onsubmit="return false;">					
 			<div class="form-group">
@@ -144,6 +146,7 @@ function member_CheckForm(va) {
 				</div>
 			</div>
 		</form:form>
+		</div>
 		<!--  -->
     </div>
     <!-- /.container -->

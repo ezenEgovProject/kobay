@@ -8,19 +8,7 @@
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
-	<!-- <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay 로그인 및 회원가입</title>
-
-    Bootstrap core CSS
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    Custom styles for this template
-    <link rel="stylesheet" href="../../../css/kobay.css" > -->
+    <link rel="stylesheet" type="text/css" href="../../../css/member.css">
   </head>
 <script type="text/javascript">
 var regList = ["memberId","memberPwd","memberName","memberPhone"];
@@ -140,14 +128,13 @@ function member_CheckForm(va) {
 }
 /*  */
 </script>
-
 <body>
-    
     <!-- Page Content -->
     <div class="container">
 		<!-- 로그인 부분 -->
+		<div class="table-margin-settings">
 		<h2>
-			<label for="loginTitle">로그인</label>
+			<label for="loginTitle" class="title-margin-settings">로그인</label>
 		</h2>
 		<form:form commandName="loginForm" name="loginForm"  class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
@@ -173,13 +160,15 @@ function member_CheckForm(va) {
 				</div>
 			</div>			
 		</form:form>
+		</div>
 		<!--  -->
 		<!-- 아이디/비밀번호 찾기 -->
 		<a href="/lost">아이디/비밀번호 찾기</a>
 		<!--  -->
-		<!-- 회원가입 부분 -->	
+		<!-- 회원가입 부분 -->
+		<div class="table-margin-settings">
 		<h2>
-			<label for="regTitle">회원가입</label>
+			<label for="regTitle" class="title-margin-settings">회원가입</label>
 		</h2>
 		<form:form commandName="regForm" name="regForm" class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
@@ -214,6 +203,7 @@ function member_CheckForm(va) {
 				</div>
 			</div>
 		</form:form>
+		</div>
 		<!--  -->
     </div>
     <!-- /.container -->

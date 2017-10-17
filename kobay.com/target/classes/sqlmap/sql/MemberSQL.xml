@@ -83,24 +83,16 @@
 
 
 <select id="memberDAO.findMember" resultClass="java.lang.Integer">
-	<isNotNull property="memberId">
-		<isNotEmpty property="memberId">
-			SELECT COUNT(memberPwd) 
-			FROM   kobayMember
-			WHERE  memberId = '$memberId$' AND
-				   memberName = '$memberName$' AND
-				   memberPhone = '$memberPhone$'	
-		</isNotEmpty>
-	</isNotNull>
-	<isNull property="memberId">
-		<isEmpty property="memberId">
 			SELECT COUNT(memberId) 
 			FROM kobayMember
 			WHERE  memberName = '$memberName$' AND
-				   memberPhone = '$memberPhone$'	
-		</isEmpty>
-	</isNull>
-
+				   memberPhone = '$memberPhone$'
+	<isNotNull property="memberId">
+		<isNotEmpty property="memberId">
+											   AND
+				   memberId = '$memberId$'
+			</isNotEmpty>
+	</isNotNull>
 </select>
 
 </sqlMap>

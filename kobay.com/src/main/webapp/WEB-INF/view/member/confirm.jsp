@@ -21,6 +21,7 @@
 
     Custom styles for this template
     <link rel="stylesheet" href="../../../css/kobay.css" > -->
+	<link rel="stylesheet" type="text/css" href="../../../css/member.css">
   </head>
 <script type="text/javascript">
 var regList = ["memberId","memberPwd","memberName","memberPhone"];
@@ -54,8 +55,9 @@ function member_confirm() {
     <!-- Page Content -->
     <div class="container">
 		<!-- 비밀번호 확인 부분 -->
+		<div class="table-margin-settings">
 		<h2>
-			<label for="confirmTitle">비밀번호 확인</label>
+			<label for="confirmTitle" class="title-margin-settings">비밀번호 확인</label>
 		</h2>
 		<form:form commandName="confirmForm" name="confirmForm"  class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
@@ -76,6 +78,7 @@ function member_confirm() {
 				</div>
 			</div>			
 		</form:form>
+		</div>
 		<!--  -->
     </div>
     <!-- /.container -->

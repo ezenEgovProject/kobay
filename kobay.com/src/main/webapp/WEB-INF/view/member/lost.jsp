@@ -21,13 +21,25 @@
 
     Custom styles for this template
     <link rel="stylesheet" href="../../../css/kobay.css" > -->
+	<link rel="stylesheet" type="text/css" href="../../../css/member.css">
   </head>
 <script type="text/javascript">
 /* 아이디 찾기 */
 function member_Find(va) {
 	var frm = $("#"+va).serialize();
 	var popTitle = "popUp";
-
+	var link = "";
+	if(va == "findIdForm")
+	{	
+		var link = "/foundid";
+		var formData = document.findIdForm;
+	}
+	else
+	{
+		var link = "/foundpwd";
+		var formData = document.findPwdForm;
+	}					
+	
 	  $.ajax({
 		type:'POST',
 		data:frm,
@@ -35,35 +47,17 @@ function member_Find(va) {
 		dataType:"json",
 		success:function(data) {
 			if(data.result == "ok") {
-				alert("found " + va);
-					
-				if(va == "findIdForm")
-				{	
-					var formData = document.findIdForm;
-					formData.action = "/foundid";
-				}
-				else
-				{
-					var formData = document.findPwdForm;
-					formData.action = "/foundpwd";
-				}
-
-					formData.target = popTitle;
-					window.open("/foundid",popTitle,"width=500, height=500");
-					alert("idForm");
-
-					/* window.open("/foundpwd",popTitle,"width=300, height=200, left=0, top=0, toolbar=no, location=no, directories=no, status=no, menubar=no, resizable=no, scrollbars=no, copyhistory=no");
-					alert("pwdForm"); */
-
-				formData.submit();
-				alert("submit");
+				formData.target = popTitle;
+					formData.action = link;
+					window.open(link,popTitle,"width=600, height=275");
+					formData.submit();
 			}
 			else {
 				alert("일치하는 정보가 없습니다.");
 			}
 		},
 		error:function(error) {
-			alert("일치하는 정보가 없습니다.");
+			alert("error : " + error);
 		}
 	}); 
 }
@@ -73,8 +67,9 @@ function member_Find(va) {
     <!-- Page Content -->
     <div class="container">
 		<!-- 아이디 찾기 -->
+		<div class="table-margin-settings">
 		<h2>
-			<label for="findIdTitle">아이디 찾기</label>
+			<label for="findIdTitle" class="title-margin-settings">아이디 찾기</label>
 		</h2>
 		<form:form commandName="findIdForm" name="findIdForm"  class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
@@ -95,10 +90,12 @@ function member_Find(va) {
 				</div>
 			</div>			
 		</form:form>
+		</div>
 		<!--  -->
 		<!-- 아이디 찾기 -->
+		<div class="table-margin-settings">
 		<h2>
-			<label for="findPwdTitle">비밀번호 찾기</label>
+			<label for="findPwdTitle" class="title-margin-settings">비밀번호 찾기</label>
 		</h2>
 		<form:form commandName="findPwdForm" name="findPwdForm"  class="form-horizontal" onsubmit="return false;">
 			<div class="form-group">
@@ -125,9 +122,12 @@ function member_Find(va) {
 				</div>
 			</div>			
 		</form:form>
+		</div>
 		<!--  -->
 	</div>
-	<a href="/loginreg">로그인 및 회원가입 페이지로</a>
+	<div>
+		<a href="/loginreg">로그인 및 회원가입 페이지로</a>
+	</div>
     <!-- /.container -->
     <!-- /.Page Content -->
 
