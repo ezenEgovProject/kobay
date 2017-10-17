@@ -135,19 +135,24 @@ label {
    	background-color: rgba(0,0,0,.03);
     border-top: 1px solid rgba(0,0,0,.125);
  }
-.item-title {
-	margin-top: .25rem;
-    margin-bottom: .5rem;
-    height: 56px;
-    
-}
+
 .item-text {
 	text-align: left;
 	color: #6e6e6e;
 	margin-left: .25rem; 
 	margin-right: .25rem; 
-	overflow: hidden;
+	
 }
+
+.item-title {
+	margin-top: .25rem;
+    margin-bottom: .5rem;
+    height: 56px;
+    font-size: 14pt;
+    color: #000 important!;
+    overflow: hidden;
+}
+
 .item-right {
 	float: right;
     width: 49.9%;
@@ -257,8 +262,8 @@ function orderFunction() {
 		dataType : "json",
 		success : function(data) {
 			if(data.result == "success") {
-			$('#itemList').load('refresh.html');
-				//self.location.reload();
+			//$('#itemList').load('refresh.html');
+				self.location.reload();
 				return false;
 			}
 			else {
@@ -380,7 +385,8 @@ function orderFunction() {
 						<select name="orderCondition" id="orderCondition" class="form-control list_select" onchange="orderFunction()">
 							<option value=""> - 정렬기준 - </option>
 							<option value="best" <c:if test="${pageVO.orderCondition eq 'best'}">selected</c:if>> 인기경매순 </option>
-							<option value="date" <c:if test="${pageVO.orderCondition eq 'date'}">selected</c:if>> 최신경매순  </option>
+							<option value="close" <c:if test="${pageVO.orderCondition eq 'close'}">selected</c:if>> 마감임박순  </option>
+							<option value="recent" <c:if test="${pageVO.orderCondition eq 'recent'}">selected</c:if>> 최신등록순  </option>
 							<option value="lowprice" <c:if test="${pageVO.orderCondition eq 'lowprice'}">selected</c:if>> 낮은가격순 </option>
 							<option value="highprice" <c:if test="${pageVO.orderCondition eq 'highprice'}">selected</c:if>> 높은가격순 </option>
 						</select>
@@ -406,15 +412,15 @@ function orderFunction() {
 						<a href="#" class="item">
 						 	<img class="card-img-top" src="http://placehold.it/700x400" alt="">
 						  	<span class="item item-body">
-						    	<span class="item-title item-text" style="font-size: 14pt;">${list.auctitle}</span>
-						  		<span class="item-text item-text">
-						  			<span class="item-left">입찰가격</span>
+						    	<span class="item-text item-title ">${list.auctitle}</span>
+						  		<span class="item-text">
+						  			<span class="item-left h6 c-black"><strong>₩ ${list.price }</strong></span>
 					   				<span class="item-right">${list.sellername}</span>
 						  		</span>		
 							</span>   
 						</a>
 					   	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-					   		<div class="col-4">참여자수</div>
+					   		<div class="col-4">입찰 : ${list.bids }</div>
 					   		<div class="col-8">${list.sdate}~${list.edate }</div>
 					  	</div>
 					</div>

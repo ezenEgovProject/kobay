@@ -15,7 +15,7 @@
 	<select id="search.getList" parameterClass="pageVO" resultClass="egovMap">
 		SELECT A.* FROM (
 			SELECT ROWNUM RN, B.* FROM (
-				SELECT 
+				<!-- SELECT 
 					auctionUnq, 
 					to_char(sdate, 'yyyy-mm-dd')sDate, 
 					to_char(eDate, 'yyyy-mm-dd')eDate,
@@ -29,13 +29,37 @@
 					aucStatus 
 				FROM 
 					KOBAYAUCTION
-				WHERE 1=1
+				WHERE 1=1 -->
+				SELECT  k.auctionUnq, 
+	                to_char(k.sdate, 'yyyy-mm-dd')sDate, 
+	                to_char(k.eDate, 'yyyy-mm-dd')eDate,
+	                k.aucTitle,
+	                k.aucImageMain, 
+	                k.aucImageSub1, 
+	                k.aucImageSub2, 
+	                k.aucImageSub3, 
+	                k.ePrice, 
+	                k.sellerName, 
+	                k.aucStatus,
+	                (select max(bidprice) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)price,
+	                (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids
+				FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
+				WHERE  K.AUCTIONUNQ = a.auctionunq
 				<isNotNull property="orderCondition">
 					<isEqual property="orderCondition" compareValue="best">
-						ORDER BY auctionUnq DESC ) B 
+						ORDER BY bids DESC ) B 
 					</isEqual>
-					<isEqual property="orderCondition" compareValue="date">
+					<isEqual property="orderCondition" compareValue="close">
 						ORDER BY abs( TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="recent">
+						ORDER BY abs( TO_DATE( sdate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="lowprice">
+						ORDER BY price asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="highprice">
+						ORDER BY price DESC ) B  
 					</isEqual>
 					<isEqual property="orderCondition" compareValue="">
 						ORDER BY auctionUnq DESC ) B 
@@ -44,9 +68,11 @@
 				<isNull property="orderCondition">
 					ORDER BY auctionUnq DESC ) B 
 				</isNull>	
-			) A
-		<!--  WHERE RN >= #firstIndex# AND RN <![CDATA[<=]]> #lastIndex#  -->
-		 WHERE RN >= 1 AND RN <![CDATA[<=]]> 100 
+				) A
+				WHERE RN >= 1 AND RN <![CDATA[<=]]> 100 
+				AND TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
+		 
+		 <!--  WHERE RN >= #firstIndex# AND RN <![CDATA[<=]]> #lastIndex#  -->
 	</select>
 
 </sqlMap>
