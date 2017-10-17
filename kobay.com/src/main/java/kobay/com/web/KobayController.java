@@ -144,7 +144,11 @@ public class KobayController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
+		String fullphone = vo.getPhone1() + vo.getPhone2() + vo.getPhone3(); 
+		
+		vo.setSellerphone(fullphone);
+		
 		String result = "";
 
 		result = kobayService.insertWrite(vo);

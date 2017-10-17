@@ -4,21 +4,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
+<html>
 <head>
 
 <!-- Include Date Range Picker -->
 
-<script type="text/javascript"
-	src="../../../js/datepicker/moment.min.js"></script>
-<script type="text/javascript"
-	src="../../../js/datepicker/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="../../../css/daterangepicker.css" />
+<script type="text/javascript" src="../../../js/datepicker/moment.min.js"></script>
+<script type="text/javascript" src="../../../js/datepicker/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../css/daterangepicker.css" />
 
-<link rel="stylesheet" type="text/css"
-	href="../../../dist/summernote.css" />
-<script type="text/javascript" charset="UTF-8"
-	src="../../../dist/summernote.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../dist/summernote.css" />
+<script type="text/javascript" charset="UTF-8" src="../../../dist/summernote.js"></script>
 <script src="../../../dist/lang/summernote-ko-KR.js"></script>
 
 <script type="text/javascript">
@@ -61,36 +57,6 @@
 
 </script>
 
-<script>
-	// 	    $(function() {
-	// 	        //전역변수선언
-	// 	        var editor_object = [];
-
-	// 	        nhn.husky.EZCreator
-	// 	                .createInIFrame({
-	// 	                    oAppRef : editor_object,
-	// 	                    elPlaceHolder : "aucdetail",
-	// 	                    sSkinURI : "../../../smarteditor/SmartEditor2Skin.html",
-	// 	                    htParams : {
-	// 	                        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-	// 	                        bUseToolbar : true,
-	// 	                        // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-	// 	                        bUseVerticalResizer : true,
-	// 	                        // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-	// 	                        bUseModeChanger : true
-
-	// 	                    }
-	// 	                });
-	// 	        //전송버튼 클릭이벤트
-	// 	        $("#saveBtn").click(function() {
-	// 	            //id가 smarteditor인 textarea에 에디터에서 대입
-	// 	            editor_object.getById["aucdetail"].exec("UPDATE_CONTENTS_FIELD", []);
-	// 			});
-
-	// 	    });
-</script>
-
-
 <script type="text/javascript">
 	$(function() {
 		$('input[name="dateRange"]').daterangepicker({
@@ -122,23 +88,18 @@
 <script>
 	$(function() {
 		$("#saveBtn").click(function() {
-
-			var a = frm.auctitle.value;
-
-			alert(a);
-					
-			/* var form = new FormData(document.getElementById('frm')); */
-			var form = $("#frm").serialize();
-
-				alert(form);
-				alert(frm.aucdetail.value);
-				
+	
+			 var form = new FormData(document.getElementById('frm'));
+			//var form = $("#frm").serialize();
+	
 			$.ajax({
 				type : 'POST',
 				data : form,
 				url : "<c:url value='/uploadFileSave'/>",
 				dataType : "json",
-				async: false,
+				processData: false,
+			 	contentType: false,
+			 	async: false,
 				success : function(data) {
 					if (data.cnt > 0) {
 						alert("저장됐습니다.");
@@ -164,8 +125,6 @@
 					data : a,
 					url : "<c:url value='/selectMlist'/>",
 					dataType : "json",
-					/* 		processData : false,
-							contentType : false, 후.........*/
 					success : function(data) {
 						if (data.resultMList != null) {
 							$('#mctg').children("option").remove();
@@ -186,9 +145,70 @@
 					}
 				});
 	}
+
+	$(document)
+			.ready(
+					function() {
+						var fileTarget = $('.filebox .upload-hidden');
+
+						fileTarget.on('change', function() {
+							if (window.FileReader) {
+								// 파일명 추출
+								var filename = $(this)[0].files[0].name;
+							} else {
+								// Old IE 파일명 추출
+								var filename = $(this).val().split('/').pop()
+										.split('\\').pop();
+							}
+							;
+							$(this).siblings('.upload-name').val(filename);
+						});
+
+						//preview image 
+						var imgTarget = $('.preview-image .upload-hidden');
+
+						imgTarget
+								.on(
+										'change',
+										function() {
+											var parent = $(this).parent();
+											parent.children('.upload-display')
+													.remove();
+
+											if (window.FileReader) {
+												//image 파일만
+												if (!$(this)[0].files[0].type
+														.match(/image\//))
+													return;
+
+												var reader = new FileReader();
+												reader.onload = function(e) {
+													var src = e.target.result;
+													parent
+															.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+												}
+												reader
+														.readAsDataURL($(this)[0].files[0]);
+											} else {
+												$(this)[0].select();
+												$(this)[0].blur();
+												var imgSrc = document.selection
+														.createRange().text;
+												parent
+														.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+												var img = $(this).siblings(
+														'.upload-display')
+														.find('img');
+												img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""
+														+ imgSrc + "\")";
+											}
+										});
+					});
 </script>
 <style type="text/css">
-.filebox input[type="file"] {
+ 
+ .filebox input[type="file"] {
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -200,7 +220,7 @@
 }
 
 .filebox label {
-	display: inline-block;
+	
 	padding: .5em .75em;
 	color: #999;
 	font-size: inherit;
@@ -267,180 +287,213 @@
 	background-color: #337ab7;
 	border-color: #2e6da4;
 }
+
+.form-style-2{
+    max-width: 880px;
+    padding: 20px 12px 10px 20px;
+    font: 17px Arial, Helvetica, sans-serif;
+}
+.form-style-2-heading{
+    font-weight: bold;
+    font-style: italic;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    font-size: 30px;
+    padding-bottom: 3px;
+}
+
+.form-style-3{
+    max-width: 880px;
+    padding: 0px 12px 10px 20px;
+    font: 17px Arial, Helvetica, sans-serif;
+}
+
+.form-style-3 label{
+    
+    margin: 0px 0px 15px 0px;
+}
+	
+.form-style-3 label > span{
+    width: 100px;
+    font-weight: bold;
+    float: left;
+    padding-top: 8px;
+    padding-right: 5px;
+}
+
+.form-style-2 label{
+    display: block;
+    margin: 0px 0px 15px 0px;
+}
+	
+.form-style-2 label > span{
+    width: 130px;
+    font-weight: bold;
+    float: left;
+    padding-top: 8px;
+    padding-right: 5px;
+}
+.form-style-2 span.required{
+    color:red;
+}
+.form-style-2 .tel-number-field{
+    width: 80px;
+    text-align: center;
+}
+.form-style-2 input.input-field{
+    width: 48%;
+    
+}
+
+.form-style-2 input.input-field, 
+.form-style-2 .tel-number-field, 
+.form-style-2 .textarea-field, 
+ .form-style-2 .select-field{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid #C2C2C2;
+    box-shadow: 1px 1px 4px #EBEBEB;
+    -moz-box-shadow: 1px 1px 4px #EBEBEB;
+    -webkit-box-shadow: 1px 1px 4px #EBEBEB;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    padding: 7px;
+    outline: none;
+}
+.form-style-2 .input-field:focus, 
+.form-style-2 .tel-number-field:focus, 
+.form-style-2 .textarea-field:focus,  
+.form-style-2 .select-field:focus{
+    border: 1px solid #0C0;
+}
+.form-style-2 .textarea-field{
+    height:100px;
+    width: 55%;
+}
+.form-style-2 input[type=submit],
+.form-style-2 input[type=button]{
+    border: none;
+    padding: 8px 15px 8px 15px;
+    background: #FF8500;
+    color: #fff;
+    box-shadow: 1px 1px 4px #DADADA;
+    -moz-box-shadow: 1px 1px 4px #DADADA;
+    -webkit-box-shadow: 1px 1px 4px #DADADA;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+.form-style-2 input[type=submit]:hover,
+.form-style-2 input[type=button]:hover{
+    background: #EA7B00;
+    color: #fff;
+}
+
+.float{
+	height:50px;
+	width:100%;
+}
+ 
 </style>
-
-<script>
-	$(document)
-			.ready(
-					function() {
-						var fileTarget = $('.filebox .upload-hidden');
-
-						fileTarget.on('change', function() {
-							if (window.FileReader) {
-								// 파일명 추출
-								var filename = $(this)[0].files[0].name;
-							} else {
-								// Old IE 파일명 추출
-								var filename = $(this).val().split('/').pop()
-										.split('\\').pop();
-							}
-							;
-							$(this).siblings('.upload-name').val(filename);
-						});
-
-						//preview image 
-						var imgTarget = $('.preview-image .upload-hidden');
-
-						imgTarget
-								.on(
-										'change',
-										function() {
-											var parent = $(this).parent();
-											parent.children('.upload-display')
-													.remove();
-
-											if (window.FileReader) {
-												//image 파일만
-												if (!$(this)[0].files[0].type
-														.match(/image\//))
-													return;
-
-												var reader = new FileReader();
-												reader.onload = function(e) {
-													var src = e.target.result;
-													parent
-															.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
-												}
-												reader
-														.readAsDataURL($(this)[0].files[0]);
-											} else {
-												$(this)[0].select();
-												$(this)[0].blur();
-												var imgSrc = document.selection
-														.createRange().text;
-												parent
-														.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
-
-												var img = $(this).siblings(
-														'.upload-display')
-														.find('img');
-												img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""
-														+ imgSrc + "\")";
-											}
-										});
-					});
-</script>
 </head>
 <body>
 
 	<!-- Page Content -->
 	<!-- 각자페이지에서 변경할 부분 -->
 	<div class="container">
-		<form name="frm" method="post" id="frm" enctype="multipart/form-data">
-
-
-
-			<div class="row">
-				<div class="col-lg-9 mb-4">
-					<h3>상품등록</h3>
-					<p></p>
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>카테고리:</label> <br> <select id="lctg" name="lctg"
-								onchange="fn_next(this.value)">
+	<form name="frm" method="post" id="frm" enctype="multipart/form-data">
+	<div class="form-style-2">
+		<div class="form-style-2-heading">상품등록</div>
+			
+				<label for="field1">
+				<span>카테고리: <span class="required">*</span></span>
+			 
+							<select id="lctg" name="lctg" onchange="fn_next(this.value)">
 								<option value="">대분류</option>
 								<c:forEach var="rs" items="${resultList}" varStatus="status">
-									<tr>
-										<td>
-											<option value="${rs.ctgcd}">${rs.ctgnm}</option>
-										</td>
-									</tr>
+									<option value="${rs.ctgcd}">${rs.ctgnm}</option>
 								</c:forEach>
-							</select> <select id="mctg" name="mctg">
+							</select> 
+							<select id="mctg" name="mctg">
 								<option value="">중분류</option>
-							</select>
-							<p class="help-block"></p>
-						</div>
-					</div>
-
-
-					<div class="control-group form-group date" id="sandbox-container">
-						<label for="datepicker">등록기간:</label>
-						<div class="input-daterange input-group" id="datepicker"
-							style="width: 70%">
-							<input type="text" class="input-sm form-control" name="dateRange"
-								id="dateRange" value="" />
-							<%-- daterange의 값을 컨트롤러로 넘겨받아 db에 저장하기전 '~'를 기준으로 나누워 sdate/edate로 저장할 것 --%>
-						</div>
-					</div>
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>상품명:</label> <input type="text" class="form-control"
-								name="auctitle" id="auctitle">
-						</div>
-					</div>
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>상품이미지:</label>
-							<div class="filebox bs3-primary preview-image">
-								<input class="upload-name" value="메인이미지선택" disabled="disabled"
-									style="width: 200px;"> <label for="file1">업로드</label> <input
-									type="file" name="file1" id="file1" class="upload-hidden">
-							</div>
-							<div class="filebox bs3-primary preview-image">
-								<input class="upload-name" value="서브이미지1선택" disabled="disabled"
-									style="width: 200px;"> <label for="file2">업로드</label> <input
-									type="file" name="file2" id="file2" class="upload-hidden">
-							</div>
-						</div>
-					</div>
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>상품가격:</label> <input type="text" class="form-control"
-								name="sprice" id="sprice">
-						</div>
-					</div>
-
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>배송방법:</label> <select name="deliveryway" id="deliveryway">
+							</select></label>
+				
+				
+				<label for="field2">
+				<span>등록기간: <span class="required">*</span></span>
+					<div class="input-daterange input-group" id="datepicker" style="width: 50%">				
+							<input type="text" class="input-sm form-control" name="dateRange" id="dateRange" value="" />	
+					</div>			
+				</label>
+				
+				
+				<label>
+				<span>상품명: <span class="required">*</span></span>
+					<input type="text" class="input-field" name="auctitle" id="auctitle">
+				</label>
+				
+				
+				</div>
+				
+				<div class="form-style-3">
+				<label><span>상품이미지:</span></label>
+				<div class="filebox bs3-primary preview-image">
+					<input class="upload-name" value="메인이미지선택" disabled="disabled" style="width: 200px;"> 
+					<label for="file1">업로드</label> 
+					<input type="file" name="file1" id="file1" class="upload-hidden">
+				</div>
+				
+				<div class="filebox bs3-primary preview-image">
+					<input class="upload-name" value="서브이미지1선택" disabled="disabled" style="width: 200px;"> 
+					<label for="file2">업로드</label> 
+					<input type="file" name="file2" id="file2" class="upload-hidden">
+				</div>
+						
+				</div>
+				
+				<div class="form-style-2">
+				
+				<label>
+				<span>상품가격: <span class="required">*</span></span>
+					<input type="text" class="input-field" name="sprice" id="sprice">
+				</label>
+				
+				<label>
+				<span>배송방법: <span class="required">*</span></span>
+					<select name="deliveryway" id="deliveryway">
 								<option value="0">택배</option>
 								<option value="1">직접수령</option>
-							</select>
-						</div>
-					</div>
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>배송료:</label> <input type="text" class="form-control"
-								name="deliveryfee" id="deliveryfee">
-						</div>
-					</div>
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>판매자:</label> <input type="text" class="form-control"
-								name="sellername" id="sellername">
-						</div>
-					</div>
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>판매자연락처:</label> <input type="text" class="form-control"
-								id="sellerphone" name="sellerphone">
-						</div>
-					</div>
+					</select>
+				</label>
+				
+				<label>
+				<span>배송료: <span class="required">*</span></span>
+					<input type="text" class="input-field" name="deliveryfee" id="deliveryfee">
+				</label>
+				
+				<label>
+				<span>판매자: <span class="required">*</span></span>
+					<input type="text" class="input-field" name="sellername" id="sellername">
+				</label>
+				
+				<label><span>판매자연락처: </span>
+				<input type="text" class="tel-number-field" id="phone1" name="phone1" value="" maxlength="3" />-
+				<input type="text" class="tel-number-field" id="phone2" name="phone2" value="" maxlength="4"  />-
+				<input type="text" class="tel-number-field" id="phone3" name="phone3" value="" maxlength="4"  /></label>
 
-					<div class="control-group form-group">
-						<div class="controls">
-							<label>상세정보:</label>
-							<textarea class="form-control" id="summernote" name="aucdetail"></textarea>
-						</div>
-					</div>
-
-					<div id="success"></div>
-					<!-- For success/fail messages -->
-					<button type="button" class="btn btn-primary" id="saveBtn">등록</button>
-				</div>
-			</div>
+				<label for="field5"><span>상세정보: </span>
+				<div class="float"></div>
+				<textarea class="textarea-field" id="summernote" name="aucdetail"></textarea>
+				</label>
+				
+				<label><input type="submit" id="saveBtn" /></label>
+			
+			
+		</div>
 		</form>
+		
 	</div>
 	<!-- /.container -->
 	<!-- /.Page Content -->
