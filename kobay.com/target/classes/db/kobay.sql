@@ -77,7 +77,7 @@
 	/**
 	 * Auction Category Table
 	 */
-	create table aucCategory( 
+	create table AUCTIONCTG( 
 	ctgcd varchar2(10) not null /* 카테고리 코드 */, 
 	ctgnm varchar2(50) not null /* 카테고리 이름 */
 	);

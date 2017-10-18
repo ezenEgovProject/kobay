@@ -51,7 +51,7 @@
 				ctgcd,
 				ctgnm
 	 		FROM  
-	 			AUCCATEGORY a
+	 			AUCTIONCTG a
 	 		WHERE 1=1
 	 		AND
 	 			LENGTH(a.ctgcd) <= 4]]>
@@ -62,7 +62,7 @@
 			ctgcd,
 			ctgnm
 		from
-			AUCCATEGORY
+			AUCTIONCTG
 		where ctgcd like #ctgcd# || '_%'
 	</select>
 	
