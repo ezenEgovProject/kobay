@@ -204,7 +204,6 @@ public class KobayController {
 		out.println("profileUpload/"+email+"/"+str_filename);
 		out.close();
 	}
-
-
+	
 
 }

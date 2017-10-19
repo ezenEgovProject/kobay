@@ -12,6 +12,7 @@
 <script type="text/javascript" src="../../../js/datepicker/moment.min.js"></script>
 <script type="text/javascript" src="../../../js/datepicker/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="../../../css/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="../../../css/write.css" />
 
 <link rel="stylesheet" type="text/css" href="../../../dist/summernote.css" />
 <script type="text/javascript" charset="UTF-8" src="../../../dist/summernote.js"></script>
@@ -88,10 +89,17 @@
 <script>
 	$(function() {
 		$("#saveBtn").click(function() {
+					
+				
+			if(document.frm.lctg.value==""){
+				alert("id입력");
+				return;
+			}
 	
-			 var form = new FormData(document.getElementById('frm'));
-			//var form = $("#frm").serialize();
-	
+			var form = new FormData(document.getElementById('frm'));
+// 			var form = $("#frm").serialize();
+			alert(form);
+			
 			$.ajax({
 				type : 'POST',
 				data : form,
@@ -99,14 +107,14 @@
 				dataType : "json",
 				processData: false,
 			 	contentType: false,
-			 	async: false,
+// 			 	async: false,
 				success : function(data) {
 					if (data.cnt > 0) {
 						alert("저장됐습니다.");
 						location.href = "<c:url value='/write'/>";
 					} else {
 						alert("저장에실패");
-					}
+					} 
 				},
 				error : function(error) {
 					alert("error : " + error);
@@ -117,7 +125,7 @@
 </script>
 <script>
 	function fn_next(ctgcd) {
-
+		
 		var a = "ctgcd=" + ctgcd;
 
 		$.ajax({
@@ -206,197 +214,7 @@
 										});
 					});
 </script>
-<style type="text/css">
- 
- .filebox input[type="file"] {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
 
-.filebox label {
-	
-	padding: .5em .75em;
-	color: #999;
-	font-size: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #fdfdfd;
-	cursor: pointer;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-}
-
-/* named upload */
-.filebox .upload-name {
-	display: inline-block;
-	padding: .5em .75em;
-	font-size: inherit;
-	font-family: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #f5f5f5;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e 2;
-	border-radius: .25em;
-	-webkit-appearance: none; /* 네이티브 외형 감추기 */
-	-moz-appearance: none;
-	appearance: none;
-}
-
-/* imaged preview */
-.filebox .upload-display {
-	margin-bottom: 5px;
-}
-
-@media ( min-width : 768px) {
-	.filebox .upload-display {
-		display: inline-block;
-		margin-right: 5px;
-		margin-bottom: 0;
-	}
-}
-
-.filebox .upload-thumb-wrap {
-	display: inline-block;
-	width: 200px;
-	padding: 2px;
-	vertical-align: middle;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	background-color: #fff;
-}
-
-.filebox .upload-display img {
-	display: block;
-	max-width: 100%;
-	/* 	    width: 100% \9; */
-	/* 	    height: auto; */
-	width: 200px;
-	height: 200px;
-}
-
-.filebox.bs3-primary label {
-	color: #fff;
-	background-color: #337ab7;
-	border-color: #2e6da4;
-}
-
-.form-style-2{
-    max-width: 880px;
-    padding: 20px 12px 10px 20px;
-    font: 17px Arial, Helvetica, sans-serif;
-}
-.form-style-2-heading{
-    font-weight: bold;
-    font-style: italic;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 20px;
-    font-size: 30px;
-    padding-bottom: 3px;
-}
-
-.form-style-3{
-    max-width: 880px;
-    padding: 0px 12px 10px 20px;
-    font: 17px Arial, Helvetica, sans-serif;
-}
-
-.form-style-3 label{
-    
-    margin: 0px 0px 15px 0px;
-}
-	
-.form-style-3 label > span{
-    width: 100px;
-    font-weight: bold;
-    float: left;
-    padding-top: 8px;
-    padding-right: 5px;
-}
-
-.form-style-2 label{
-    display: block;
-    margin: 0px 0px 15px 0px;
-}
-	
-.form-style-2 label > span{
-    width: 130px;
-    font-weight: bold;
-    float: left;
-    padding-top: 8px;
-    padding-right: 5px;
-}
-.form-style-2 span.required{
-    color:red;
-}
-.form-style-2 .tel-number-field{
-    width: 80px;
-    text-align: center;
-}
-.form-style-2 input.input-field{
-    width: 48%;
-    
-}
-
-.form-style-2 input.input-field, 
-.form-style-2 .tel-number-field, 
-.form-style-2 .textarea-field, 
- .form-style-2 .select-field{
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border: 1px solid #C2C2C2;
-    box-shadow: 1px 1px 4px #EBEBEB;
-    -moz-box-shadow: 1px 1px 4px #EBEBEB;
-    -webkit-box-shadow: 1px 1px 4px #EBEBEB;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    padding: 7px;
-    outline: none;
-}
-.form-style-2 .input-field:focus, 
-.form-style-2 .tel-number-field:focus, 
-.form-style-2 .textarea-field:focus,  
-.form-style-2 .select-field:focus{
-    border: 1px solid #0C0;
-}
-.form-style-2 .textarea-field{
-    height:100px;
-    width: 55%;
-}
-.form-style-2 input[type=submit],
-.form-style-2 input[type=button]{
-    border: none;
-    padding: 8px 15px 8px 15px;
-    background: #FF8500;
-    color: #fff;
-    box-shadow: 1px 1px 4px #DADADA;
-    -moz-box-shadow: 1px 1px 4px #DADADA;
-    -webkit-box-shadow: 1px 1px 4px #DADADA;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-}
-.form-style-2 input[type=submit]:hover,
-.form-style-2 input[type=button]:hover{
-    background: #EA7B00;
-    color: #fff;
-}
-
-.float{
-	height:50px;
-	width:100%;
-}
- 
-</style>
 </head>
 <body>
 
@@ -408,10 +226,10 @@
 		<div class="form-style-2-heading">상품등록</div>
 			
 				<label for="field1">
-				<span>카테고리: <span class="required">*</span></span>
+				<span>카테고리: </span>
 			 
 							<select id="lctg" name="lctg" onchange="fn_next(this.value)">
-								<option value="">대분류</option>
+								<option value="" >대분류</option>
 								<c:forEach var="rs" items="${resultList}" varStatus="status">
 									<option value="${rs.ctgcd}">${rs.ctgnm}</option>
 								</c:forEach>
@@ -422,7 +240,7 @@
 				
 				
 				<label for="field2">
-				<span>등록기간: <span class="required">*</span></span>
+				<span>등록기간: </span>
 					<div class="input-daterange input-group" id="datepicker" style="width: 50%">				
 							<input type="text" class="input-sm form-control" name="dateRange" id="dateRange" value="" />	
 					</div>			
@@ -430,8 +248,8 @@
 				
 				
 				<label>
-				<span>상품명: <span class="required">*</span></span>
-					<input type="text" class="input-field" name="auctitle" id="auctitle">
+				<span>상품명: </span>
+					<input type="text" class="input-field" name="auctitle" id="auctitle" required>
 				</label>
 				
 				
@@ -456,39 +274,91 @@
 				<div class="form-style-2">
 				
 				<label>
-				<span>상품가격: <span class="required">*</span></span>
-					<input type="text" class="input-field" name="sprice" id="sprice">
+				<span>상품가격: </span>
+					<input type="text" class="input-field" name="sprice" id="sprice" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' >
 				</label>
 				
 				<label>
-				<span>배송방법: <span class="required">*</span></span>
-					<select name="deliveryway" id="deliveryway">
+				<span>배송방법: </span>
+					<select name="deliveryway" id="deliveryway" onchange="fee(this.value)">
+								<option value="" >선택</option>
 								<option value="0">택배</option>
 								<option value="1">직접수령</option>
 					</select>
 				</label>
 				
+				<script>
+				
+				function fee(dway) {
+					
+					var a = dway;
+					
+					if(a==0){
+						
+						$("input[name=deliveryfee]").attr("disabled",false);
+						$("input[name=deliveryfee]").val('');
+
+					}	
+					else if(a==1){
+						
+						$("input[name=deliveryfee]").attr("disabled",true);
+					}			
+				}
+				
+				</script>
+				
 				<label>
-				<span>배송료: <span class="required">*</span></span>
-					<input type="text" class="input-field" name="deliveryfee" id="deliveryfee">
+				<span>배송료: </span>
+					<input type="text" class="input-field" name="deliveryfee" id="deliveryfee" disabled="" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)'>
 				</label>
 				
 				<label>
-				<span>판매자: <span class="required">*</span></span>
-					<input type="text" class="input-field" name="sellername" id="sellername">
+				<span>판매자: </span>
+					<input type="text" class="input-field" name="sellername" id="sellername" >
 				</label>
 				
-				<label><span>판매자연락처: </span>
-				<input type="text" class="tel-number-field" id="phone1" name="phone1" value="" maxlength="3" />-
-				<input type="text" class="tel-number-field" id="phone2" name="phone2" value="" maxlength="4"  />-
-				<input type="text" class="tel-number-field" id="phone3" name="phone3" value="" maxlength="4"  /></label>
+				<script>
+				
+				function onlyNumber(event){
+					event = event || window.event;
+					var keyID = (event.which) ? event.which : event.keyCode;
+					if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+						return;
+					else
+						return false;
+				}
+				function removeChar(event) {
+					event = event || window.event;
+					var keyID = (event.which) ? event.which : event.keyCode;
+					if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+						return;
+					else
+						event.target.value = event.target.value.replace(/[^0-9]/g, "");
+				}
+			
+				</script>
+				
+				
+				<label><span>판매자연락처: </span>			
+				<select name="phone1" id="phone1">
+								<option value="">선택</option>
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="011">017</option>
+								<option value="011">019</option>
+				</select> -
+				<input type="text" class="tel-number-field" id="phone2" name="phone2" value="" maxlength="4"
+				onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' /> -
+				<input type="text" class="tel-number-field" id="phone3" name="phone3" value="" maxlength="4"
+				onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' /></label>
 
 				<label for="field5"><span>상세정보: </span>
 				<div class="float"></div>
 				<textarea class="textarea-field" id="summernote" name="aucdetail"></textarea>
 				</label>
 				
-				<label><input type="submit" id="saveBtn" /></label>
+				<label><input type="submit" id="saveBtn" value="입력"/></label>
 			
 			
 		</div>
