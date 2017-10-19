@@ -72,7 +72,6 @@ public class MemberController {
 		if(memberId != null) {
 			return "redirect:/main";
 		}
-	
 		return "login/loginRegWrite";
 	}
 	

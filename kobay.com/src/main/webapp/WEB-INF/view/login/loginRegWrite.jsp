@@ -141,18 +141,13 @@ function member_CheckForm(va) {
 				<form:label path="memberId" class="col-sm-2 control-label">
 					이메일
 				</form:label>
-				<form:input path="memberId" name="memberId" class="form-control" placeholder="example@example.com" />
+				<form:input path="memberId" name="memberId" class="form-control" value="${cookievalue}" placeholder="example@example.com" />
 			</div>				
 			<div class="form-group">
 				<form:label path="memberPwd" class="col-sm-2 control-label">
 					비밀번호
 				</form:label>
 				<form:password path="memberPwd" name="memberPwd"  class="form-control" placeholder="비밀번호 8자리 이상" />
-			</div>
-			<div class="form-group">
-				<form:label path="memberId">
-					<form:checkbox path="memberId" value="rememberId" /> 아이디 저장
-				</form:label>
 			</div>
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
