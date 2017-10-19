@@ -1,8 +1,5 @@
 package kobay.com.cmmn;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -104,8 +101,6 @@ public class PageVO {
 	private String searchCondition = "";
 
 	/** 검색Keyword */
-	@NotNull
-	@Size(min=2, message="error")
 	private String searchKeyword = "";
 
 	/** 검색사용여부 */
