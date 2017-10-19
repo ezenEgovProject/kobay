@@ -177,7 +177,8 @@
  @media (min-width:1200px){.container{max-width:1140px}}
  .container-fluid{width:100%;margin-right:auto;margin-left:auto;padding-right:15px;padding-left:15px;width:100%}
  .row{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}
- .no-gutters{margin-right:0;margin-left:0}.no-gutters>.col,.no-gutters>[class*=col-]{padding-right:0;padding-left:0}
+ .no-gutters{margin-right:0;margin-left:0}
+ .no-gutters>.col,.no-gutters>[class*=col-]{padding-right:0;padding-left:0}
  .col,.col-1,.col-10,.col-11,.col-12,.col-2,.col-3,.col-4,.col-5,
  .col-6,.col-7,.col-8,.col-9,.col-auto,.col-lg,.col-lg-1,.col-lg-10,
  .col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,
@@ -214,6 +215,19 @@
  .order-10{-ms-flex-order:10;order:10}
  .order-11{-ms-flex-order:11;order:11}
  .order-12{-ms-flex-order:12;order:12}
+ .col-xs-offset-12{margin-left:100%}
+ .col-xs-offset-11{margin-left:91.66666667%}
+ .col-xs-offset-10{margin-left:83.33333333%}
+ .col-xs-offset-9{margin-left:75%}
+ .col-xs-offset-8{margin-left:66.66666667%}
+ .col-xs-offset-7{margin-left:58.33333333%}
+ .col-xs-offset-6{margin-left:50%}
+ .col-xs-offset-5{margin-left:41.66666667%}
+ .col-xs-offset-4{margin-left:33.33333333%}
+ .col-xs-offset-3{margin-left:25%}
+ .col-xs-offset-2{margin-left:16.66666667%}
+ .col-xs-offset-1{margin-left:8.33333333%}
+ .col-xs-offset-0{margin-left:0}
  @media (min-width:576px){
  .col-sm{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;flex-grow:1;max-width:100%}
  .col-sm-auto{-ms-flex:0 0 auto;flex:0 0 auto;width:auto;max-width:none}
@@ -267,7 +281,21 @@
  .order-md-9{-ms-flex-order:9;order:9}
  .order-md-10{-ms-flex-order:10;order:10}
  .order-md-11{-ms-flex-order:11;order:11}
- .order-md-12{-ms-flex-order:12;order:12}}
+ .order-md-12{-ms-flex-order:12;order:12}
+ .col-sm-offset-12{margin-left:100%}
+ .col-sm-offset-11{margin-left:91.66666667%}
+ .col-sm-offset-10{margin-left:83.33333333%}
+ .col-sm-offset-9{margin-left:75%}
+ .col-sm-offset-8{margin-left:66.66666667%}
+ .col-sm-offset-7{margin-left:58.33333333%}
+ .col-sm-offset-6{margin-left:50%}
+ .col-sm-offset-5{margin-left:41.66666667%}
+ .col-sm-offset-4{margin-left:33.33333333%}
+ .col-sm-offset-3{margin-left:25%}
+ .col-sm-offset-2{margin-left:16.66666667%}
+ .col-sm-offset-1{margin-left:8.33333333%}
+ .col-sm-offset-0{margin-left:0}
+ }
  @media (min-width:992px){
  .col-lg{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;flex-grow:1;max-width:100%}
  .col-lg-auto{-ms-flex:0 0 auto;flex:0 0 auto;width:auto;max-width:none}
@@ -294,7 +322,20 @@
  .order-lg-9{-ms-flex-order:9;order:9}
  .order-lg-10{-ms-flex-order:10;order:10}
  .order-lg-11{-ms-flex-order:11;order:11}
- .order-lg-12{-ms-flex-order:12;order:12}}
+ .order-lg-12{-ms-flex-order:12;order:12}
+  .col-md-offset-12{margin-left:100%}
+ .col-md-offset-11{margin-left:91.66666667%}
+ .col-md-offset-10{margin-left:83.33333333%}
+ .col-md-offset-9{margin-left:75%}
+ .col-md-offset-8{margin-left:66.66666667%}
+ .col-md-offset-7{margin-left:58.33333333%}
+ .col-md-offset-6{margin-left:50%}
+ .col-md-offset-5{margin-left:41.66666667%}
+ .col-md-offset-4{margin-left:33.33333333%}
+ .col-md-offset-3{margin-left:25%}
+ .col-md-offset-2{margin-left:16.66666667%}
+ .col-md-offset-1{margin-left:8.33333333%}
+ .col-md-offset-0{margin-left:0}}
  @media (min-width:1200px){
  .col-xl{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;flex-grow:1;max-width:100%}
  .col-xl-auto{-ms-flex:0 0 auto;flex:0 0 auto;width:auto;max-width:none}
@@ -321,7 +362,20 @@
  .order-xl-9{-ms-flex-order:9;order:9}
  .order-xl-10{-ms-flex-order:10;order:10}
  .order-xl-11{-ms-flex-order:11;order:11}
- .order-xl-12{-ms-flex-order:12;order:12}}
+ .order-xl-12{-ms-flex-order:12;order:12}
+ .col-lg-offset-12{margin-left:100%}
+ .col-lg-offset-11{margin-left:91.66666667%}
+ .col-lg-offset-10{margin-left:83.33333333%}
+ .col-lg-offset-9{margin-left:75%}
+ .col-lg-offset-8{margin-left:66.66666667%}
+ .col-lg-offset-7{margin-left:58.33333333%}
+ .col-lg-offset-6{margin-left:50%}
+ .col-lg-offset-5{margin-left:41.66666667%}
+ .col-lg-offset-4{margin-left:33.33333333%}
+ .col-lg-offset-3{margin-left:25%}
+ .col-lg-offset-2{margin-left:16.66666667%}
+ .col-lg-offset-1{margin-left:8.33333333%}
+ .col-lg-offset-0{margin-left:0}}
  .table{width:100%;max-width:100%;margin-bottom:1rem;background-color:transparent}
  .table td,.table th{padding:.75rem;vertical-align:top;border-top:1px solid #e9ecef}
  .table thead th{vertical-align:bottom;border-bottom:2px solid #e9ecef}

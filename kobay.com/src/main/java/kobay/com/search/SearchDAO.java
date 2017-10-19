@@ -14,19 +14,30 @@ public class SearchDAO extends EgovAbstractDAO {
 	 * get Category
 	 * @return category list
 	 */
-	public List<?> selectctglist(){
+	public List<?> selectctglist() throws Exception {
 		return list("selectCtgList");
 	}
-	public List<?> selectctgmlist(String ctgcd){
+	public List<?> selectctgmlist(PageVO pageVO) throws Exception {
 		// ctgcd -> 미들 컬럼명
-		return list("selectMCtgList",ctgcd);
+		return list("search.selectMCtgList",pageVO);
 	}
 	
 	/**
 	 * get List
 	 * @return auction list
 	 */
-	public List<?> getSearchList(PageVO vo) {
+	public List<?> getSearchList(PageVO vo) throws Exception {
 		return list("search.getList", vo);
+	}
+	
+	public int getMCtgList(PageVO pageVO) throws Exception {
+		return (int) select("search.getMCtgList", pageVO);
+	}
+	
+	public List<?> getlCtgCodes() throws Exception {
+		return list("search.lCtgCodes");
+	}
+	public List<?> getmCtgCodes() throws Exception {
+		return list("search.mctgCodes");
 	}
 }

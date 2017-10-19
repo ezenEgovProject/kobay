@@ -23,6 +23,7 @@ public class SearchVO {
 	private int aucStatus;
 	private int delStatus;
 	
+
 	
 	public int getMemberUnq() {
 		return memberUnq;
@@ -145,17 +146,4 @@ public class SearchVO {
 		this.delStatus = delStatus;
 	}
 	
-	
-	private String orderCondition = "best";
-	public String getOrderCondition() {
-		return orderCondition;
-	}
-	
-	public void setOrderCondition(String orderCondition) {
-		this.orderCondition = orderCondition;
-	}
-	
-	
-	
-
 }

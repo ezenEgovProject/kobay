@@ -1,10 +1,12 @@
 package kobay.com.cmmn;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author SuyeonKang
- *
  */
 public class PageVO {
 	/**
@@ -80,18 +82,37 @@ public class PageVO {
 	/**
 	 * Search Value
 	 */
+	private String mCtgcd;
+
+	public String getmCtgcd() {
+		return mCtgcd;
+	}
+	public void setmCtgcd(String mCtgcd) {
+		this.mCtgcd = mCtgcd;
+	}
 	
+	private String ctgcd;
+	public String getCtgcd() {
+		return ctgcd;
+	}
+
+	public void setCtgcd(String ctgcd) {
+		this.ctgcd = ctgcd;
+	}
 	
 	/** 검색조건 */
 	private String searchCondition = "";
 
 	/** 검색Keyword */
+	@NotNull
+	@Size(min=2, message="error")
 	private String searchKeyword = "";
 
 	/** 검색사용여부 */
 	private String searchUseYn = "";
-	
+
 	private String orderCondition = "";
+	
 	public String getOrderCondition() {
 		return orderCondition;
 	}
@@ -129,4 +150,6 @@ public class PageVO {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+
+	
 }

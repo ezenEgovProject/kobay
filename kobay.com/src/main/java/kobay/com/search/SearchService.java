@@ -9,7 +9,13 @@ public interface SearchService {
 
 	List<?> selectctglist() throws Exception;
 	
-	List<?> selectctgmlist(String lCtg) throws Exception;
+	List<?> selectctgmlist(PageVO pageVO) throws Exception;
 	
 	List<?> getSearchList(PageVO vo) throws Exception;
+	
+	public int getMCtgList(PageVO pageVO) throws Exception;
+	
+	
+	public List<?> getlCtgCodes() throws Exception;
+	public List<?> getmCtgCodes() throws Exception;
 }

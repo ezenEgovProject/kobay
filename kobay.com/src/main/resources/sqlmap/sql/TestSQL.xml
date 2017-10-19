@@ -15,21 +15,6 @@
 	<select id="search.getList" parameterClass="pageVO" resultClass="egovMap">
 		SELECT A.* FROM (
 			SELECT ROWNUM RN, B.* FROM (
-				<!-- SELECT 
-					auctionUnq, 
-					to_char(sdate, 'yyyy-mm-dd')sDate, 
-					to_char(eDate, 'yyyy-mm-dd')eDate,
-					aucTitle,
-					aucImageMain, 
-					aucImageSub1, 
-					aucImageSub2, 
-					aucImageSub3, 
-					ePrice, 
-					sellerName, 
-					aucStatus 
-				FROM 
-					KOBAYAUCTION
-				WHERE 1=1 -->
 				SELECT  k.auctionUnq, 
 	                to_char(k.sdate, 'yyyy-mm-dd')sDate, 
 	                to_char(k.eDate, 'yyyy-mm-dd')eDate,
@@ -41,10 +26,24 @@
 	                k.ePrice, 
 	                k.sellerName, 
 	                k.aucStatus,
+	                k.aucdetail,
 	                (select max(bidprice) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)price,
-	                (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids
+	                (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
+	                (select ctgnm from auctionctg where ctgcd = k.lctg)lctg,
+        			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg
 				FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
-				WHERE  K.AUCTIONUNQ = a.auctionunq
+				WHERE  K.AUCTIONUNQ = a.auctionunq 
+				AND (
+	           			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	            		AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	            		SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+					OR 
+	               		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	                	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+	        	)
 				<isNotNull property="orderCondition">
 					<isEqual property="orderCondition" compareValue="best">
 						ORDER BY bids DESC ) B 
@@ -73,6 +72,103 @@
 				AND TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
 		 
 		 <!--  WHERE RN >= #firstIndex# AND RN <![CDATA[<=]]> #lastIndex#  -->
+	</select>
+	
+	
+	<!-- 각 대메뉴 카테고리별로 가져오기  -->
+	<select id="search.getMCtgList" parameterClass="pageVO" resultClass="java.lang.Integer">
+		SELECT  count(*)
+		FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
+		WHERE   K.AUCTIONUNQ = a.auctionunq
+		AND (
+       			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+        	OR 
+        		AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+        	OR 
+        		SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+			OR 
+           		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+        	OR 
+            	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+	        	)
+		AND
+		        (select ctgcd from auctionctg where ctgcd = k.mctg) LIKE '%' || #mCtgcd#  || '%' 
+		AND TO_DATE( to_char(k.eDate, 'yyyy-mm-dd'),'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
+
+	</select>
+	
+	<select id="search.selectLCtgList" resultClass="egovMap">
+		SELECT 
+			A.ctgcd,
+			A.ctgnm
+			(SELECT  count(*)
+			FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
+			WHERE   K.AUCTIONUNQ = a.auctionunq
+			AND (
+	       			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+	        	OR 
+	        		AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+	        	OR 
+	        		SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+				OR 
+	           		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+	        	OR 
+	            	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+		        	)
+			AND
+			        (select ctgcd from auctionctg where ctgcd = k.mctg) LIKE '%' || #mCtgcd#  || '%' 
+			AND TO_DATE( to_char(k.eDate, 'yyyy-mm-dd'),'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0)		
+ 		FROM  
+ 			AUCTIONCTG A
+ 		WHERE 1=1
+ 		AND
+ 			LENGTH(a.ctgcd) <![CDATA[<]]> 4
+ 		
+	</select>
+	
+	<select id="search.selectMCtgList" parameterClass="pageVO" resultClass="egovMap">
+		SELECT 
+		    distinct(a.ctgcd),
+		    a.ctgnm,
+		    (SELECT count(*) 
+		    FROM  
+		            KOBAYAUCTION k
+		    WHERE ctgcd = k.mctg
+		    AND (
+		        k.AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		        k.AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		            k.SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		            (select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		            (select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+		    )
+		    AND TO_DATE( to_char(k.eDate, 'yyyy-mm-dd'),'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0)count
+		FROM AUCTIONCTG a
+		WHERE ctgcd like #ctgcd# || '_%'
+	</select>
+	
+	
+	
+	<select id="search.lCtgCodes" resultClass="egovMap">
+			SELECT 
+				ctgcd
+	 		FROM  
+	 			AUCTIONCTG a
+	 		WHERE 1=1
+	 		AND
+	 			LENGTH(a.ctgcd) <![CDATA[<]]> 4
+	</select>
+	
+	
+	<select id="search.mctgCodes" resultClass="egovMap">
+		select 
+			ctgcd
+		from
+			AUCTIONCTG a
+		where LENGTH(a.ctgcd) <![CDATA[>=]]> 4
 	</select>
 
 </sqlMap>

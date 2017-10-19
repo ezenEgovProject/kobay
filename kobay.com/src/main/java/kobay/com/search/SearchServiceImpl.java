@@ -21,15 +21,33 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<?> selectctgmlist(String lCtg) throws Exception {
+	public List<?> selectctgmlist(PageVO pageVO) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.selectctgmlist(lCtg);
+		return dao.selectctgmlist(pageVO);
 	}
 
 	@Override
 	public List<?> getSearchList(PageVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.getSearchList(vo);
+	}
+
+	@Override
+	public int getMCtgList(PageVO pageVO) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getMCtgList(pageVO);
+	}
+
+	@Override
+	public List<?> getlCtgCodes() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getlCtgCodes();
+	}
+
+	@Override
+	public List<?> getmCtgCodes() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getmCtgCodes();
 	}
 
 

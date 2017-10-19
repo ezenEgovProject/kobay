@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="utf-8">
+
 <link rel="stylesheet" href="../../../css/font.css" />
 <style>
 body {
@@ -16,12 +15,15 @@ label {
 	font-size: .9rem; 
 	font-family:"NanumGothic";
 }
+a:link { text-decoration: none;}
+a:visited {  text-decoration: none;}
+a:hover { text-decoration: none; color:#007bff;}
+
 .form-group > label {
     display: inline-block;
     max-width: 100%;
     margin: 5px .25px 5px .25px;
 }
-
 .category ul  {
     padding: 0;
     display:table;
@@ -30,7 +32,6 @@ label {
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;
 }
-
 .list-inline > li {
     display: table-cell;
     padding-right: 5px;
@@ -62,7 +63,6 @@ label {
 	font-family:"NanumGothic"; 
 	text-decoration:none;
 }
-
 .list-group-item {
 	border: 0px;
 }
@@ -78,7 +78,6 @@ label {
 .top-line {
 	border-top: 1px solid rgba(0,0,0,.125);	
 }
-
 .badge {
     display: inline-block;
     min-width: 10px;
@@ -114,13 +113,6 @@ label {
   font-size: 14px;
 }
 
- a:link { text-decoration: none;}
- a:visited {  text-decoration: none;}
- a:hover { text-decoration: none; color:#007bff;}
-
-.c-black {
-	color: #000;
-}
 
 .item-body {
     -ms-flex: 1 1 auto;
@@ -140,8 +132,11 @@ label {
 	text-align: left;
 	color: #6e6e6e;
 	margin-left: .25rem; 
-	margin-right: .25rem; 
-	
+	margin-right: .25rem; 	
+}
+
+.item-text-grey {
+	color: #ddd;
 }
 
 .item-title {
@@ -152,32 +147,52 @@ label {
     color: #000 important!;
     overflow: hidden;
 }
-
 .item-right {
 	float: right;
     width: 49.9%;
 }
-
 .item-left {
 	float: left;
     width: 49.9%;
 }
-
 .list_select {
     height: 46px;
     text-align: left;
     font-size: 14px;
 }
+ .col-md-offset-3{margin-left:25%}
+.search > li {
+	margin: 5px;
+}
+.strong {
+	font-weight: bold;
+}
 
-
-
-
+.c-black {
+	color: #000;
+}
+.c-kobay {
+	color: #56B6E6;
+}
+.c-grey {
+	color: #999;
+}
 </style>
+
+<script type="text/javascript">
+	
+</script>
+
 <script type="text/javascript">
 var isToggle = false;
 var curToggle;
 $(document).ready(function () {
-		subHide();
+	subHide();
+	
+	var list = ${lCtgCnt};
+	for(var i = 0; i < list.length; i++) {
+		document.getElementById("lcnt"+(i+1)).innerHTML = list[i];
+	}
 })
 function toggelClick(thisValue) {
 	var id = thisValue.getAttribute("id");
@@ -267,8 +282,6 @@ function orderFunction() {
 				return false;
 			}
 			else {
-				// 성공
-				//alert("삭제되었습니다.");
 				self.location.reload();
 			}
 		},
@@ -281,104 +294,121 @@ function orderFunction() {
   <body>
   	<!-- Page Content -->
 	<div class="container" align="center">  
-		<div class="mb-4 mt-4" style="width: 90%" id="accordion" role="tablist" aria-multiselectable="true">
-			 <div class="card">
-				<div id="mainCtg" class="card-body h-75">
-					<div class="row align-items-center">
-					 	<div class="col-2">
-					 		<p class="card-text" >카테고리</p>
-					 	</div>
-					 	<div id="category" class="col-10 category">
-					 		<div id="mainCtg" role="tab" id="headingOne">
-          						<ul class="list-inline main" style="margin-bottom: 0px; padding: 0;">
-							 		<c:forEach items="${lCtgList}" var ="lList" varStatus="status">
-							 			<li class="text-left">
-								 			<div>
-								 			<input type="checkbox" id="${lList.ctgcd}" />
-								 			<label for="${lList.ctgcd}">${lList.ctgnm}<span class="badge">5</span>
-									 			<a onclick="toggelClick(this)" id="test${status.count }" data-toggle="collapse"  data-parent="#accordion" aria-expanded="false" aria-controls="collapse1">
-		          									<i id="fa${status.count }" class="fa fa-plus-circle" aria-hidden="true" style="color: #FF6666"></i>
-		          								</a>
-	          								</label>  
-	          								</div>   	
-				 						</li>
-							 		</c:forEach>
-			 					</ul>
-        					</div>	<!-- /.mainCtg --> 		
-			 			</div> <!-- /.category -->
-					</div> <!-- /.row -->
-				</div> <!-- /.mainCtg -->
-				
-				<div id="subCtg" class="card-body sub-body h-75 bg-light top-line">
-					<div class="row align-items-center">
-			 			<div class="col-2">
-			 				<p class="card-text" style="font-weight: bold;">상세검색</p>
-			 			</div>
-			 			<div class="col-10">
-   							<c:forEach items="${mList}" var="mCtgList" varStatus="lCtgStatus">
-    							<c:set var="divId" value="collapse${lCtgStatus.count}"/>
-    							<div id="${divId}" role="tabpanel" aria-labelledby="headingOne" >
-									<ul class="sub list-inline" style="margin:0px" >
-										<c:forEach items='${mCtgList}' var="mCtg" varStatus="status">
-										<li class="text-left">
-										<div>
-											<input type="checkbox" id="${mCtg.ctgcd}"/>
-											<label for="${mCtg.ctgcd}">${mCtg.ctgnm}</label><span class="badge">5</span>
-										</div>
-										</li>
-										</c:forEach>
-									</ul>
-				        		</div>
-			        		</c:forEach>
-					 	</div>  <!-- /.col-10 -->
-					</div><!-- /.row -->
-		 		</div><!-- /.subCtg -->
-		 		
-		 		<div class="card-body h-75 top-line align-items-center">
-		 			<div id="sCondition" class="row align-items-center" style="margin: 0px" >
-		 				<form class="form-inline" role="form">
-				 			<div class="form-group row card-text-normal">
-				 				<!-- <label for="sprice">가격</label> -->
-								<span><input type="text" size="7" class="form-control input-style" id="sprice"> </span>
-								<span id="dash" class="px-1"> ~ </span>
-								<span ><input type="text" size="7" class="form-control input-style" id="eprice"></span>
-								<span style="margin: 5px"><input type="button" class="form-control input-style" value="가격검색"></span>
-							</div>
-				 		</form>
-				 		<span id="space" class="px-2"></span>
-		 				<form class="form-inline" role="form">
-				 			<div class="form-group row card-text-normal" style="font-weight: normal;">
-				 				<!-- <label for="sprice">가격</label> -->
-								<span><input type="text" size="16" class="form-control input-style" id="innerCondition"> </span>
-								<span class="px-1"><input type="button" class="form-control input-style" value="결과내 재검색"></span>
-							</div>
-				 		</form>
-				 		<span id="space" class="px-2"></span>
-				 		<form class="form-inline " role="form">
-				 			<div class="form-group row card-text-normal">
-								<input type="checkbox" id="deliveryWay1"/>
-								<label for="deliveryWay1" class="label-small">직접수령</label>
-							</div>
-							<div class="form-group row card-text-normal">
-								<input type="checkbox" id="deliveryWay2"/>
-								<label for="deliveryWay2" class="label-small">무료배송</label>
-							</div>
-							<span id="dash" class="px-3"> / </span>
-							<div class="form-group row card-text-normal">
-								<input type="checkbox" id="aucStatus1"/>
-								<label for="aucStatus1" class="label-small">진행경매</label>
-							</div>
-							<div class="form-group row card-text-normal">
-								<input type="checkbox" id="aucStatus2"/>
-								<label for="aucStatus2" class="label-small">예정경매</label>
-							</div>
-						</form>
+	<c:choose>
+		<c:when test="${itemList.isEmpty()}">
+			<div class="justify-content-center mt-2 mb-4">
+				<div><img class="card-img-top" src="../../../images/null.png"  style="width: 30%;" alt=""></div>
+				<div class="h6 strong"><span class="c-kobay h2">${pageVO.searchKeyword}</span>에 대한 검색 결과가 존재하지 않습니다.</div>
+				<ul class="col-8 mt-3 mb-1 search">
+					<li class="c-grey" style="display:inline-block;">
+					·  상품명, 상표명 등의 검색어가 올바른지 확인해 보세요.</li>
+					<li class="c-grey " style="display:inline-block;">· 검색어의 단어 수를 줄이거나 예술품, 컴퓨터와 같은 일반적인 단어로 검색해 보세요.</li>
+				</ul>
+			</div> 
+			<div>
+				<!-- 오눌 오픈한 경매 or 인기 경매 몇개만 보여주기  -->
+			</div>
+		</c:when>
+		<c:otherwise>
+			<div class="mb-4 mt-4" style="width: 90%" id="accordion" role="tablist" aria-multiselectable="true">
+				 <div class="card">
+					<div id="mainCtg" class="card-body h-75">
+						<div class="row align-items-center">
+						 	<div class="col-2">
+						 		<p class="card-text" >카테고리</p>
+						 	</div>
+						 	<div id="category" class="col-10 category">
+						 		<div id="mainCtg" role="tab" id="headingOne">
+	          						<ul class="list-inline main" style="margin-bottom: 0px; padding: 0;">
+								 		<c:forEach items="${lCtgList}" var ="lList" varStatus="status">
+								 			<li class="text-left">
+									 			<div>
+									 			<input type="checkbox" id="${lList.ctgcd}" />
+									 			<label for="${lList.ctgcd}">${lList.ctgnm}<span id="lcnt${status.count}" class="badge"></span>
+										 			<a onclick="toggelClick(this)" id="test${status.count }" data-toggle="collapse"  data-parent="#accordion" aria-expanded="false" aria-controls="collapse1">
+			          									<i id="fa${status.count }" class="fa fa-plus-circle" aria-hidden="true" style="color: #FF6666"></i>
+			          								</a>
+		          								</label>  
+		          								</div>   	
+					 						</li>
+								 		</c:forEach>
+				 					</ul>
+	        					</div>	<!-- /.mainCtg --> 		
+				 			</div> <!-- /.category -->
+						</div> <!-- /.row -->
+					</div> <!-- /.mainCtg -->
+					
+					<div id="subCtg" class="card-body sub-body h-75 bg-light top-line">
+						<div class="row align-items-center">
+				 			<div class="col-2">
+				 				<p class="card-text" style="font-weight: bold;">상세검색</p>
+				 			</div>
+				 			<div class="col-10">
+				 			
+	   							<c:forEach items="${mList}" var="mList" varStatus="lCtgStatus">
+	    							<c:set var="divId" value="collapse${lCtgStatus.count}"/>
+	    							<div id="${divId}" role="tabpanel" aria-labelledby="headingOne" >
+										<ul class="sub list-inline" style="margin:0px" >
+											<c:forEach items='${mList}' var="mList" varStatus="status">
+											<li class="text-left">
+											<div>
+												<input type="checkbox" id="${mList.ctgcd}"/>
+												<label for="${mList.ctgcd}">${mList.ctgnm}</label><span class="badge">${mList.count}</span>
+											</div>
+											</li>
+											</c:forEach>
+										</ul>
+					        		</div>
+				        		</c:forEach>
+						 	</div>  <!-- /.col-10 -->
+						</div><!-- /.row -->
+			 		</div><!-- /.subCtg -->
+			 		
+			 		<div class="card-body h-75 top-line align-items-center">
+			 			<div id="sCondition" class="row align-items-center" style="margin: 0px" >
+			 				<form class="form-inline" role="form">
+					 			<div class="form-group row card-text-normal">
+					 				<!-- <label for="sprice">가격</label> -->
+									<span><input type="text" size="7" class="form-control input-style" id="sprice"> </span>
+									<span id="dash" class="px-1"> ~ </span>
+									<span ><input type="text" size="7" class="form-control input-style" id="eprice"></span>
+									<span style="margin: 5px"><input type="button" class="form-control input-style" value="가격검색"></span>
+								</div>
+					 		</form>
+					 		<span id="space" class="px-2"></span>
+			 				<form class="form-inline" role="form">
+					 			<div class="form-group row card-text-normal" style="font-weight: normal;">
+					 				<!-- <label for="sprice">가격</label> -->
+									<span><input type="text" size="16" class="form-control input-style" id="innerCondition"> </span>
+									<span class="px-1"><input type="button" class="form-control input-style" value="결과내 재검색"></span>
+								</div>
+					 		</form>
+					 		<span id="space" class="px-2"></span>
+					 		<form class="form-inline " role="form">
+					 			<div class="form-group row card-text-normal">
+									<input type="checkbox" id="deliveryWay1"/>
+									<label for="deliveryWay1" class="label-small">직접수령</label>
+								</div>
+								<div class="form-group row card-text-normal">
+									<input type="checkbox" id="deliveryWay2"/>
+									<label for="deliveryWay2" class="label-small">무료배송</label>
+								</div>
+								<span id="dash" class="px-3"> / </span>
+								<div class="form-group row card-text-normal">
+									<input type="checkbox" id="aucStatus1"/>
+									<label for="aucStatus1" class="label-small">진행경매</label>
+								</div>
+								<div class="form-group row card-text-normal">
+									<input type="checkbox" id="aucStatus2"/>
+									<label for="aucStatus2" class="label-small">예정경매</label>
+								</div>
+							</form>
+				 		</div>
 			 		</div>
-		 		</div>
-			</div><!-- /.card -->
-		</div><!-- /.Category -->
-	
-		<div id="listContainer" style="width:90%">
+				</div><!-- /.card -->
+			</div><!-- /.Category -->
+		
+			<div id="listContainer" style="width:90%">
 			<div id="search" class="row mb-3">
 				<div class="col-12" align="right">
 					<div class="col-3">
@@ -386,47 +416,40 @@ function orderFunction() {
 							<option value=""> - 정렬기준 - </option>
 							<option value="best" <c:if test="${pageVO.orderCondition eq 'best'}">selected</c:if>> 인기경매순 </option>
 							<option value="close" <c:if test="${pageVO.orderCondition eq 'close'}">selected</c:if>> 마감임박순  </option>
-							<option value="recent" <c:if test="${pageVO.orderCondition eq 'recent'}">selected</c:if>> 최신등록순  </option>
+							<option value="recent" <c:if test="${pageVO.orderCondition eq 'recent'}">selected</c:if>> 최근경매순  </option>
 							<option value="lowprice" <c:if test="${pageVO.orderCondition eq 'lowprice'}">selected</c:if>> 낮은가격순 </option>
 							<option value="highprice" <c:if test="${pageVO.orderCondition eq 'highprice'}">selected</c:if>> 높은가격순 </option>
 						</select>
 					</div>
 				</div>
 			</div><!-- /.search -->
-			<%-- <!-- 검색 -->
-			<div  style="float: right"> 
-					<label for="searchCondition" style="visibility:hidden;">choose</label>
-					<select name="searchCondition" id="selectBox" class="form-group">
-						<option value="title" label="title" <c:if test="${pageVO.searchCondition eq 'title'}">selected</c:if>/>
-						<option value="name" label="name"  <c:if test="${pageVO.searchCondition eq 'name'}">selected</c:if>/>
-					</select>
-					<label for="searchKeyword" style="visibility:hidden;display:none;">keyword</label>
-					<input name="searchKeyword" type="text" value="${pageVO.searchKeyword}"/>
-					<a href="javascript:link_search()" class="btn btn-secondary" style="font-weight:bold;">search</a>   
-			</div> --%>
+		
 			
 			<div id="itemList" class="row">
-			<c:forEach items="${itemList}" var="list">
-				 <div class="col-lg-4 col-sm-6 portfolio-item" onclick=""> 
-					<div class="card">
-						<a href="#" class="item">
-						 	<img class="card-img-top" src="http://placehold.it/700x400" alt="">
-						  	<span class="item item-body">
-						    	<span class="item-text item-title ">${list.auctitle}</span>
-						  		<span class="item-text">
-						  			<span class="item-left h6 c-black"><strong>₩ ${list.price }</strong></span>
-					   				<span class="item-right">${list.sellername}</span>
-						  		</span>		
-							</span>   
-						</a>
-					   	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-					   		<div class="col-4">입찰 : ${list.bids }</div>
-					   		<div class="col-8">${list.sdate}~${list.edate }</div>
-					  	</div>
-					</div>
-		      	</div>	<!-- /.list -->
-			</c:forEach><!-- /list-foreach -->
-	      	</div> <!-- /.row -->
+				<c:forEach items="${itemList}" var="list">	
+					<div class="col-lg-4 col-sm-6 portfolio-item"> 
+						<div class="card">
+							<a href="#" class="item">
+							 	<img class="card-img-top" src="http://placehold.it/700x400" alt="">
+							  	<span class="item item-body">
+							  		<span class="item-text c-grey" style="font-size: 10pt;">[${list.mctg}]</span>
+							    	<span class="item-text item-title ">${list.auctitle}</span>
+							  		<span class="item-text">
+							  			<span class="item-left h6 c-black"><strong>₩ ${list.price }</strong></span>
+						   				<span class="item-right" style="text-align: right;"><span style="color:red;">${list.bids }</span>명 입찰참여</span>
+							  		</span>		
+								</span>   
+							</a>
+						   	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
+						   		<div class="col-4">${list.sellername}</div>
+						   		<div class="col-8">${list.sdate}~${list.edate }</div>
+						  	</div>
+						</div>
+			      	</div>	<!-- /.list -->
+				</c:forEach><!-- /list-foreach -->
+			</div> <!-- /.row -->
+			
+	      	
 	      	
 	      	<!-- Pagination -->
 	      	<div>
@@ -455,9 +478,8 @@ function orderFunction() {
 		      </ul>
 	      	</div>
       	</div> <!-- /.listContainer -->
-
-     
-
+		</c:otherwise>
+	</c:choose>
     </div><!-- /.container -->
 
     <!-- Footer -->
@@ -467,4 +489,4 @@ function orderFunction() {
 	<script src="../../../vendor/popper/popper.min.js"></script>
 	<script src="../../../vendor/bootstrap/js/bootstrap3.3.7.min.js"></script>
 </body>
-</html>
+

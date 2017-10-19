@@ -7,15 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import kobay.com.cmmn.PageVO;
 import kobay.com.search.SearchService;
+import kobay.com.search.SearchVO;
 
 
 /**
@@ -30,17 +36,22 @@ public class SearchController {
 	@Resource
 	SearchService service;
 	
-	private PageVO pageVO;
+	private PageVO pageVO = new PageVO();
 	
 	@RequestMapping("/search")
-	public ModelAndView searchView(Model model)throws Exception {
+	public ModelAndView searchView(@RequestParam("search_content") String searchContent, Model model)throws Exception {
 		ModelAndView mv = new ModelAndView();
+		
+		pageVO.setSearchKeyword(searchContent);
+		
+		
 		// !--getCategory
 		List<?> lCtgList = service.selectctglist();
 		List<?> mCtgList = null;
 		List<List<?>> mList = new ArrayList<>();
 		
 		Map<?, ?> map = null;
+		List<Integer> lListCnt = new ArrayList<>();
 		
 		for(int i = 0; i < lCtgList.size(); i++) {
 			map = (Map<?, ?>) (lCtgList.get(i));
@@ -51,18 +62,29 @@ public class SearchController {
 				String key = (String)it.next();
 				if(key.equals("ctgcd")) {
 					String value = (String)map.get(key);
-					
-					mCtgList = service.selectctgmlist(value);
+					pageVO.setCtgcd(value);
+					mCtgList = service.selectctgmlist(pageVO);
 					//System.out.println("===================" + value);
 					// model.addAttribute(value, mCtgList);
 					mList.add(mCtgList);
-
 				}
-			
 			}
 		}
+		
+		for (int i = 0; i < mList.size(); i++) {
+			int cnt = 0;
+			for(int j = 0; j < mList.get(i).size(); j++) {
+				EgovMap record = (EgovMap) ((mList.get(i)).get(j));//EgovMap으로 형변환하여 담는다.
+				String str = (record.get("count")).toString();
+				cnt = cnt + Integer.parseInt(str);
+				System.out.println("===========================CodeList:" + str);
+			}
+			lListCnt.add(cnt);
+		}
+		
 		model.addAttribute("listSize", lCtgList.size());
 		model.addAttribute("lCtgList", lCtgList);
+		model.addAttribute("lCtgCnt", lListCnt);
 		model.addAttribute("mList", mList);
 		// !--getCategory
 		
@@ -72,6 +94,10 @@ public class SearchController {
 		if(pageVO!= null) {
 			model.addAttribute("pageVO", pageVO);
 		}
+		
+		
+
+
 		
 	
 		mv.setViewName("others/search");
@@ -108,4 +134,20 @@ public class SearchController {
 		return "others/tab";
 	}
 
+	
+	public String[] getCtgLists(List<?> ctgList) throws Exception {
+		String[] ctgcd = null;
+		
+		ctgcd = new String[ctgList.size()];
+		if(ctgList != null) {
+			for (int i = 0; i < ctgList.size(); i++) {
+				EgovMap record = (EgovMap) ctgList.get(i);//EgovMap으로 형변환하여 담는다.
+				String value = (String) record.get("ctgcd");
+				//System.out.println("===========================CodeList:" + value);
+				ctgcd[i] = value;
+			}
+		}
+		
+		return ctgcd;
+	}
 }
