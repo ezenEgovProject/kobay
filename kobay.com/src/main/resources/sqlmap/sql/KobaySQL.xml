@@ -47,14 +47,11 @@
 	</insert>
 	
 	<select id="selectCtgList" resultClass="egovMap">
-		 <![CDATA[	SELECT 
+			SELECT 
 				ctgcd,
 				ctgnm
 	 		FROM  
-	 			AUCCATEGORY a
-	 		WHERE 1=1
-	 		AND
-	 			LENGTH(a.ctgcd) <= 4]]>
+	 			category 
 	</select>
 	
 	<select id="selectMCtgList" resultClass="egovMap">
@@ -62,8 +59,8 @@
 			ctgcd,
 			ctgnm
 		from
-			AUCCATEGORY
-		where ctgcd like #ctgcd# || '_%'
+			category
+		where ctgcd like '%' || #ctgcd# || '%'
 	</select>
 	
 	<select id="selectSeqNumber" resultClass="java.lang.Integer">

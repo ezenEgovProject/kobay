@@ -225,7 +225,7 @@
     <!-- Page Content -->
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
-	<form name="frm" method="post" id="frm" enctype="multipart/form-data">	
+	<form name="frm" method="post" id="frm" enctype="multipart/form-data"  action="">	
 	      <div class="row">
 	        <div class="col-lg-8 mb-4">
 	          <h3>상품등록</h3>        

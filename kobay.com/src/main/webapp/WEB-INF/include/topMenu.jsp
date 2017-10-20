@@ -26,7 +26,7 @@ function fn_logout() {
 			<div class="col-4 order-sm-2">
 			    <div class="input-group">
 			    	<span class="input-group-btn">
-			        	<a class="btn search-btn" href="/search"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
+			        	<a class="btn search-btn" href="/action/search"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
 			  		</span>
 			  		<input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
 				</div><!-- /.input-group -->

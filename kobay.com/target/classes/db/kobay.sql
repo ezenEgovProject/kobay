@@ -15,11 +15,7 @@
 	memberUnq number primary key not null /* 회원고유번호 */,
 	memberId varchar2(100) not null /* 회원아이디(이메일주소) */,
 	memberPwd varchar2(100) not null /* 회원비밀번호 */,
-<<<<<<< HEAD
 	memberName varchar2(10) not null /* 회원이름 */,
-=======
-	memberName varchar2(20) not null /* 회원이름 */,
->>>>>>> 661e3c820457e1da05adfc18d2003f0ed283bdb5
 	memberPhone varchar2(20) /* 회원 전화번호 */,
 	memberRdate timestamp /* 회원가입날짜 */
 	);
@@ -32,12 +28,8 @@
    	"MEMBERUNQ" NUMBER NOT NULL ENABLE, 
 	"AUCTIONUNQ" NUMBER NOT NULL ENABLE, 
 	"LCTG" VARCHAR2(10 BYTE) NOT NULL ENABLE, 
-<<<<<<< HEAD
 	"MCTG" VARCHAR2(10 BYTE) NOT NULL ENABLE, 
 	"SCTG" VARCHAR2(10 BYTE), 
-=======
-	"MCTG" VARCHAR2(10 BYTE) NOT NULL ENABLE,
->>>>>>> 661e3c820457e1da05adfc18d2003f0ed283bdb5
 	"SDATE" TIMESTAMP (6) NOT NULL ENABLE, 
 	"EDATE" TIMESTAMP (6) NOT NULL ENABLE, 
 	"AUCTITLE" VARCHAR2(100 BYTE) NOT NULL ENABLE, 

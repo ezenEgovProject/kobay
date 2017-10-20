@@ -1,52 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
-<sqlMap namespace="searchSpace">
+<sqlMap>
 	<typeAlias alias="testVO" type="kobay.com.service.TestVO"/>
-	<typeAlias alias="searchVO" type="kobay.com.search.SearchVO"/>
-	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-	<typeAlias alias="pageVO" type="kobay.com.cmmn.PageVO"/>
 	
 	<select id="test.getDept" resultClass="testVO">
 		select deptno, dname, loc from dept where deptno=#deptno#
 	</select>
 	
-	
-	<!-- SearchList -->
-	<select id="search.getList" parameterClass="pageVO" resultClass="egovMap">
-		SELECT A.* FROM (
-			SELECT ROWNUM RN, B.* FROM (
-				SELECT 
-					auctionUnq, 
-					to_char(sdate, 'yyyy-mm-dd')sDate, 
-					to_char(eDate, 'yyyy-mm-dd')eDate,
-					aucTitle,
-					aucImageMain, 
-					aucImageSub1, 
-					aucImageSub2, 
-					aucImageSub3, 
-					ePrice, 
-					sellerName, 
-					aucStatus 
-				FROM 
-					KOBAYAUCTION
-				WHERE 1=1
-				<isNotNull property="orderCondition">
-					<isEqual property="orderCondition" compareValue="best">
-						ORDER BY auctionUnq DESC ) B 
-					</isEqual>
-					<isEqual property="orderCondition" compareValue="date">
-						ORDER BY abs( TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B 
-					</isEqual>
-					<isEqual property="orderCondition" compareValue="">
-						ORDER BY auctionUnq DESC ) B 
-					</isEqual>
-				</isNotNull>
-				<isNull property="orderCondition">
-					ORDER BY auctionUnq DESC ) B 
-				</isNull>	
-			) A
-		<!--  WHERE RN >= #firstIndex# AND RN <![CDATA[<=]]> #lastIndex#  -->
-		 WHERE RN >= 1 AND RN <![CDATA[<=]]> 100 
-	</select>
 
 </sqlMap>

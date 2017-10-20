@@ -32,7 +32,7 @@ maxvalue 999999;
 /*
  * AXX : 대분류 
  * AXXXX : 중분류 
-
+ * AXXXXXX : 소분류  
  */
 
 insert into category values('A01','가전제품'); 
