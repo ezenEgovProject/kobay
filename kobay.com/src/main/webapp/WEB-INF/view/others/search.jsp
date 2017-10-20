@@ -1,20 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<!DOCTYPE html>
 <link rel="stylesheet" href="../../../css/font.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
-body {
+ body {
 	font-size: .9rem; 
 	font-family:"NanumGothic";
-}
+} 
 label {
 	margin-top: .5rem;
 	margin-left: .3rem;
 	margin-right: .3rem;
-	font-size: .9rem; 
-	font-family:"NanumGothic";
-}
+} 
 a:link { text-decoration: none;}
 a:visited {  text-decoration: none;}
 a:hover { text-decoration: none; color:#007bff;}
@@ -112,8 +111,6 @@ a:hover { text-decoration: none; color:#007bff;}
   vertical-align: super;
   font-size: 14px;
 }
-
-
 .item-body {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -160,14 +157,12 @@ a:hover { text-decoration: none; color:#007bff;}
     text-align: left;
     font-size: 14px;
 }
- .col-md-offset-3{margin-left:25%}
 .search > li {
 	margin: 5px;
 }
 .strong {
 	font-weight: bold;
 }
-
 .c-black {
 	color: #000;
 }
@@ -179,39 +174,49 @@ a:hover { text-decoration: none; color:#007bff;}
 }
 </style>
 
+<%-- 화면로드시 기본적으로 적용될 script --%>
 <script type="text/javascript">
-	
-</script>
-
-<script type="text/javascript">
+// mCategory toggle 상태 값
 var isToggle = false;
-var curToggle;
+// 현재 토글된 mCategory값
+var curToggle;		
+// lCategory 컬럼 사이즈
+var listSize = ${listSize};
+
+// mCategory를 숨기는 함수(toggle여부에 따름)
+function mCtgHide() {
+	//var listSize = ${listSize};
+	for(var i = 1; i <= listSize; i++ ) {
+		$("#collapse" + i).hide();
+	}
+}
+
+// 화면로드 
 $(document).ready(function () {
-	subHide();
+	$("#list").load("/itemList");
+	mCtgHide();
 	
 	var list = ${lCtgCnt};
 	for(var i = 0; i < list.length; i++) {
 		document.getElementById("lcnt"+(i+1)).innerHTML = list[i];
 	}
 })
+
+// 대분류 toggle icon 클릭이벤트 
 function toggelClick(thisValue) {
 	var id = thisValue.getAttribute("id");
 	
 	if(curToggle != id) {
 		isToggle = false;
-		var listSize = "${listSize}";
 		for(var i = 1; i <= listSize; i++ ) {
-			subHide();
+			mCtgHide();
 			$("#fa"+i).attr('class', 'fa fa-plus-circle');
 		}
-	
 	}
-	//alert("thisVale" + id + ", curToggle: " + curToggle);
-	curToggle = id;
+	curToggle = id;			// 현재 토글된 카테고리 아이디값 저장
+	isToggle = !isToggle;	// 토글 상태 변경
 	
-	isToggle = !isToggle;
-	
-	// id에 따라에 따라 다른 내용 보여줄것
+	// subCtg(mCtg)div id에 따라에 따라 다른 내용 보여줄것
     if(isToggle) {
     	document.getElementById("subCtg").style.display = "block";
     	
@@ -246,26 +251,17 @@ function toggelClick(thisValue) {
     		break;
     	}	
     	
-  
     } else {
     	document.getElementById("subCtg").style.display = "none";
-    	var listSize = "${listSize}";
     	for(var i = 1; i <= listSize; i++ ) {
-			subHide();
+			mCtgHide();
 			$("#fa"+i).attr('class', 'fa fa-plus-circle');
 		}
-    	
     } 
-	
-}
-function subHide() {
-	
-	var listSize = "${listSize}";
-	for(var i = 1; i <= listSize; i++ ) {
-		$("#collapse" + i).hide();
-	}
 }
 </script>
+
+<%-- 정렬기준 script --%>
 <script type="text/javascript">
 function orderFunction() {
 	var selectValue = document.getElementById("orderCondition").value;
@@ -273,12 +269,12 @@ function orderFunction() {
 	$.ajax({
 		type : 'POST',
 		data : params,
-		url : "<c:url value='/listReOrder'/>",
+		url : "<c:url value='/reOrderingList'/>",
 		dataType : "json",
 		success : function(data) {
 			if(data.result == "success") {
-			//$('#itemList').load('refresh.html');
-				self.location.reload();
+				$("#list").load("/itemList");
+				//self.location.reload();
 				return false;
 			}
 			else {
@@ -291,14 +287,69 @@ function orderFunction() {
 	});
 }
 </script>
-  <body>
+
+<%-- 카테고리선택값 script --%>
+<script type="text/javascript">
+function fn_checkboxClick(value) {
+	// check된  mCategory code값
+	var id = value.getAttribute("id");
+	// lCategory code값
+	var lctg = id.substring(0,3);
+	// checkCategory 배열
+	var checkCtg = new Array();
+	// mCategory 배열
+	var mctgList = new Array();
+	
+	// 현재 체크된 카테고리갑 저장
+	$("input:checkbox:checked").each(function() {
+		var checkValue = $(this).val();
+		if(!checkValue.match("category")) {
+		 	mctgList.push(checkValue);
+		 }
+	})
+	// mCategory클릭시 lCategory check상태 변경
+	document.getElementById(lctg).checked = true;
+	
+	var params = "mCtgList="+mctgList;
+	$.ajax({
+		type : 'POST',
+		data : params,
+		url : "<c:url value='/reConditionalList'/>",
+		dataType : "json",
+		success : function(data) {
+			if(data.result == "success") {
+				<%-- 카테고리 check 확인--%>
+					for(var i = 0; i < listSize; i++) {
+						var categoryName = "category" + (i+1);
+						checkCtg[i] = $("input[name="+ categoryName +"]:checkbox:checked");
+						
+						if(checkCtg[i].length == 0 && categoryName == document.getElementById(lctg).value) {
+							document.getElementById(lctg).checked = false;
+						}	
+					}
+					$("#list").load("/itemList");
+					return false;
+				}
+				else {
+					alert("데이터를 로드할 수 없습니다.")
+					location.reload();
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+	}); 
+}
+</script>
+
+<body>
   	<!-- Page Content -->
 	<div class="container" align="center">  
 	<c:choose>
 		<c:when test="${itemList.isEmpty()}">
 			<div class="justify-content-center mt-2 mb-4">
 				<div><img class="card-img-top" src="../../../images/null.png"  style="width: 30%;" alt=""></div>
-				<div class="h6 strong"><span class="c-kobay h2">${pageVO.searchKeyword}</span>에 대한 검색 결과가 존재하지 않습니다.</div>
+				<div class="h6 strong"><span class="c-kobay h2">${searchVO.searchKeyword}</span>에 대한 검색 결과가 존재하지 않습니다.</div>
 				<ul class="col-8 mt-3 mb-1 search">
 					<li class="c-grey" style="display:inline-block;">
 					·  상품명, 상표명 등의 검색어가 올바른지 확인해 보세요.</li>
@@ -323,7 +374,7 @@ function orderFunction() {
 								 		<c:forEach items="${lCtgList}" var ="lList" varStatus="status">
 								 			<li class="text-left">
 									 			<div>
-									 			<input type="checkbox" id="${lList.ctgcd}" />
+									 			<input type="checkbox" id="${lList.ctgcd}" value="category${status.count}" />
 									 			<label for="${lList.ctgcd}">${lList.ctgnm}<span id="lcnt${status.count}" class="badge"></span>
 										 			<a onclick="toggelClick(this)" id="test${status.count }" data-toggle="collapse"  data-parent="#accordion" aria-expanded="false" aria-controls="collapse1">
 			          									<i id="fa${status.count }" class="fa fa-plus-circle" aria-hidden="true" style="color: #FF6666"></i>
@@ -352,7 +403,7 @@ function orderFunction() {
 											<c:forEach items='${mList}' var="mList" varStatus="status">
 											<li class="text-left">
 											<div>
-												<input type="checkbox" id="${mList.ctgcd}"/>
+												<input type="checkbox" name="category${lCtgStatus.count}" id="${mList.ctgcd}" value="${mList.ctgcd}" onclick="fn_checkboxClick(this)" />
 												<label for="${mList.ctgcd}">${mList.ctgnm}</label><span class="badge">${mList.count}</span>
 											</div>
 											</li>
@@ -414,43 +465,20 @@ function orderFunction() {
 					<div class="col-3">
 						<select name="orderCondition" id="orderCondition" class="form-control list_select" onchange="orderFunction()">
 							<option value=""> - 정렬기준 - </option>
-							<option value="best" <c:if test="${pageVO.orderCondition eq 'best'}">selected</c:if>> 인기경매순 </option>
-							<option value="close" <c:if test="${pageVO.orderCondition eq 'close'}">selected</c:if>> 마감임박순  </option>
-							<option value="recent" <c:if test="${pageVO.orderCondition eq 'recent'}">selected</c:if>> 최근경매순  </option>
-							<option value="lowprice" <c:if test="${pageVO.orderCondition eq 'lowprice'}">selected</c:if>> 낮은가격순 </option>
-							<option value="highprice" <c:if test="${pageVO.orderCondition eq 'highprice'}">selected</c:if>> 높은가격순 </option>
+							<option value="best" <c:if test="${searchVO.orderCondition eq 'best'}">selected</c:if>> 인기경매순 </option>
+							<option value="close" <c:if test="${searchVO.orderCondition eq 'close'}">selected</c:if>> 마감임박순  </option>
+							<option value="recent" <c:if test="${searchVO.orderCondition eq 'recent'}">selected</c:if>> 최근경매순  </option>
+							<option value="lowprice" <c:if test="${searchVO.orderCondition eq 'lowprice'}">selected</c:if>> 낮은가격순 </option>
+							<option value="highprice" <c:if test="${searchVO.orderCondition eq 'highprice'}">selected</c:if>> 높은가격순 </option>
 						</select>
 					</div>
 				</div>
 			</div><!-- /.search -->
 		
+			<div id="list">
+			<%-- list.jsp import --%>
+			</div>
 			
-			<div id="itemList" class="row">
-				<c:forEach items="${itemList}" var="list">	
-					<div class="col-lg-4 col-sm-6 portfolio-item"> 
-						<div class="card">
-							<a href="#" class="item">
-							 	<img class="card-img-top" src="http://placehold.it/700x400" alt="">
-							  	<span class="item item-body">
-							  		<span class="item-text c-grey" style="font-size: 10pt;">[${list.mctg}]</span>
-							    	<span class="item-text item-title ">${list.auctitle}</span>
-							  		<span class="item-text">
-							  			<span class="item-left h6 c-black"><strong>₩ ${list.price }</strong></span>
-						   				<span class="item-right" style="text-align: right;"><span style="color:red;">${list.bids }</span>명 입찰참여</span>
-							  		</span>		
-								</span>   
-							</a>
-						   	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-						   		<div class="col-4">${list.sellername}</div>
-						   		<div class="col-8">${list.sdate}~${list.edate }</div>
-						  	</div>
-						</div>
-			      	</div>	<!-- /.list -->
-				</c:forEach><!-- /list-foreach -->
-			</div> <!-- /.row -->
-			
-	      	
-	      	
 	      	<!-- Pagination -->
 	      	<div>
 		      <ul class="pagination justify-content-center">

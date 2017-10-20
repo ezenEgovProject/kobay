@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="searchSpace">
-	<typeAlias alias="testVO" type="kobay.com.service.TestVO"/>
-	<typeAlias alias="searchVO" type="kobay.com.search.SearchVO"/>
+	<typeAlias alias="searchVO" type="kobay.com.service.SearchVO"/>
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="pageVO" type="kobay.com.cmmn.PageVO"/>
 	
-	<select id="test.getDept" resultClass="testVO">
-		select deptno, dname, loc from dept where deptno=#deptno#
-	</select>
-	
-	
 	<!-- SearchList -->
-	<select id="search.getList" parameterClass="pageVO" resultClass="egovMap">
+	<select id="search.getList" parameterClass="searchVO" resultClass="egovMap">
 		SELECT A.* FROM (
 			SELECT ROWNUM RN, B.* FROM (
 				SELECT  k.auctionUnq, 
@@ -44,6 +38,13 @@
 	            	OR 
 	                	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
 	        	)
+	        	<isNotNull property="mCtgList">
+					<iterate prepend="AND" property="mCtgList" open="(" close=")" conjunction="OR">
+						<!-- AND -->
+						 (select ctgcd from auctionctg where ctgcd = k.mctg) LIKE '%' || #mCtgList[]# || '%'
+					</iterate>  
+				</isNotNull>
+				
 				<isNotNull property="orderCondition">
 					<isEqual property="orderCondition" compareValue="best">
 						ORDER BY bids DESC ) B 
@@ -61,7 +62,7 @@
 						ORDER BY price DESC ) B  
 					</isEqual>
 					<isEqual property="orderCondition" compareValue="">
-						ORDER BY auctionUnq DESC ) B 
+						ORDER BY abs( TO_DATE( sdate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B  
 					</isEqual>
 				</isNotNull>
 				<isNull property="orderCondition">
@@ -69,6 +70,7 @@
 				</isNull>	
 				) A
 				WHERE RN >= 1 AND RN <![CDATA[<=]]> 100 
+				
 				AND TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
 		 
 		 <!--  WHERE RN >= #firstIndex# AND RN <![CDATA[<=]]> #lastIndex#  -->
@@ -76,7 +78,7 @@
 	
 	
 	<!-- 각 대메뉴 카테고리별로 가져오기  -->
-	<select id="search.getMCtgList" parameterClass="pageVO" resultClass="java.lang.Integer">
+	<select id="search.getMCtgList" parameterClass="searchVO" resultClass="java.lang.Integer">
 		SELECT  count(*)
 		FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
 		WHERE   K.AUCTIONUNQ = a.auctionunq
@@ -126,7 +128,7 @@
  		
 	</select>
 	
-	<select id="search.selectMCtgList" parameterClass="pageVO" resultClass="egovMap">
+	<select id="search.selectMCtgList" parameterClass="searchVO" resultClass="egovMap">
 		SELECT 
 		    distinct(a.ctgcd),
 		    a.ctgnm,
@@ -150,25 +152,5 @@
 		WHERE ctgcd like #ctgcd# || '_%'
 	</select>
 	
-	
-	
-	<select id="search.lCtgCodes" resultClass="egovMap">
-			SELECT 
-				ctgcd
-	 		FROM  
-	 			AUCTIONCTG a
-	 		WHERE 1=1
-	 		AND
-	 			LENGTH(a.ctgcd) <![CDATA[<]]> 4
-	</select>
-	
-	
-	<select id="search.mctgCodes" resultClass="egovMap">
-		select 
-			ctgcd
-		from
-			AUCTIONCTG a
-		where LENGTH(a.ctgcd) <![CDATA[>=]]> 4
-	</select>
 
 </sqlMap>

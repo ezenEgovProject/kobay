@@ -1,5 +1,7 @@
 package kobay.com.cmmn;
 
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -79,6 +81,15 @@ public class PageVO {
 	/**
 	 * Search Value
 	 */
+	private List<String> mCtgList;
+	
+	public List<String> getmCtgList() {
+		return mCtgList;
+	}
+	public void setmCtgList(List<String> mCtgList) {
+		this.mCtgList = mCtgList;
+	}
+	
 	private String mCtgcd;
 
 	public String getmCtgcd() {

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import kobay.com.cmmn.PageVO;
-import kobay.com.search.SearchService;
+import kobay.com.service.SearchService;
+import kobay.com.service.SearchVO;
 
 /**
  * Kobay Project Search Controller
@@ -30,19 +30,24 @@ import kobay.com.search.SearchService;
 public class SearchController {
 
 	@Resource
-	SearchService service;
+	SearchService searchService;
 	
-	private PageVO pageVO = new PageVO();
+	private SearchVO searchVO;
 	
+	/**
+	 * SearchView
+	 * @param searchContent(searchKeyword)
+	 * @return KobayAuction List
+	 * @throws SqlException, ParseException
+	 */
 	@RequestMapping("/search")
 	public ModelAndView searchView(@RequestParam("search_content") String searchContent, Model model)throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
-		pageVO.setSearchKeyword(searchContent);
-		
+		searchVO = new SearchVO();
+		searchVO.setSearchKeyword(searchContent);
 		
 		// !--getCategory
-		List<?> lCtgList = service.selectctglist();
+		List<?> lCtgList = searchService.selectctglist();
 		List<?> mCtgList = null;
 		List<List<?>> mList = new ArrayList<>();
 		
@@ -58,10 +63,8 @@ public class SearchController {
 				String key = (String)it.next();
 				if(key.equals("ctgcd")) {
 					String value = (String)map.get(key);
-					pageVO.setCtgcd(value);
-					mCtgList = service.selectctgmlist(pageVO);
-					//System.out.println("===================" + value);
-					// model.addAttribute(value, mCtgList);
+					searchVO.setCtgcd(value);
+					mCtgList = searchService.selectctgmlist(searchVO);
 					mList.add(mCtgList);
 				}
 			}
@@ -73,7 +76,6 @@ public class SearchController {
 				EgovMap record = (EgovMap) ((mList.get(i)).get(j));//EgovMap으로 형변환하여 담는다.
 				String str = (record.get("count")).toString();
 				cnt = cnt + Integer.parseInt(str);
-				System.out.println("===========================CodeList:" + str);
 			}
 			lListCnt.add(cnt);
 		}
@@ -83,67 +85,64 @@ public class SearchController {
 		model.addAttribute("lCtgCnt", lListCnt);
 		model.addAttribute("mList", mList);
 		// !--getCategory
-		
-		// !--getList
-		List<?> itemList = getList(pageVO);
-		model.addAttribute("itemList", itemList);
-		if(pageVO!= null) {
-			model.addAttribute("pageVO", pageVO);
-		}
-		
-		
-
-
-		
 	
+		if(searchVO!= null) {
+			model.addAttribute("searchVO", searchVO);
+		}
+
 		mv.setViewName("others/search");
 		return mv;
 	}
 	
-	// 조건에따라 리스트 가져오기
-	private List<?> getList(PageVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		List<?> list = service.getSearchList(vo);
-		return list;
+	/**
+	 * @return KobayAuction ItemList
+	 * @throws sqlException
+	 */
+	@RequestMapping("/itemList")
+	public String loadList(Model model) throws Exception {
+		List<?> itemList = new ArrayList<>();
+		itemList = searchService.getSearchList(searchVO);
+		model.addAttribute("itemList", itemList);
+		return "others/item/list";
 	}
-	
-	@RequestMapping("/listReOrder")
-	@ResponseBody Map<String, Object> listReOrder(Model model, PageVO vo) {
-		
+
+	/**
+	 * 카테고리에따른 리스트 재검색
+	 * @param vo - mCtgList(카테고리)
+	 * @return String - 카테고리별 재검색 대한 쿼리성공여부
+	 */
+	@RequestMapping("/reConditionalList")
+	@ResponseBody Map<String, Object> reConditionalList(Model model, SearchVO vo) {
 		Map<String, Object> map = new HashMap<>();
-		pageVO = vo;
+		searchVO.setmCtgList(vo.getmCtgList());
+		
 		try {
-			//List<?> list = getList(vo);
 			map.put("result", "success");
-			//map.put("itemList", list);
-			model.addAttribute("pageVO", vo);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			model.addAttribute("searchVO", vo);
+		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("result", "fail");
 		}
 		return map;
 	}
 
-	@RequestMapping("/stest")
-	public String test() {
-		return "others/tab";
-	}
+	/**
+	 * 정렬기준에 따른 리스트 재정렬
+	 * @param vo - orderCodition(카테고리)
+	 * @return String - 리스트 재정렬에 대한 쿼리성공여부
+	 */
+	@RequestMapping("/reOrderingList")
+	@ResponseBody Map<String, Object> listReOrder(Model model, SearchVO vo) {
+		Map<String, Object> map = new HashMap<>();
+		searchVO.setOrderCondition(vo.getOrderCondition());
+		try {
+			map.put("result", "success");
+			model.addAttribute("searchVO", vo);
+		} catch (Exception e) {
 
-	
-	public String[] getCtgLists(List<?> ctgList) throws Exception {
-		String[] ctgcd = null;
-		
-		ctgcd = new String[ctgList.size()];
-		if(ctgList != null) {
-			for (int i = 0; i < ctgList.size(); i++) {
-				EgovMap record = (EgovMap) ctgList.get(i);//EgovMap으로 형변환하여 담는다.
-				String value = (String) record.get("ctgcd");
-				//System.out.println("===========================CodeList:" + value);
-				ctgcd[i] = value;
-			}
+			e.printStackTrace();
+			map.put("result", "fail");
 		}
-		
-		return ctgcd;
+		return map;
 	}
 }
