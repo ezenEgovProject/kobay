@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import kobay.com.service.KobayVO;
-import kobay.com.service.TableVO;
 
 @Repository("kobayDAO")
 public class KobayDAO extends EgovAbstractDAO {
@@ -23,12 +22,5 @@ public class KobayDAO extends EgovAbstractDAO {
 		return list("selectMCtgList",vo);
 	}
 	
-	public String createTable(TableVO tvo){
-		return (String) insert("createTable",tvo);
-	}
-	
-	public int selectSeqNumber(){
-		return (int) select("selectSeqNumber");
-	}
 	
 }

@@ -16,20 +16,65 @@ public class KobayVO {
 	private String aucimagesub1;
 	private String aucimagesub2;
 	private String aucimagesub3;
-	private int sprice;
 	private int eprice;
-	private int deliveryway;
-	private int deliveryfee;
+	
 	private String sellername;
 	private String sellerphone;
 	private String aucdetail;
+	private int sprice;
+	private int deliveryfee;
+	private int deliveryway;
+	
 	private int aucstatus;
 	private int delstatus;
+	
+	
+	// write 페이지에서 int로 null값 받을때 에러나서 string 형태로 받은 다음 int 형태로 변환하여 vo에 넣어기 위해 만든 변수들
 	private String phone1;
 	private String phone2;
 	private String phone3;
+	private String sp;
+	private String df;
+	private String dw;
+	
 
 	
+
+	public String getSp() {
+		return sp;
+	}
+
+	public void setSp(String sp) {
+		this.sp = sp;
+	}
+
+	public String getDf() {
+		return df;
+	}
+
+	public void setDf(String df) {
+		this.df = df;
+	}
+
+	public String getDw() {
+		return dw;
+	}
+
+	public void setDw(String dw) {
+		this.dw = dw;
+	}
+
+	public void setSprice(int sprice) {
+		this.sprice = sprice;
+	}
+
+	public void setDeliveryfee(int deliveryfee) {
+		this.deliveryfee = deliveryfee;
+	}
+
+	public void setDeliveryway(int deliveryway) {
+		this.deliveryway = deliveryway;
+	}
 
 	public String getPhone1() {
 		return phone1;
@@ -163,8 +208,12 @@ public class KobayVO {
 		return sprice;
 	}
 
-	public void setSprice(int sprice) {
-		this.sprice = sprice;
+	public int getDeliveryfee() {
+		return deliveryfee;
+	}
+
+	public int getDeliveryway() {
+		return deliveryway;
 	}
 
 	public int getEprice() {
@@ -173,22 +222,6 @@ public class KobayVO {
 
 	public void setEprice(int eprice) {
 		this.eprice = eprice;
-	}
-
-	public int getDeliveryway() {
-		return deliveryway;
-	}
-
-	public void setDeliveryway(int deliveryway) {
-		this.deliveryway = deliveryway;
-	}
-
-	public int getDeliveryfee() {
-		return deliveryfee;
-	}
-
-	public void setDeliveryfee(int deliveryfee) {
-		this.deliveryfee = deliveryfee;
 	}
 
 	public String getSellername() {

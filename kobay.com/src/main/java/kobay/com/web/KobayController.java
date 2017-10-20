@@ -18,6 +18,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import kobay.com.service.Editor;
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
-import kobay.com.service.TableVO;
 
 @Controller
 public class KobayController {
@@ -45,11 +45,11 @@ public class KobayController {
 
 	@RequestMapping("/write")
 	public String Write(Model model) throws Exception {
-
+		KobayVO vo;
 		List<?> ctgList = kobayService.selectctglist();
 
 		model.addAttribute("resultList", ctgList);
-
+		
 		return "write/kobayWrite";
 	}
 
@@ -68,20 +68,45 @@ public class KobayController {
 
 	@RequestMapping(value = "/uploadFileSave")
 	@ResponseBody
-	public Map<String, String> multipartProcess(final MultipartHttpServletRequest multiRequest,
-			HttpServletResponse response, KobayVO vo, Model model, TableVO tvo) throws Exception {
-
+	public Map<String, Object> multipartProcess(final MultipartHttpServletRequest multiRequest,
+			HttpServletResponse response, KobayVO vo, Model model, HttpServletRequest request,HttpSession session ) throws Exception {
+		
 		System.out.println("=================================");
 		System.out.println(vo.getAuctitle());
+		
+		
+//		int munq = (int) session.getAttribute("memberUnq");
+//		
+//		vo.setMemberunq(munq);
+			
+		int a;
+		int b;
+		int c;
+		
+		a = Integer.parseInt(vo.getDw());
+		System.out.println("===============================" + vo.getDf());
+		
+		if(vo.getDf()==null){
+			System.out.println("sadfljsdafjsdajfkl");
+			b = 0;
+		}else{
+			b = Integer.parseInt(vo.getDf());
+		}
+
+		c = Integer.parseInt(vo.getSp());
+
+		vo.setDeliveryway(a);
+		vo.setDeliveryfee(b);
+		vo.setSprice(c);
 
 		MultipartFile file;
 		String filePath = "";
 		int cnt = 0;
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 
-		String uploadPath = "c:/upload";
+		String uploadPath = request.getSession().getServletContext().getRealPath("upload");
 
 		// 폴더의 존재 유무 및 생성
 
@@ -119,9 +144,10 @@ public class KobayController {
 
 		String[] filelist = filename.split("／");
 
-		vo.setAucimagemain(filelist[0]);
-		vo.setAucimagesub1(filelist[1]);
-
+		for(int i=0;i<filelist.length;i++){
+			vo.setAucimagemain(filelist[i]);
+		}
+		
 		String[] dr = vo.getDateRange().split(" ~ ");
 
 		try {
@@ -151,30 +177,25 @@ public class KobayController {
 		
 		String result = "";
 
-		result = kobayService.insertWrite(vo);
+		try {
+			result = kobayService.insertWrite(vo);
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("cnt", 0);
+//			e.printStackTrace();
+			return map;
+		}
+		
 
 		if (result == null) {
 			cnt = cnt + 1;
 		}
 
-		map.put("cnt", Integer.toString(cnt));
+		map.put("cnt", cnt);
 		System.out.println("cnt -> " + cnt);
-
-		// Map<String, Integer> createMap = new HashMap<String, Integer>();
-		//
-		// int auction_unq = 1;
-		// int member_unq = 2;
-		//
-		// createMap.put("auction_unq", auction_unq);
-		// createMap.put("member_unq", member_unq);
-
-		int seqn = kobayService.selectSeqNumber();
-		seqn = seqn - 1;
-		tvo.setAuctionunq(seqn);
-		tvo.setMemberunq(1);
-
-		kobayService.createTable(tvo);
-
+		
+		
+		
 		return map;
 	}
 	
@@ -183,8 +204,10 @@ public class KobayController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		// 업로드할 폴더 경로
-		String realFolder = request.getSession().getServletContext().getRealPath("profileUpload");
+		String realFolder = request.getSession().getServletContext().getRealPath("SummernoteImg");
 		UUID uuid = UUID.randomUUID();
+		
+		System.out.println(realFolder);
 
 		// 업로드할 파일 이름
 		String org_filename = file.getOriginalFilename();
@@ -193,15 +216,16 @@ public class KobayController {
 		System.out.println("원본 파일명 : " + org_filename);
 		System.out.println("저장할 파일명 : " + str_filename);
 
-		String filepath = realFolder + "\\" + email + "\\" + str_filename;
+		String filepath = realFolder + "\\" + str_filename;
 		System.out.println("파일경로 : " + filepath);
 
 		File f = new File(filepath);
 		if (!f.exists()) {
 			f.mkdirs();
 		}
+		
 		file.transferTo(f);
-		out.println("profileUpload/"+email+"/"+str_filename);
+		out.println("SummernoteImg/"+str_filename);
 		out.close();
 	}
 	
