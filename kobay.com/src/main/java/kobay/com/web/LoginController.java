@@ -40,6 +40,20 @@ public class LoginController {
 		return new MemberVO();
 	}
 		
+	@RequestMapping("/loginreg") /*로그인 회원가입 페이지*/
+	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
+		
+		loginBack();
+		regBack();
+		
+		String memberId = (String) session.getAttribute("id");
+		
+		if(memberId != null) {
+			return "redirect:/main";
+		}
+		return "login/loginRegWrite";
+	}
+	
 	@RequestMapping(value="/login") /*로그인 실행*/
 	@ResponseBody
 	public Map<String, Object> login(MemberVO vo, HttpSession session) throws Exception {
@@ -61,15 +75,16 @@ public class LoginController {
 			String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
 			log.info(session.getAttribute("id") + " Login 현재시간 : "+curTime);
 			
-			vo = memberService.selectMemberDetail(vo);
+			vo = memberService.selectMemberDetail(vo); /*회원 이름이랑 Unq값 세션에 담으려고 가져옴*/
 			
 			unq = vo.getMemberUnq();
 			name = vo.getMemberName();
 			
+			/*세션에 셋팅*/
 			session.setAttribute("unq", unq); 
 			session.setAttribute("name", name);
+			/* */
 			
-			System.out.println(name);
 		}
 		
 		map.put("result", result);

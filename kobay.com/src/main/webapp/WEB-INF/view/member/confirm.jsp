@@ -8,23 +8,9 @@
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
-	<!-- <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay 로그인 및 회원가입</title>
-
-    Bootstrap core CSS
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    Custom styles for this template
-    <link rel="stylesheet" href="../../../css/kobay.css" > -->
 	<link rel="stylesheet" type="text/css" href="../../../css/member.css">
   </head>
 <script type="text/javascript">
-var regList = ["memberId","memberPwd","memberName","memberPhone"];
 /* 회원정보 수정 전 비밀번호 체크 */
 function member_confirm() {
 	var frm = $("#confirmForm").serialize();

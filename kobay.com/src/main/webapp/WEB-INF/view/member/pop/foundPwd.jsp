@@ -40,7 +40,7 @@
     	margin-top:70px;
     }
     </style>
-<body>
+</head>
     <!-- Page Content -->
    	<div class="container">
 		<div class="found">

@@ -11,8 +11,9 @@
     <link rel="stylesheet" type="text/css" href="../../../css/member.css">
   </head>
 <script type="text/javascript">
+/* 회원가입 폼에 있는 인풋 id 또는 name */
 var regList = ["memberId","memberPwd","memberName","memberPhone"];
-
+/*  */
 /* 로그인 */
 function member_Login() {
 	var frm = $("#loginForm").serialize();
@@ -47,11 +48,11 @@ function member_Register() {
 		dataType:"json",
 		async: false,
 		success:function(data) {
-			if(data.result == "ok") {
+			if(data.result == "ok") { /* 성공 */
 				alert("가입되었습니다.");
 				location.href="<c:url value='/loginreg' />";
 			}
-			else if(data.result == "exists") {
+			else if(data.result == "exists") { /* 존재하는 아이디 */
 				$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
 				$("#regForm i[id='icon_memberId']").css({
 					 "color":"#FF0000"
@@ -60,7 +61,7 @@ function member_Register() {
 			}
 			else{
 				alert("다시 확인해주세요.");
-				for(var i=0; i<data.errors.length; i++) {
+				for(var i=0; i<data.errors.length; i++) { /* 유효성검사에 따른 v 또는 x 체크 */
 					$("#regForm i[id='icon_"+data.errors[i].field+"']").attr("class","fa fa-ban");
 					$("#regForm i[id='icon_"+data.errors[i].field+"']").css({
 						 "color":"#FF0000"
@@ -87,34 +88,24 @@ function member_CheckForm(va) {
 			dataType:"json",
 			success:function(data) {
 				if(data.result == "ok") 
-				{
-					if(data.errors.length > 0) 
-					{
-						for(var i=0; i<data.errors.length; i++) 
-						{
-							if(data.errors[i].field == va)
-							{
-								$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-ban");
-								$("#regForm i[id='icon_"+va+"']").css({"color":"#FF0000"});
-								return;
-							}							
-							else 
-							{
-								$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
-								$("#regForm i[id='icon_"+va+"']").css({"color":"#1DDB16"});
-							}
-						}
-					}
+				{	/* 전부 사용 가능 아이디는 밑에서 체크 */
+					$("#regForm i[id='icon_"+va+"']").attr("class","fa fa-check");
+					$("#regForm i[id='icon_"+va+"']").css({"color":"#1DDB16"});
 				}
-				else 
+				else
 				{
 					for(var i=0; i<regList.length; i++)
-					{
+					{ /* 일단 전부 v체크 후 밑에서 x로 바꿈 */
 						$("#regForm i[id='icon_"+regList[i]+"']").attr("class","fa fa-check");
 						$("#regForm i[id='icon_"+regList[i]+"']").css({"color":"#1DDB16"});
 					}
+					for(var i=0; i<data.errors.length; i++) 
+					{ /* 유효성검사에 따른 x 체크 */
+						$("#regForm i[id='icon_"+data.errors[i].field+"']").attr("class","fa fa-ban");
+						$("#regForm i[id='icon_"+data.errors[i].field+"']").css({"color":"#FF0000"});
+					}
 				} 
-				if(data.checkResult == "exists" && data.checkResult != "ok") 
+				if(data.checkResult == "exists") 
 				{
 					$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
 					$("#regForm i[id='icon_memberId']").css({"color":"#FF0000"});
@@ -141,7 +132,7 @@ function member_CheckForm(va) {
 				<form:label path="memberId" class="col-sm-2 control-label">
 					이메일
 				</form:label>
-				<form:input path="memberId" name="memberId" class="form-control" value="${cookievalue}" placeholder="example@example.com" />
+				<form:input path="memberId" name="memberId" class="form-control" placeholder="ex) example@example.com" />
 			</div>				
 			<div class="form-group">
 				<form:label path="memberPwd" class="col-sm-2 control-label">
@@ -205,7 +196,6 @@ function member_CheckForm(va) {
     <!-- /.Page Content -->
 
     <!-- Footer -->
-
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>

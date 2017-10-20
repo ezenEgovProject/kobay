@@ -8,34 +8,21 @@
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
-	<!-- <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay 로그인 및 회원가입</title>
-
-    Bootstrap core CSS
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    Custom styles for this template
-    <link rel="stylesheet" href="../../../css/kobay.css" > -->
 	<link rel="stylesheet" type="text/css" href="../../../css/member.css">
   </head>
 <script type="text/javascript">
 /* 아이디 찾기 */
 function member_Find(va) {
-	var frm = $("#"+va).serialize();
-	var popTitle = "popUp";
-	var link = "";
+	var frm = $("#"+va).serialize(); //폼 내용
+	var popTitle = "popUp"; //팝업창 이름
+	var link = ""; //팝업창 주소
 	if(va == "findIdForm")
-	{	
+	{	//아이디 찾기일 경우
 		var link = "/foundid";
 		var formData = document.findIdForm;
 	}
 	else
-	{
+	{	//비밀번호 찾기일 경우
 		var link = "/foundpwd";
 		var formData = document.findPwdForm;
 	}					
@@ -47,13 +34,25 @@ function member_Find(va) {
 		dataType:"json",
 		success:function(data) {
 			if(data.result == "ok") {
-				formData.target = popTitle;
+					formData.target = popTitle;
 					formData.action = link;
-					window.open(link,popTitle,"width=600, height=275");
-					formData.submit();
+					window.open(link,popTitle,"width=600, height=275"); //팝업창 실행
+					formData.submit(); //팝업창으로 값 전송
+					
+					/* 부모창 값 초기화 */
+					formData.memberId.value = "";
+					formData.memberName.value = "";
+					formData.memberPhone.value = "";
+					/*  */
 			}
 			else {
 				alert("일치하는 정보가 없습니다.");
+				
+				/* 부모창 값 초기화 */
+				formData.memberId.value = "";
+				formData.memberName.value = "";
+				formData.memberPhone.value = "";
+				/*  */
 			}
 		},
 		error:function(error) {
@@ -76,13 +75,13 @@ function member_Find(va) {
 				<form:label path="memberName" class="col-sm-2 control-label">
 					이름
 				</form:label>
-				<form:input path="memberName" name="memberName" class="form-control" />
+				<form:input path="memberName" name="memberName" class="form-control" placeholder="ex) 홍길동" />
 			</div>				
 			<div class="form-group">
 				<form:label path="memberPhone" class="col-sm-2 control-label">
 					핸드폰 번호
 				</form:label>
-				<form:input path="memberPhone" name="memberPhone"  class="form-control" />
+				<form:input path="memberPhone" name="memberPhone" placeholder="ex) 010-1234-5678" class="form-control" />
 			</div>
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
@@ -102,19 +101,19 @@ function member_Find(va) {
 				<form:label path="memberId" class="col-sm-2 control-label">
 					이메일
 				</form:label>
-				<form:input path="memberId" name="memberId" class="form-control" />
-			</div>				
+				<form:input path="memberId" name="memberId" class="form-control" placeholder="ex) example@example.com"  />
+			</div>
 			<div class="form-group">
 				<form:label path="memberName" class="col-sm-2 control-label">
 					이름
 				</form:label>
-				<form:input path="memberName" name="memberName" class="form-control" />
-			</div>				
+				<form:input path="memberName" name="memberName" class="form-control" placeholder="ex) 홍길동" />
+			</div>
 			<div class="form-group">
 				<form:label path="memberPhone" class="col-sm-2 control-label">
 					핸드폰 번호
 				</form:label>
-				<form:input path="memberPhone" name="memberPhone"  class="form-control" />
+				<form:input path="memberPhone" name="memberPhone" placeholder="ex) 010-1234-5678" class="form-control" />
 			</div>
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
@@ -132,7 +131,6 @@ function member_Find(va) {
     <!-- /.Page Content -->
 
     <!-- Footer -->
-
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>

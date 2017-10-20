@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kobay.com.cmmn.MemberVaildator;
-import kobay.com.cmmn.PageVO;
 import kobay.com.service.LoginService;
 import kobay.com.service.MemberService;
 import kobay.com.service.MemberVO;
@@ -61,67 +60,6 @@ public class MemberController {
 		return new MemberVO();
 	}
 	
-	@RequestMapping("/loginreg") /*로그인 회원가입 페이지*/
-	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
-		
-		loginBack();
-		regBack();
-		
-		String memberId = (String) session.getAttribute("id");
-		
-		if(memberId != null) {
-			return "redirect:/main";
-		}
-		return "login/loginRegWrite";
-	}
-	
-	@RequestMapping(value="/memberList")
-	public String memberList(@ModelAttribute("pageVO") PageVO pageVO,Model model) throws Exception {
-			
-		/*1. 한 화면에 출력할 행 개수, 한 화면에 출력할 페이지 개수*/
-		int recordCountPerPage = 10;
-		int pageSize = 5;
-		/*2. 총 데이터 개수*/
-		int totalCount = memberService.selectMemberTotal(pageVO);
-		/*3. 화면 출력할 페이지 번호*/
-		int pageIndex = pageVO.getPageIndex();
-		/*4. 화면 출력할 페이징의 시작 번호, 끝 번호*/
-		// 1,2,3,4,5 -> 1 / 6,7,8,9,10 -> 6 / 11,12,13,14,15 -> 11
-		int firstPage = ((int) Math.floor((pageIndex-1)/pageSize)*pageSize) + 1;
-		int lastPage = (firstPage + pageSize) - 1;
-		/*5. 화면 출력할 행(데이터)의 시작 번호, 끝 번호*/
-		int firstIndex = (pageIndex - 1) * 10 + 1;
-		int lastIndex = (firstIndex + recordCountPerPage) - 1;
-		/*6. 총 페이지 개수*/
-		int totalPage = (int) Math.ceil((double)totalCount / recordCountPerPage);
-		/*7. [이전] / [다음] 처리할 변수 지정*/
-		int before = 0; //링크 없음
-		if(firstPage > 1) before = 1;
-
-		int next = 0;
-		if(lastPage <= totalPage) next = 1;
-		/*8. 행 번호*/
-		int number = totalCount - ((pageIndex-1) * recordCountPerPage);
-		
-		pageVO.setFirstIndex(firstIndex);
-		pageVO.setLastIndex(lastIndex);
-		
-		
-		List<?> list = memberService.selectMemberList(pageVO);
-
-		model.addAttribute("totalCount",totalCount);
-		model.addAttribute("firstPage",firstPage);
-		model.addAttribute("lastPage",lastPage);
-		model.addAttribute("totalPage",totalPage);
-		model.addAttribute("before",before);
-		model.addAttribute("next",next);
-		model.addAttribute("number",number);
-
-		model.addAttribute("memberList",list);
-		return "member/memberList";
-	}
-	
-	
 	@RequestMapping(value="/register") /*회원가입 실행*/
 	@ResponseBody public Map<String, Object> Register(@ModelAttribute("memberVO") MemberVO vo, BindingResult bindingResult) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -163,16 +101,15 @@ public class MemberController {
 			checkId="ok"; /*아이디 사용 가능*/
 		}
 		
-		result = "ok"; /*메소드에 문제없음*/
 
 		new MemberVaildator().validate(vo, bindingResult);
 		if(bindingResult.hasErrors()){	
 			map.put("errors", bindingResult.getAllErrors()); /*유효성 검사 후 에러 발생*/
+			result = "fail";
 		} else {
-			result="perfect"; /*유효성에 문제없음*/
+			result="ok"; /*유효성에 문제없음*/
 		}
-		
-		System.out.println("checkId : " + checkId);
+
 		map.put("checkResult", checkId);
 		map.put("result",result);
 		return map;
@@ -281,21 +218,22 @@ public class MemberController {
 		
 		String result = "fail";
 		
+		/*이름과 핸드폰 번호 빈칸 아니여야 실행*/
 		if(!vo.getMemberName().isEmpty() && !vo.getMemberPhone().isEmpty()) 
 		{
-			int check = memberService.findMember(vo);
+			int check = memberService.findMember(vo); /*회원 정보 찾기 실행*/
 			if(check > 0)
 			{
-				result = "ok";
+				result = "ok"; /*성공*/
 			}
 			else
 			{
-				result = "fail";
+				result = "fail"; /*실패*/
 			}
 		} 
 		else 
 		{
-			result="fail";
+			result="fail"; /*빈칸 있음*/
 		}
 		
 		
@@ -304,11 +242,11 @@ public class MemberController {
 		return map;
 	}
 	
-	@RequestMapping(value="/foundid")
+	@RequestMapping(value="/foundid") /*아이디 찾는 팝업창*/
 	public String foundId(MemberVO vo, HttpSession session, Model model) throws Exception {
 		if(session.getAttribute("id") == null)
 		{
-			List<?> list = memberService.foundId(vo);
+			List<?> list = memberService.foundId(vo); /*아이디 불러오기*/
 			model.addAttribute("foundid",list);
 			return "member/pop/foundId";
 		}
@@ -318,14 +256,13 @@ public class MemberController {
 		}	
 	}
 	
-	@RequestMapping(value="/foundpwd")
+	@RequestMapping(value="/foundpwd") /*비밀번호 찾는 팝업창*/
 	public String foundPwd(MemberVO vo, HttpSession session, Model model) throws Exception {
 		if(session.getAttribute("id") == null)
 		{
-			String memberPwd = getRandomPassword(10);
-			System.out.println("변경된 비밀번호 확인 : " + memberPwd);
-			vo.setMemberPwd(memberPwd);
-			memberService.updateRandomPassword(vo);
+			String memberPwd = getRandomPassword(10); /*임시 비밀번호 자릿수와 랜덤 실행*/
+			vo.setMemberPwd(memberPwd); /*임시 비밀번호 vo에 담기*/
+			memberService.updateRandomPassword(vo); /*임시 비밀번호 업데이트*/
 			model.addAttribute("foundpwd",memberPwd);
 			return "member/pop/foundPwd";
 		}
@@ -335,7 +272,7 @@ public class MemberController {
 		}	
 	}
 	
-	public static String getRandomPassword(int len) { 
+	public static String getRandomPassword(int len) { /*임시 비밀번호 생성*/
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' }; 
 		int idx = 0; 
 		StringBuffer sb = new StringBuffer(); 
