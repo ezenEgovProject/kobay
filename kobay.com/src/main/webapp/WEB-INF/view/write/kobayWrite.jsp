@@ -24,6 +24,7 @@
 
 $(function() {
 	$('#summernote').summernote({
+		popover: false,
 		height : 300, // 기본 높이값
 		minHeight : null, // 최소 높이값(null은 제한 없음)
 		maxHeight : null, // 최대 높이값(null은 제한 없음)
@@ -277,6 +278,15 @@ function sendFile(file, el) {
 										.split('\\').pop();
 							}
 							;
+							var fileName;
+							fileName = filename.slice(filename.indexOf(".") + 1).toLowerCase();
+							if(fileName != "jpg" && fileName != "png" &&  fileName != "gif" &&  fileName != "bmp"){
+								alert("이미지 파일은 (jpg, png, gif, bmp) 형식만 등록 가능합니다.");
+								$(this).siblings('.upload-name').val("");
+								return;
+							}
+
+						
 							$(this).siblings('.upload-name').val(filename);
 						});
 
@@ -296,6 +306,7 @@ function sendFile(file, el) {
 												if (!$(this)[0].files[0].type
 														.match(/image\//))
 													return;
+													
 
 												var reader = new FileReader();
 												reader.onload = function(e) {
@@ -348,12 +359,13 @@ function sendFile(file, el) {
 	<!-- Page Content -->
 	<!-- 각자페이지에서 변경할 부분 -->
 	<div class="container"> 
+	
 	<form name="frm" method="post" id="frm" enctype="multipart/form-data">
 	<div class="form-style-2">
 		<div class="form-style-2-heading">상품등록</div>
 			
 				<label for="field1">
-				<span>카테고1리: </span>
+				<span>카테고리: </span>
 			 
 							<select class="select-field" id="lctg" name="lctg" onchange="fn_next(this.value)">
 								<option value="" >대분류</option>
@@ -380,28 +392,40 @@ function sendFile(file, el) {
 				<span>상품명: </span>
 					<input type="text" class="input-field" name="auctitle" id="auctitle" autocomplete="off" />
 				</label>
-				<p id="titchk" style = "font-style: italic ; font-weight: bold; font-size:0.8em;  color: red;"></p>
+				<p id="titchk" style = "font-style: italic ; font-weight: bold; font-size:0.5em;  color: red;"></p>
 				
 				
 				</div>
-				
+			
 				<div class="form-style-3">
 				<label><span>상품이미지:</span></label>
+				<p style = "font-style: italic ; font-weight: bold; font-size:0.8em;  color: red;">메인이미지는 필수 등록사항입니다.</p>
 				<div class="filebox bs3-primary preview-image">
 					<input class="upload-name" value="메인이미지선택" disabled="disabled" style="width: 200px;"> 
 					<label for="file1">업로드</label> 
-					<input type="file" name="file1" id="file1" class="upload-hidden">
+					<input type="file" name="file1" id="file1" class="upload-hidden" >
 				</div>
-				<p id="mimgchk" style = "font-style: italic ; font-weight: bold; font-size:0.8em;  color: red;"></p>
-				
 				
 				<div class="filebox bs3-primary preview-image">
 					<input class="upload-name" value="서브이미지1선택" disabled="disabled" style="width: 200px;"> 
 					<label for="file2">업로드</label> 
 					<input type="file" name="file2" id="file2" class="upload-hidden">
 				</div>
+				
+				<div class="filebox bs3-primary preview-image">
+					<input class="upload-name" value="서브이미지2선택" disabled="disabled" style="width: 200px;"> 
+					<label for="file3">업로드</label> 
+					<input type="file" name="file3" id="file3" class="upload-hidden">
+				</div>
+				
+				<div class="filebox bs3-primary preview-image">
+					<input class="upload-name" value="서브이미지3선택" disabled="disabled" style="width: 200px;"> 
+					<label for="file4">업로드</label> 
+					<input type="file" name="file4" id="file4" class="upload-hidden">
+				</div>
 						
 				</div>
+				<p id="mimgchk" style = "font-style: italic ; font-weight: bold; font-size:0.8em;  color: red;"></p>
 				
 				<div class="form-style-2">
 				
@@ -432,8 +456,10 @@ function sendFile(file, el) {
 						
 					}else if(a=="1"){
 						$("input[name=df]").attr("disabled",true);
+						$("input[name=df]").val("");
 					}else{
 						$("input[name=df]").attr("disabled",true);
+						$("input[name=df]").val("");
 					}			
 				}
 				

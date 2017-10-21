@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,7 +46,7 @@ public class KobayController {
 
 	@RequestMapping("/write")
 	public String Write(Model model) throws Exception {
-		KobayVO vo;
+		
 		List<?> ctgList = kobayService.selectctglist();
 
 		model.addAttribute("resultList", ctgList);
@@ -71,10 +72,12 @@ public class KobayController {
 	public Map<String, Object> multipartProcess(final MultipartHttpServletRequest multiRequest,
 			HttpServletResponse response, KobayVO vo, Model model, HttpServletRequest request,HttpSession session ) throws Exception {
 		
-		System.out.println("=================================");
-		System.out.println(vo.getAuctitle());
 		
+		//사진 이름에 붙이기 위해 현재시간 가져옴
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		
+		String addTime = dateFormat.format(calendar.getTime());
 //		int munq = (int) session.getAttribute("memberUnq");
 //		
 //		vo.setMemberunq(munq);
@@ -84,7 +87,6 @@ public class KobayController {
 		int c;
 		
 		a = Integer.parseInt(vo.getDw());
-		System.out.println("===============================" + vo.getDf());
 		
 		if(vo.getDf()==null){
 			System.out.println("sadfljsdafjsdajfkl");
@@ -133,19 +135,25 @@ public class KobayController {
 			Entry<String, MultipartFile> entry = itr.next();
 			file = entry.getValue();
 			if (!"".equals(file.getOriginalFilename())) {
-				filePath = uploadPath + "/" + file.getOriginalFilename();
+				filePath = uploadPath + "/" + addTime + file.getOriginalFilename();
 				file.transferTo(new File(filePath));
 
-				filename += file.getOriginalFilename() + "／";
-
-				cnt++;
+				filename += addTime + file.getOriginalFilename() + "／";		
 			}
 		}
 
 		String[] filelist = filename.split("／");
 
 		for(int i=0;i<filelist.length;i++){
-			vo.setAucimagemain(filelist[i]);
+			if(i==0){
+				vo.setAucimagemain(filelist[i]);
+			}else if(i==1){
+				vo.setAucimagesub1(filelist[i]);
+			}else if(i==2){
+				vo.setAucimagesub2(filelist[i]);
+			}else{
+				vo.setAucimagesub3(filelist[i]);
+			}
 		}
 		
 		String[] dr = vo.getDateRange().split(" ~ ");
@@ -180,7 +188,6 @@ public class KobayController {
 		try {
 			result = kobayService.insertWrite(vo);
 		} catch (Exception e) {
-			// TODO: handle exception
 			map.put("cnt", 0);
 //			e.printStackTrace();
 			return map;
@@ -192,9 +199,6 @@ public class KobayController {
 		}
 
 		map.put("cnt", cnt);
-		System.out.println("cnt -> " + cnt);
-		
-		
 		
 		return map;
 	}
@@ -213,11 +217,11 @@ public class KobayController {
 		String org_filename = file.getOriginalFilename();
 		String str_filename = uuid.toString() + org_filename;
 
-		System.out.println("원본 파일명 : " + org_filename);
-		System.out.println("저장할 파일명 : " + str_filename);
-
+//		System.out.println("원본 파일명 : " + org_filename);
+//		System.out.println("저장할 파일명 : " + str_filename);
+		
 		String filepath = realFolder + "\\" + str_filename;
-		System.out.println("파일경로 : " + filepath);
+//		System.out.println("파일경로 : " + filepath);
 
 		File f = new File(filepath);
 		if (!f.exists()) {
