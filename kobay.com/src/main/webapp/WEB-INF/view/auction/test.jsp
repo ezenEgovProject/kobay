@@ -7,20 +7,6 @@
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay 모두가 판매자이자 구매자이다.</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../../../css/kobay.css" >
-    
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -158,7 +144,7 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="checkbox" name="question_secret" value="1"> 비밀글 &nbsp
+						<input type="checkbox" name="question_secret" value="1"> 비밀글 &nbsp;
 						<input type="button" value="문의 하기" onclick="kobayDetail_questionInsert()">
 					</td>
 				</tr>
@@ -229,13 +215,6 @@
 
     <!-- /.Page Content -->
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>

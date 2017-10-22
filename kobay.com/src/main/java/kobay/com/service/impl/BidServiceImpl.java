@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import kobay.com.service.BidService;
 import kobay.com.service.BidVO;
-import kobay.com.service.QnaVO;
-import kobay.com.service.TestService;
-import kobay.com.service.TestVO;
 
 @Repository(value="BidService")
 public class BidServiceImpl implements BidService {
@@ -19,8 +16,8 @@ public class BidServiceImpl implements BidService {
 	private BidDAO bidDao;
 	
 	@Override
-	public List<?> selectBidList(int auction_unq) throws Exception {
-		return bidDao.selectBidList(auction_unq);
+	public List<?> selectBidList(int auctionUnq) throws Exception {
+		return bidDao.selectBidList(auctionUnq);
 	}
 	
 	@Override
@@ -29,13 +26,23 @@ public class BidServiceImpl implements BidService {
 	}
 
 	@Override
-	public BidVO selectBid(int auction_unq) throws Exception {
+	public BidVO selectBid(BidVO vo) throws Exception {
 		
-		return (BidVO) bidDao.selectBid(auction_unq);
+		return (BidVO) bidDao.selectBid(vo);
 	}
+	
+//	@Override
+//	public BidVO selectMaxPrice(int auctionUnq) throws Exception {
+//		
+//		return (BidVO) bidDao.selectMaxPrice(auctionUnq);
+//	}
 
 	@Override
 	public void udateBid(BidVO vo) throws Exception {
+		
+		
 		bidDao.updateBid(vo);
 	}
+
+	
 }

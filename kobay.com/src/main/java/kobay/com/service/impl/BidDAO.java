@@ -11,20 +11,25 @@ import kobay.com.service.BidVO;
 public class BidDAO extends EgovAbstractDAO {
 	
 	/** Bid List **/
-	public List<?> selectBidList(int auction_unq) {
+	public List<?> selectBidList(int auctionUnq) {
 		
-		return list("bid.selectBidList", auction_unq);
+		return list("bid.selectBidList", auctionUnq);
 	}
 	
 	/** Bid Insert **/
-	public void insertBid(BidVO vo) {
-		insert("bid.insertBid", vo);
+	public void insertBid(BidVO bidVO) {
+		insert("bid.insertBid", bidVO);
 	}
 	
 	/** Bid Select **/
-	public BidVO selectBid (int auction_unq) {
-		return (BidVO) select("bid.selectBid", auction_unq);
+	public BidVO selectBid (BidVO vo) {
+		return (BidVO) select("bid.selectBid", vo);
 	}
+	
+//	/** Max Bid Price **/
+//	public BidVO selectMaxPrice (int auctionUnq) {
+//		return (BidVO) select("bid.selectMaxPrice", auctionUnq);
+//	}
 	
 	/** Bid Update **/
 	public void updateBid(BidVO vo) throws Exception {
