@@ -86,9 +86,7 @@ public class LoginController {
 			/* */
 			
 		}
-		
 		map.put("result", result);
-		
 		return map;
 	}
 	
