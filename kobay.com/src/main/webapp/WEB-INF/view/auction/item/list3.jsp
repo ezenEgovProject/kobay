@@ -6,12 +6,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="utf-8">
-  <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-<title>ReList3(마감)</title>
  <style>
 	
 	.banner{
@@ -128,7 +122,7 @@
               <div class="card">
               <span class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px; font-size:16pt; font-weight: bold;">마감${totcnt3}</span>
               	<a href="#" onclick="fn_detail('${list.auctionunq}')">
-              		<img src="../../../upload/${list.aucimagemain}" style="height:374px; width:374px;"/>
+              		<img class="card-img-top" src="http://placehold.it/700x400" alt="">
               		<span class="item item-body">
               			<span class="item-title item-text" style="font-size: 14pt;">${list.auctitle}</span>
 						  		<span class="item-text item-text">

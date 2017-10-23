@@ -74,9 +74,9 @@ public class KobayController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		
 		String addTime = dateFormat.format(calendar.getTime());
-//		int munq = (int) session.getAttribute("memberUnq");
-//		
-//		vo.setMemberunq(munq);
+		int munq = (int) session.getAttribute("unq");
+		
+		vo.setMemberunq(munq);
 			
 		int a;
 		int b;
@@ -85,7 +85,6 @@ public class KobayController {
 		a = Integer.parseInt(vo.getDw());
 		
 		if(vo.getDf()==null){
-			System.out.println("sadfljsdafjsdajfkl");
 			b = 0;
 		}else{
 			b = Integer.parseInt(vo.getDf());

@@ -16,7 +16,8 @@
 	                k.aucImageMain, 
 	                k.aucImageSub1, 
 	                k.aucImageSub2, 
-	                k.aucImageSub3, 
+	                k.aucImageSub3,
+	                k.sPrice, 
 	                k.ePrice, 
 	                k.sellerName, 
 	                k.aucStatus,
@@ -27,8 +28,8 @@
 	                (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
 	                (select ctgnm from auctionctg where ctgcd = k.lctg)lctg,
         			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg
-				FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
-				WHERE  K.AUCTIONUNQ = a.auctionunq 
+				FROM   KOBAYAUCTION k
+				WHERE  1=1
 				AND (
 	           			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
 	            	OR 
@@ -124,6 +125,7 @@
 	                k.aucImageSub1, 
 	                k.aucImageSub2, 
 	                k.aucImageSub3, 
+	               	k.sPrice,
 	                k.ePrice, 
 	                k.sellerName, 
 	                k.aucStatus,
@@ -132,9 +134,8 @@
 	                (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
 	                (select ctgnm from auctionctg where ctgcd = k.lctg)lctg,
         			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg
-				FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
-				WHERE  K.AUCTIONUNQ = a.auctionunq 
-                AND TO_DATE(to_char(k.edate, 'YYYY-mm-dd') ,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
+				FROM   KOBAYAUCTION K
+				WHERE  1=1
 				AND (
 	           			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
 	            	OR 
@@ -189,7 +190,7 @@
 				<isNull property="orderCondition">
 					ORDER BY price asc ) B 
 				</isNull>
-				WHERE 1=1
+				WHERE  (TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD'))<![CDATA[>]]> 0
 				<isNotNull prepend="AND" property="deliveryWay">
 					<isEqual property="deliveryWay" compareValue="contact">
 						deliveryway = 1
@@ -240,9 +241,10 @@
 			            (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
 			            (select ctgnm from auctionctg where ctgcd = k.lctg)lctg,
 			            (select ctgnm from auctionctg where ctgcd = k.mctg)mctg
-			        FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
-			        WHERE  K.AUCTIONUNQ = A.auctionunq 
-			 	ORDER BY bids DESC ) B 
+			    	FROM    KOBAYAUCTION K
+					WHERE  TO_DATE(to_char(k.edate, 'YYYY-mm-dd') ,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
+			 		ORDER BY bids DESC 
+			 		) B 
 			 	WHERE TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') <![CDATA[>=]]> 0
 				AND TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[>=]]> 0	
 			)A
@@ -253,8 +255,8 @@
 	<!-- 각 대메뉴 카테고리별로 가져오기  -->
 	<select id="search.getMCtgList" parameterClass="searchVO" resultClass="java.lang.Integer">
 		SELECT  count(*)
-		FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
-		WHERE   K.AUCTIONUNQ = a.auctionunq
+		FROM    KOBAYAUCTION K
+		WHERE   1=1
 		AND (
        			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
         	OR 
@@ -277,8 +279,8 @@
 			A.ctgcd,
 			A.ctgnm
 			(SELECT  count(*)
-			FROM    KOBAYAUCTION K, (select distinct(auctionunq) from auctionbid) A
-			WHERE   K.AUCTIONUNQ = a.auctionunq
+			FROM    KOBAYAUCTION K
+			WHERE  1=1
 			AND (
 	       			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
 	        	OR 
@@ -303,8 +305,8 @@
 	
 	<select id="search.selectMCtgList" parameterClass="searchVO" resultClass="egovMap">
 		SELECT 
-		    distinct(a.ctgcd),
-		    a.ctgnm,
+		    distinct(A.ctgcd),
+		    A.ctgnm,
 		    (SELECT count(*) 
 		    FROM  
 		            KOBAYAUCTION k
@@ -321,7 +323,7 @@
 		            (select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
 		    )
 		    AND TO_DATE( to_char(k.eDate, 'yyyy-mm-dd'),'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0)count
-		FROM AUCTIONCTG a
+		FROM AUCTIONCTG A
 		WHERE ctgcd like #ctgcd# || '_%'
 	</select>
 	

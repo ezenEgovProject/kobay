@@ -17,6 +17,8 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../../../css/kobay.css" >
+    <link rel="stylesheet" href="../../../css/font.css" />
+    <script src="../../js/jquery-3.1.1.js"></script>
 </head>
 <body>
 	<tiles:insertAttribute name="topMenu" />

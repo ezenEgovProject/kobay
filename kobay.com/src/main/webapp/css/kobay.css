@@ -1,25 +1,30 @@
  /* menu navigation height setting */
  .subnav {
-   	padding-top: 136px;
+   	padding-top: 82px;
 }
  @media (min-width: 576px) {
     .subnav {
-        padding-top: 68px;
+        padding-top: 74px;
     }
  }
+a:link { text-decoration: none;}
+a:visited {  text-decoration: none;}
+a:hover { text-decoration: none; color:#007bff;}
+
 body {
 	font-size: .9rem; 
 	font-family:"NanumGothic";
+	line-height: 1.8;
 } 
  /* menu navigation height setting end  */
 .strong {
 	font-weight: bold;
 }
  .bg-blue {
-	background-color: #56B6E6!important;
+	 background-color: rgba(86, 182, 230, 0.8)!important;
  }
  .navbar-default {
-	background-color: #000000;
+	background-color: #fff;
 	border-color: #e7e7e7;
  }
  .navbar-default .navbar-brand {
@@ -66,35 +71,39 @@ body {
  }
  .logo {
 	text-decoration: blink;
-	font-size: 1.45rem;
-	font-weight: bolder;
-	font-family: inherit;
+	font-size: 1.5rem;
+	font-family: fantasy;
 	margin: 0px;
+	letter-spacing: 0.2rem;
  }
 .dropdown:hover .dropdown-menu {
     display: block;
  }
  .bg-white {
- background-color:#fff!important
+ 	background-color:#fff!important
  }
  a.bg-white:focus,a.bg-white:hover {
- background-color:#dae0e5!important
+ 	background-color:#dae0e5!important
  }
  .navbar-light .navbar-nav .nav-link {
- color: rgba(0, 0, 0,.5);
+	font-size: 1rem;
+ 	color: rgba(255, 255, 255, 1);
  }
  .navbar-light .navbar-nav .nav-link:focus,.navbar-light .navbar-nav .nav-link:hover {
- color: rgba(0, 128, 255,.9);
+ 	font-size: 1rem;
+ 	color: rgba(0, 128, 255,.8);
  }
  .navbar-light .navbar-nav .nav-link.disabled {
- color: rgba(0,0,0,.3)
+ 	color: rgba(0,0,0,.3)
  }
  .navbar-light .navbar-nav .active>.nav-link,
  .navbar-light .navbar-nav .nav-link.active,
  .navbar-light .navbar-nav .nav-link.show,
  .navbar-light .navbar-nav .show>.nav-link {
- 	color: rgba(0, 128, 255, 0.7);
+ 	color: rgba(255, 255, 255, 1);
  	font-weight: bold;
+ 	font-size: 1rem;
+ 	 text-shadow: 1px 1px #ddd;
  }
 
  .dropdown-item{

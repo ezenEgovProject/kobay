@@ -8,22 +8,17 @@
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay_LIST3(마감)</title>
-    
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Custom styles for this template -->
-  <link rel="stylesheet" href="../../../css/kobay.css" >
-    
-    <style>
-			  
+  	<style type="text/css">
+  	.breadcrumb {
+  		background-color: #eee;
+  	}
+  	a:link { text-decoration: none;}
+a:visited {  text-decoration: none;}
+a:hover { text-decoration: none; color:#007bff;}
+  	
+  	</style>
+  	
+    <style>  
 	.banner{
 			border:2px solid #56b6e6;
 			background:#fff;
@@ -184,152 +179,73 @@
 <form name="hiddenFrm" method="post" action="/kobayDetail_detail">
 	<input type="hidden" name="auctionunq" id="auctionunq"/>
 </form>
-    <!-- Navigation -->
-    <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
-		<div class="container" style="width: 100%;">
-			<div class="row justify-content-between align-items-center" style="width: 100%;">
-				<div class="col-12 col-sm-auto order-sm-1 text-center">
-					<a class="navbar-brand" href="index.jsp"><label class="logo">Kobay</label></a>
-				</div>
-				<div class="col-4 order-sm-2">
-				    <div class="input-group">
-				      <span class="input-group-btn">
-				        <button class="btn search-btn" type="button"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></button>
-				      </span>
-				      <input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
-				    </div><!-- /input-group -->
-			  	</div>
-				<div class="col-6 col-sm-auto order-sm-3" >
-					 <span class="top-icon"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-					 <span class="top-icon"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true" style="color: #ffffff"></i></span>
-				</div>
-			</div>
-		</div> 
-	<!-- /.navbar-top -->
-   </nav>
-   
-      <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav mx-auto">
-          	<li class="nav-item px-lg-4 active">
-              <a class="nav-link" href="/main">홈</a>
-            </li>
-          	<li class="nav-item px-lg-4 dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              	  회사소개
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="/intro">KOBAY 소개</a>
-                <a class="dropdown-item" href="#">경매방법</a>
-                <a class="dropdown-item" href="#">문의사항</a>
-              </div>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="/list_1" >진행경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="/list_2">예정경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="/list_3">마감경매</a>
-            </li>
-            <li class="nav-item px-lg-4">
-              <a class="nav-link" href="#">이벤트</a>
-            </li>
-          </ul>
-        </div>
-      </div>
     
-    <h1 class="my-4" align="center">best 상품</h1>
  <!-- Marketing Icons Section -->
-
-     <div id="row" class="row">
-     
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card">
-              <span class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px; font-size:16pt; font-weight: bold;">마감best1</span>
-              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
-              		<img src="../../../upload/${list.aucimagemain}" style="height:374px; width:374px;"/> 
-              		<span class="item item-body">
-              			<span class="item-title item-text" style="font-size: 14pt;">경매번호</span>
-						  		<span class="item-text item-text">
-						  			<span class="item-left">경매가격: </span>
-						  			<span class="item-right">시작시간: </span><br>
-					   				<span class="item-right">마감시간: </span>
-						  		</span>	
-              			</span>
-              		</a>
-              	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-					   		<div class="col-8">경매 참여인원: </div>
-				</div>
-              </div>
-      </div>
-       
+<div class="container">
+	<h3 class="mt-4 mb-3 pr-3" align="right">Best Auction List</h3>
+	<hr/>
+	<ol class="breadcrumb bg-white">
+       <li class="breadcrumb-item">
+       		마감된 <span class="strong text-warning">인기상품</span>을 확인해보세요!
+       </li>
+	</ol>
+     <div class="row">
+	     <c:forEach begin="1" end="4" step="1" varStatus="status">
+		     <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+		          <div class="card">
+		          <%-- varStatus는 현재 forEach문의 반복값입니다. varStatus에 변수로 status라고 지정한 후에
+		          	status.count 를 사용하면 1, 2, 3, 4, 5.. 순차적으로 값을 출력할 수 있습니다.
+		          	추가로 status.index 를 사용하면 0, 1, 2, 3, 4, 5... 로 count와 달리 0부터 시작합니다. --%>
+					<div class="card-body" style="padding: 0px">
+		              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
+		              		<img class="card-img-top" src="http://placehold.it/700x400" alt="">
+	              			<span class="pt-2 pb-2 text-center" style="display: block; border-bottom: 1px solid #ddd">
+		              		 Close Auction Best ${status.count}
+		              		</span>
+			              	<span class="pl-2 pr-2 pt-2 pb-2 item"  style="display: block;">
+			              		<span class="item item-title item-text" style="font-size: 1.2rem;">경매title</span>
+							  	<span class="item-text item-text">낙찰가격:</span>	
+		              		</span>
+						</a>
+	              		<div class="item-footer pl-2 pr-2 pb-1 pt-1">
+					   		경매 참여인원 :
+					  	</div>
+		              </div>		      
+		          </div> 
+		      </div>
+	     </c:forEach>
+     </div>
+     <!-- /.row -->
+      	<h3 class="mt-4 mb-3 pr-3" align="right">Closing Auction List</h3>
+      	<hr/>
+		<ol class="breadcrumb bg-white">
+	       <li class="breadcrumb-item"  style="vertical-align: middle;">
+	       		<span style="vertical-align: middle">
+	       			낙찰된 경매 상품 수: <span class="strong text-success">${totcnt3}개</span>
+	       		</span>
+	       </li>
+	       <li>
+	       	<div class="col-12" align="right" style="padding: 0px">
+				<div class="col-2" style="padding: 0px"> 
+			     	<select name="orderCondition" class="form-control list_select" id="orderCondition" onchange="fn_array()">
+						<option value=" " <c:if test="${listVO.orderCondition eq ' '}">selected</c:if>> - 정렬기준 - </option>
+						<option value="best" <c:if test="${listVO.orderCondition eq 'best'}">selected</c:if>> 인기경매 순 </option>
+						<option value="newest" <c:if test="${listVO.orderCondition eq 'newest'}">selected</c:if>> 최신경매 순 </option>
+						<option value="lowprice" <c:if test="${listVO.orderCondition eq 'lowprice'}">selected</c:if>>낮은가격 순</option>
+						<option value="highprice" <c:if test="${listVO.orderCondition eq 'highprice'}">selected</c:if>>높은가격 순</option>
+					</select>  
+	      		</div>
+			</div>
+	       </li>
+		</ol>
+		
+		
+		
       
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card">
-              <span class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px; font-size:16pt; font-weight: bold;">마감best2</span>
-              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
-              		<img src="../../../upload/${list.aucimagemain}" style="height:374px; width:374px;"/> 
-              		<span class="item item-body">
-              			<span class="item-title item-text" style="font-size: 14pt;">경매번호</span>
-						  		<span class="item-text item-text">
-						  			<span class="item-left">경매가격: </span>
-						  			<span class="item-right">시작시간: </span><br>
-					   				<span class="item-right">마감시간: </span>
-						  		</span>	
-              			</span>
-              		</a>
-              	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-					   		<div class="col-8">경매 참여인원: </div>
-				</div>
-              </div>
-        </div>
-      
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card">
-              <span class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px; font-size:16pt; font-weight: bold;">마감best3</span>
-              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
-              		<img src="../../../upload/${list.aucimagemain}" style="height:374px; width:374px;"/> 
-              		<span class="item item-body">
-              			<span class="item-title item-text" style="font-size: 14pt;">경매번호</span>
-						  		<span class="item-text item-text">
-						  			<span class="item-left">경매가격: </span>
-						  			<span class="item-right">시작시간: </span><br>
-					   				<span class="item-right">마감시간: </span>
-						  		</span>	
-              			</span>
-              		</a>
-              	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-					   		<div class="col-8">경매 참여인원: </div>
-				</div>
-              </div>
-         </div>
-         </div>
-      <!-- /.row -->
-      
-      <h1 class="my-4" align="center">LIST</h1>
-      
-      <table class="array"><!-- array: 정렬select박스 테이블명 -->
-		<tr align="right">
-			<td>
-				<select name="orderCondition" id="orderCondition" onchange="fn_array()">
-					<option value=" " <c:if test="${listVO.orderCondition eq ' '}">selected</c:if>> - 정렬기준 - </option>
-					<option value="best" <c:if test="${listVO.orderCondition eq 'best'}">selected</c:if>> 인기경매 순 </option>
-					<option value="newest" <c:if test="${listVO.orderCondition eq 'newest'}">selected</c:if>> 최신경매 순 </option>
-					<option value="lowprice" <c:if test="${listVO.orderCondition eq 'lowprice'}">selected</c:if>>낮은가격 순</option>
-					<option value="highprice" <c:if test="${listVO.orderCondition eq 'highprice'}">selected</c:if>>높은가격 순</option>
-				</select>
-			</td>
-		</tr>	
-	   </table>  
      
       <!-- 낙찰된 경매 리스트 -->    
         
-        <p class="count">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;낙찰된 경매 상품 수:&nbsp;${totcnt3}개</p> 
+      <%--   <p class="count">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;낙찰된 경매 상품 수:&nbsp;${totcnt3}개</p>  --%>
         
       <!-- Marketing Icons Section -->
        <div id="itemList" class="row">
@@ -338,13 +254,13 @@
               <div class="card">
               <span class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px; font-size:16pt; font-weight: bold;">마감${totcnt3}</span>
               	<a href="#" onclick="fn_detail('${list.auctionUnq}')">
-              		<img src="../../../upload/${list.aucimagemain}" style="height:374px; width:374px;"/>
+              		<img class="card-img-top" src="http://placehold.it/700x400" alt="">
               		<span class="item item-body">
               			<span class="item-title item-text" style="font-size: 14pt;">${list.auctitle}</span>
-						  		<span class="item-text item-text">
-						  			<span class="item-left">경매가격: ${list.sprice}</span>
-					   				<span class="item-right">마감시간: ${list.edate}</span>
-						  		</span>	
+					  		<span class="item-text item-text">
+					  			<span class="item-left">경매가격: ${list.sprice}</span>
+				   				<span class="item-right">마감시간: ${list.edate}</span>
+					  		</span>	
               		</span>
               	</a>
               	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
@@ -356,9 +272,10 @@
           </c:forEach> <!-- /list-forEach -->
 	   </div> <!-- /.row -->
 	   
-</head>
+</div>
 
-<div class="banner">최근 본 상품<br><br>
+
+<%-- <div class="banner">최근 본 상품<br><br>
 	<a href="#" onclick="fn_detail('${list.auctionunq}')">
 	<table border="1" align="center" style="width:100px; height:100px;">
 		<tr>
@@ -384,15 +301,8 @@
 	</a>
 <br><br>
 	<a href="#" id="topBtn">TOP</a><!-- topBtn: 페이지 상단으로 가는 버튼 -->
-</div> 
+</div>  --%>
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>

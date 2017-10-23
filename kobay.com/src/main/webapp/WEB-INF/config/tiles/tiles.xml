@@ -4,7 +4,7 @@
 
 <tiles-definitions>
     <!-- Default Main Template -->
-    <definition name="layout1" template="/WEB-INF/config/tiles/basic_layout.jsp">
+    <definition name="basic" template="/WEB-INF/config/tiles/kobay_layout.jsp">
  		<put-attribute name="title" value="Kobay 모두가 판매자이자 구매자이다." type="string" />
         <put-attribute name="topMenu" value="/WEB-INF/include/topMenu.jsp" />
         <put-attribute name="navigation"  value="/WEB-INF/include/navigator.jsp"/>
@@ -12,7 +12,7 @@
         <put-attribute name="content" />
     </definition>
 
-    <definition name="*/*" extends="layout1">
+    <definition name="*/*" extends="basic">
         <put-attribute name="content" value="/WEB-INF/view/{1}/{2}.jsp" />
     </definition>
 </tiles-definitions>

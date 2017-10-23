@@ -19,7 +19,10 @@ $(document).ready(function() {
 					  		<span class="item-text c-grey" style="font-size: 10pt;">[${list.mctg}]</span>
 					    	<span class="item-text item-title ">${list.auctitle}</span>
 					  		<span class="item-text">
-					  			<span class="item-left h6 c-black"><strong>₩ ${list.price }</strong></span>
+					  			<c:if test="${list.price eq null || list.price eq '0'}">
+					  				<c:set var="price" value="${list.sprice}"/>
+					  			</c:if>
+					  			<span class="item-left h6 c-black"><strong>₩ ${price }</strong></span>
 				   				<span class="item-right" style="text-align: right; margin-bottom: .5rem"><span style="color:red;">${list.bids }</span>명 입찰참여</span>
 					  		</span>		
 						</span>   
