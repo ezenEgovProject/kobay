@@ -1,84 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="kobaySQL">
-	
-	<typeAlias alias="kobayVO" type="kobay.com.service.KobayVO"/>
-	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-	<typeAlias alias="tableVO" type="kobay.com.service.TableVO"/>
-	
-	
+
+	<typeAlias alias="kobayVO" type="kobay.com.service.KobayVO" />
+	<typeAlias alias="egovMap"
+		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+	<typeAlias alias="tableVO" type="kobay.com.service.TableVO" />
+
+
 	<insert id="kobayDAO.insertWrite">
-		insert into auction(
-							member_unq,
-							auction_unq,
-							Lcategory,
-							Mcategory,
-							sdate,
-							edate,
-							title,
-							image,
-							sprice,
-							deliveryway,
-							deliverypee,
-							seller,
-							sellerphone,
-							detail,
-							auction_del	)
-					
+		insert into kobayAuction(
+							memberUnq, 
+							auctionUnq, 
+							lCtg, 
+							mCtg, 
+							sDate, 
+							eDate, 
+							aucTitle,
+							aucimagemain,
+							AUCIMAGESUB1,
+							AUCIMAGESUB2,
+							AUCIMAGESUB3, 
+							sPrice, 
+							deliveryWay,
+							deliveryFee, 
+							sellerName, 
+							sellerPhone,
+							aucDetail )
+
 					values(
-					#member_unq#,
+					#memberunq#,
 					AUCTION_SEQ.nextval,
-					#Lcategory#,
-					#Mcategory#,
+					#lctg#,
+					#mctg#,
 					#sdate#,
 					#edate#,
-					#title#,
-					#image#,
+					#auctitle#,
+					#aucimagemain#,
+					#aucimagesub1#,
+					#aucimagesub2#,
+					#aucimagesub3#,
 					#sprice#,
 					#deliveryway#,
-					#deliverypee#,
-					#seller#,
+					#deliveryfee#,
+					#sellername#,
 					#sellerphone#,
-					#detail#,
-					#auction_del#	
+					#aucdetail#
 					)
-					
+
 
 	</insert>
-	
+
 	<select id="selectCtgList" resultClass="egovMap">
-			SELECT 
-				ctgcd,
-				ctgnm
-	 		FROM  
-	 			category 
+		SELECT
+		CTGCD,
+		CTGNM
+		FROM
+		AUCTIONCTG
+		where length(AUCTIONCTG.ctgcd) = 3
 	</select>
-	
+
 	<select id="selectMCtgList" resultClass="egovMap">
-		select 
-			ctgcd,
-			ctgnm
+		select
+		ctgcd,
+		ctgnm
 		from
-			category
-		where ctgcd like '%' || #ctgcd# || '%'
+		AUCTIONCTG
+		<dynamic prepend="where">
+			
+			<isNotEmpty property="ctgcd">
+				ctgcd like #ctgcd# || '_%'
+			</isNotEmpty>
+			
+			<isEmpty property="ctgcd">
+				1=2
+			</isEmpty>
+		</dynamic>
+		
 	</select>
-	
-	<select id="selectSeqNumber" resultClass="java.lang.Integer">
-	
-		select last_number seqNumber from user_sequences where sequence_name='AUCTION_SEQ'	
-	
-	</select>
-	
-	
-	<insert id="createTable">
-	
-		create table bidder$auction_unq$
-			( auction_unq number,
-			  member_unq number,
-			  bid_price number,
-			  bid_time timestamp	
-			)
-	
-	</insert>
-	
+
 </sqlMap>

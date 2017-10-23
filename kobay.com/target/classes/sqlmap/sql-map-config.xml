@@ -3,12 +3,12 @@
 
 <sqlMapConfig>
 
-<sqlMap resource="sqlmap/sql/TestSQL.xml" />
+
 <sqlMap resource="sqlmap/sql/KobaySQL.xml" />
-<sqlMap resource="sqlmap/sql/BidSQL.xml" />
-<sqlMap resource="sqlmap/sql/QnaSQL.xml" />
-<sqlMap resource="sqlmap/sql/ListSQL.xml" />
-<sqlMap resource="sqlmap/sql/MemberSQL.xml" />
-<sqlMap resource="sqlmap/sql/LoginSQL.xml" />
+
+
+
+
+
 
 </sqlMapConfig>
