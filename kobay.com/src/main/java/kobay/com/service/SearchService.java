@@ -13,5 +13,8 @@ public interface SearchService {
 	List<?> selectctgmlist(SearchVO searchVO) throws Exception;
 	
 	List<?> getSearchList(SearchVO searchVO) throws Exception;
+	int getSearchListCnt(SearchVO searchVO) throws Exception;
+	
+	List<?> getNullList() throws Exception;
 
 }

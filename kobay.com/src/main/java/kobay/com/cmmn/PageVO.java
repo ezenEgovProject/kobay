@@ -19,7 +19,7 @@ public class PageVO {
 	private int pageUnit = 10;
 
 	/** 페이지사이즈 */
-	private int pageSize = 10;
+	private int pageSize = 12;
 
 	/** firstIndex */
 	private int firstIndex = 1;
@@ -28,7 +28,7 @@ public class PageVO {
 	private int lastIndex = 1;
 
 	/** recordCountPerPage */
-	private int recordCountPerPage = 10;
+	private int recordCountPerPage = 12;
 	
 	public int getFirstIndex() {
 		return firstIndex;

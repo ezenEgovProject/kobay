@@ -6,6 +6,55 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class SearchVO {
 	
+	/** 현재페이지 */
+	private int pageIndex = 1;
+	/** 페이지갯수 */
+	private int pageUnit = 10;
+	/** 페이지사이즈 */
+	private int pageSize = 12;
+	/** firstIndex */
+	private int firstIndex = 1;
+	/** lastIndex */
+	private int lastIndex = 1;
+	/** recordCountPerPage */
+	private int recordCountPerPage = 12;
+	
+	public int getFirstIndex() {
+		return firstIndex;
+	}
+	public void setFirstIndex(int firstIndex) {
+		this.firstIndex = firstIndex;
+	}
+	public int getLastIndex() {
+		return lastIndex;
+	}
+	public void setLastIndex(int lastIndex) {
+		this.lastIndex = lastIndex;
+	}
+	public int getRecordCountPerPage() {
+		return recordCountPerPage;
+	}
+	public void setRecordCountPerPage(int recordCountPerPage) {
+		this.recordCountPerPage = recordCountPerPage;
+	}
+	public int getPageIndex() {
+		return pageIndex;
+	}
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+	public int getPageUnit() {
+		return pageUnit;
+	}
+	public void setPageUnit(int pageUnit) {
+		this.pageUnit = pageUnit;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
 	
 	/** 검색Keyword */
 	private String searchKeyword = "";
@@ -13,11 +62,22 @@ public class SearchVO {
 	private String orderCondition = "";
 	/** 카테고리values */
 	private List<String> mCtgList;
-	/** mCategory*/
+	/** mCategory */
 	private String mCtgcd;
-	/** lCategory*/
+	/** lCategory */
 	private String ctgcd;
 	
+	/** 리스트 갯수 */
+	private String listSize;
+	
+	
+	public String getListSize() {
+		return listSize;
+	}
+
+	public void setListSize(String listSize) {
+		this.listSize = listSize;
+	}
 	
 	public String getCtgcd() {
 		return ctgcd;
@@ -61,8 +121,50 @@ public class SearchVO {
 	}
 
 	
+	private int minPrice = 0;
+	private int maxPrice = 0;
+	private String innerKeyword;
+	private String deliveryWay;
+	private String aucStatus;
+	
+	public int getMinPrice() {
+		return minPrice;
+	}
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
+	}
+	public int getMaxPrice() {
+		return maxPrice;
+	}
+	public void setMaxPrice(int maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+	public String getInnerKeyword() {
+		return innerKeyword;
+	}
+	public void setInnerKeyword(String innerKeyword) {
+		this.innerKeyword = innerKeyword;
+	}
+
+	public String getDeliveryWay() {
+		return deliveryWay;
+	}
+	public void setDeliveryWay(String deliveryWay) {
+		this.deliveryWay = deliveryWay;
+	}
+	public String getAucStatus() {
+		return aucStatus;
+	}
+	public void setAucStatus(String aucStatus) {
+		this.aucStatus = aucStatus;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+	
+
+	
 }

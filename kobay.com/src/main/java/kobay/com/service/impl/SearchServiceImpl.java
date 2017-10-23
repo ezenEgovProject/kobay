@@ -30,5 +30,15 @@ public class SearchServiceImpl implements SearchService {
 		// TODO Auto-generated method stub
 		return searchDao.getSearchList(searchVO);
 	}
+	@Override
+	public int getSearchListCnt(SearchVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return searchDao.getSearchListCnt(searchVO);
+	}
+	@Override
+	public List<?> getNullList() throws Exception {
+		// TODO Auto-generated method stub
+		return searchDao.getNullList();
+	}
 
 }

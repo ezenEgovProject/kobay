@@ -3,177 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <link rel="stylesheet" href="../../../css/font.css" />
+<link rel="stylesheet" href="../../../css/search.css" />
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<style>
- body {
-	font-size: .9rem; 
-	font-family:"NanumGothic";
-} 
-label {
-	margin-top: .5rem;
-	margin-left: .3rem;
-	margin-right: .3rem;
-} 
-a:link { text-decoration: none;}
-a:visited {  text-decoration: none;}
-a:hover { text-decoration: none; color:#007bff;}
-
-.form-group > label {
-    display: inline-block;
-    max-width: 100%;
-    margin: 5px .25px 5px .25px;
-}
-.category ul  {
-    padding: 0;
-    display:table;
-    width:100%;
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
-}
-.list-inline > li {
-    display: table-cell;
-    padding-right: 5px;
-    padding-left: 5px;
-}
-.text-left {
-	text-align: left important!;
-}
-.card-body {
-	font-size: 0.9rem;
-}
-.sub li,.main li{
-	float:left;
-	list-style:none;
-	margin:0px;
-}
-.main li div {
-	display:block; 
-	width:180px;  
-	font-size: .9rem; 
-	font-family:"NanumGothic";
-	text-decoration:none;
-}
-.sub li div {
-	display:block; 
-	width:180px; 
-	color: #808080;
-	font-size: .8rem; 
-	font-family:"NanumGothic"; 
-	text-decoration:none;
-}
-.list-group-item {
-	border: 0px;
-}
-
-.sub-body {
-	border-top: 1px solid rgba(0,0,0,.125);
-	display: none; 
-	padding-left: 1.25rem;
-	padding-right: 1.25rem;
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-}
-.top-line {
-	border-top: 1px solid rgba(0,0,0,.125);	
-}
-.badge {
-    display: inline-block;
-    min-width: 10px;
-    padding-right: 0.3rem;
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 1;
-    color: #999999;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    background-color: transparent;
-    border-radius: 10px;
-}
-.input-style {
-	font-size: 0.7rem;
-	padding: 0.5rem 0.5rem;
-	border-radius : 0;
-}
-.card-text {
-	font-weight: bold; 
-	text-align: left;
-	margin-left: 1rem;
-}
-.card-text-normal {
-	text-align: left;
-	color: #6e6e6e;
-	margin-left: .25rem; 
-	margin-right: .25rem; 
-}
-.label-small {
-  vertical-align: super;
-  font-size: 14px;
-}
-.item-body {
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    padding: .5rem;
-}
-.item > span {
-	display: block;
-}
-.item-footer {
-    padding: .25rem .25rem;
-   	background-color: rgba(0,0,0,.03);
-    border-top: 1px solid rgba(0,0,0,.125);
- }
-
-.item-text {
-	text-align: left;
-	color: #6e6e6e;
-	margin-left: .25rem; 
-	margin-right: .25rem; 	
-}
-
-.item-text-grey {
-	color: #ddd;
-}
-
-.item-title {
-	margin-top: .25rem;
-    margin-bottom: .5rem;
-    height: 56px;
-    font-size: 14pt;
-    color: #000 important!;
-    overflow: hidden;
-}
-.item-right {
-	float: right;
-    width: 49.9%;
-}
-.item-left {
-	float: left;
-    width: 49.9%;
-}
-.list_select {
-    height: 46px;
-    text-align: left;
-    font-size: 14px;
-}
-.search > li {
-	margin: 5px;
-}
-.strong {
-	font-weight: bold;
-}
-.c-black {
-	color: #000;
-}
-.c-kobay {
-	color: #56B6E6;
-}
-.c-grey {
-	color: #999;
-}
-</style>
-
 <%-- 화면로드시 기본적으로 적용될 script --%>
 <script type="text/javascript">
 // mCategory toggle 상태 값
@@ -182,6 +14,8 @@ var isToggle = false;
 var curToggle;		
 // lCategory 컬럼 사이즈
 var listSize = ${listSize};
+
+
 
 // mCategory를 숨기는 함수(toggle여부에 따름)
 function mCtgHide() {
@@ -193,13 +27,16 @@ function mCtgHide() {
 
 // 화면로드 
 $(document).ready(function () {
-	$("#list").load("/itemList");
-	mCtgHide();
+	$.ajaxSetup({ cache: false });
 	
+	$("#itemList").load("/itemList");
+	mCtgHide();
+
 	var list = ${lCtgCnt};
 	for(var i = 0; i < list.length; i++) {
 		document.getElementById("lcnt"+(i+1)).innerHTML = list[i];
 	}
+	
 })
 
 // 대분류 toggle icon 클릭이벤트 
@@ -264,8 +101,12 @@ function toggelClick(thisValue) {
 <%-- 정렬기준 script --%>
 <script type="text/javascript">
 function orderFunction() {
+	// 페이지 로딩시 추가된 리스트는 reset
+	$('div').remove('#additemList');
+	
 	var selectValue = document.getElementById("orderCondition").value;
 	var params = "orderCondition=" + selectValue;
+	
 	$.ajax({
 		type : 'POST',
 		data : params,
@@ -273,8 +114,7 @@ function orderFunction() {
 		dataType : "json",
 		success : function(data) {
 			if(data.result == "success") {
-				$("#list").load("/itemList");
-				//self.location.reload();
+				$("#itemList").load("<c:url value='/itemList'/>");
 				return false;
 			}
 			else {
@@ -307,6 +147,8 @@ function fn_checkboxClick(value) {
 		 	mctgList.push(checkValue);
 		 }
 	})
+	// 페이지 로딩시 추가된 리스트는 reset
+	$('div').remove('#additemList');
 	// mCategory클릭시 lCategory check상태 변경
 	document.getElementById(lctg).checked = true;
 	
@@ -327,7 +169,7 @@ function fn_checkboxClick(value) {
 							document.getElementById(lctg).checked = false;
 						}	
 					}
-					$("#list").load("/itemList");
+					$("#itemList").load("/itemList");
 					return false;
 				}
 				else {
@@ -342,27 +184,158 @@ function fn_checkboxClick(value) {
 }
 </script>
 
+<%-- 추가검색조건 --%>
+<script>
+function searchPrice() {
+	var minprice = document.getElementById("minPrice").value;
+	var maxprice = document.getElementById("maxPrice").value;
+	if(minprice == "") {
+		minprice = 0;
+	}
+	if(maxprice == "") {
+		maxprice = 0;
+	}
+	var params = "minPrice=" + minprice 
+				+ "&maxPrice=" + maxprice;
+	$.ajax({
+		type : "POST",
+		data : params,
+		url : "<c:url value='/priceRange'/>",
+		dataType : "json",
+		success : function(data) {
+			if(data.result == "success") {
+				$("#itemList").load("/itemList");
+				return false;
+			}
+			else {
+				alert("데이터를 로드할 수 없습니다.")
+				location.reload();
+			}
+		},
+		error : function(error) {
+			console.log(error);
+		}	
+	});
+}
+
+function searchInnerKeyword() {
+	var innerKeyword = document.getElementById("innerKeyword").value;
+	var params = "innerKeyword=" + innerKeyword;
+	$.ajax({
+		type : "POST",
+		data : params,
+		url : "<c:url value='/innerKeywordSearch'/>",
+		dataType : "json",
+		success : function(data) {
+			if(data.result == "success") {
+				$("#itemList").load("/itemList");
+				return false;
+			}
+			else {
+				alert("데이터를 로드할 수 없습니다.")
+				location.reload();
+			}
+		},
+		error : function(error) {
+			console.log(error);
+		}	
+	});
+}
+
+
+function otherCondition(v) {
+	var id = v.getAttribute("id");
+	var params ="";
+	var isChecked = $('input:checkbox[id="'+id+'"]').is(":checked");
+	if(isChecked){
+		if(id == "contact" || id == "free") {
+			if(id == "contact") { document.getElementById('free').checked = false; }	
+			else{ document.getElementById('contact').checked = false; }
+			params = "deliveryWay=" + id;
+		}	
+		else{
+			if(id == "progress") { document.getElementById('expect').checked = false; } 
+			else { document.getElementById('progress').checked = false; }
+			params = "aucStatus=" + id;
+		}	
+	} else {
+		if(id == "contact" || id == "free") { params = "deliveryWay="; } 
+		else { params = "aucStatus="; }
+	}
+	 $.ajax({
+		type : "POST",
+		data : params,
+		url : "<c:url value='/otherConditionSearch'/>",
+		dataType : "json",
+		success : function(data) {
+			if(data.result == "success") {
+				$("#itemList").load("/itemList");
+				return false;
+			}
+			else {
+				alert("데이터를 로드할 수 없습니다.")
+				location.reload();
+			}
+		},
+		error : function(error) {
+			console.log(error);
+		}	
+	}); 
+}
+</script>
+
+<%-- 페이지 스크롤 시 리스트 추가 --%>
+<script>
+$(window).scroll(function(event) { 
+	
+	var scrollTop = Math.max($(window).scrollTop());
+	var windowHeight = Math.max($(window).height());
+	var documentHeight = Math.max($(document).height());
+	
+	console.log(scrollTop +windowHeight);
+	console.log(documentHeight);
+	
+	if (Math.ceil(scrollTop + windowHeight) == documentHeight) { // 스크롤 바가 맨 밑에 위치한다면
+		//alert ("끝까지 확인함!!");
+		// 리스트 갯수 넘겨주기
+		
+		var params = "pageIndex=" + (listCount+1);
+		$.ajax({
+			type : 'POST',
+			data : params,
+			url : "<c:url value='/addItemList'/>",
+			dataType : "json",
+			success : function(data) {
+				if(data.result == "success") {	
+					var div = document.createElement('div');
+					$(div).load("/itemList");
+					div.id = "additemList";
+					div.className="row";
+					div.innerHTML = document.getElementById('item').innerHTML;
+			        document.getElementById('listContainer').appendChild(div);  
+					return false;
+				}
+				else if(data.result == "noMoreList") {
+					return false;
+				}
+				else {
+					self.location.reload();
+				}
+			},
+			error : function(error) {
+				alert("에러가 발생했습니다.");
+			}
+		});
+		
+	} 
+});
+
+</script>
 <body>
   	<!-- Page Content -->
 	<div class="container" align="center">  
-	<c:choose>
-		<c:when test="${itemList.isEmpty()}">
-			<div class="justify-content-center mt-2 mb-4">
-				<div><img class="card-img-top" src="../../../images/null.png"  style="width: 30%;" alt=""></div>
-				<div class="h6 strong"><span class="c-kobay h2">${searchVO.searchKeyword}</span>에 대한 검색 결과가 존재하지 않습니다.</div>
-				<ul class="col-8 mt-3 mb-1 search">
-					<li class="c-grey" style="display:inline-block;">
-					·  상품명, 상표명 등의 검색어가 올바른지 확인해 보세요.</li>
-					<li class="c-grey " style="display:inline-block;">· 검색어의 단어 수를 줄이거나 예술품, 컴퓨터와 같은 일반적인 단어로 검색해 보세요.</li>
-				</ul>
-			</div> 
-			<div>
-				<!-- 오눌 오픈한 경매 or 인기 경매 몇개만 보여주기  -->
-			</div>
-		</c:when>
-		<c:otherwise>
-			<div class="mb-4 mt-4" style="width: 90%" id="accordion" role="tablist" aria-multiselectable="true">
-				 <div class="card">
+		<div class="mb-4 mt-4" style="width: 90%" id="accordion" role="tablist" aria-multiselectable="true">
+			 <div class="card">
 					<div id="mainCtg" class="card-body h-75">
 						<div class="row align-items-center">
 						 	<div class="col-2">
@@ -420,38 +393,38 @@ function fn_checkboxClick(value) {
 			 				<form class="form-inline" role="form">
 					 			<div class="form-group row card-text-normal">
 					 				<!-- <label for="sprice">가격</label> -->
-									<span><input type="text" size="7" class="form-control input-style" id="sprice"> </span>
+									<span><input type="text" size="7" class="form-control input-style" id="minPrice"> </span>
 									<span id="dash" class="px-1"> ~ </span>
-									<span ><input type="text" size="7" class="form-control input-style" id="eprice"></span>
-									<span style="margin: 5px"><input type="button" class="form-control input-style" value="가격검색"></span>
+									<span><input type="text" size="7" class="form-control input-style" id="maxPrice"></span>
+									<span style="margin: 5px"><input type="button" class="form-control input-style" value="가격검색" onClick="searchPrice()"></span>
 								</div>
 					 		</form>
 					 		<span id="space" class="px-2"></span>
 			 				<form class="form-inline" role="form">
 					 			<div class="form-group row card-text-normal" style="font-weight: normal;">
 					 				<!-- <label for="sprice">가격</label> -->
-									<span><input type="text" size="16" class="form-control input-style" id="innerCondition"> </span>
-									<span class="px-1"><input type="button" class="form-control input-style" value="결과내 재검색"></span>
+									<span><input type="text" size="16" class="form-control input-style" id="innerKeyword"> </span>
+									<span class="px-1"><input type="button" class="form-control input-style" value="결과내 재검색" onclick="searchInnerKeyword()"></span>
 								</div>
 					 		</form>
 					 		<span id="space" class="px-2"></span>
 					 		<form class="form-inline " role="form">
 					 			<div class="form-group row card-text-normal">
-									<input type="checkbox" id="deliveryWay1"/>
-									<label for="deliveryWay1" class="label-small">직접수령</label>
+									<input type="checkbox" id="contact" onclick="otherCondition(this)"/>
+									<label for="contact" class="label-small">직접수령</label>
 								</div>
 								<div class="form-group row card-text-normal">
-									<input type="checkbox" id="deliveryWay2"/>
-									<label for="deliveryWay2" class="label-small">무료배송</label>
+									<input type="checkbox" id="free" onclick="otherCondition(this)"/>
+									<label for="free" class="label-small">무료배송</label>
 								</div>
 								<span id="dash" class="px-3"> / </span>
 								<div class="form-group row card-text-normal">
-									<input type="checkbox" id="aucStatus1"/>
-									<label for="aucStatus1" class="label-small">진행경매</label>
+									<input type="checkbox" id="progress" onclick="otherCondition(this)"/>
+									<label for="progress" class="label-small">진행경매</label>
 								</div>
 								<div class="form-group row card-text-normal">
-									<input type="checkbox" id="aucStatus2"/>
-									<label for="aucStatus2" class="label-small">예정경매</label>
+									<input type="checkbox" id="expect" onclick="otherCondition(this)"/>
+									<label for="expect" class="label-small">예정경매</label>
 								</div>
 							</form>
 				 		</div>
@@ -475,39 +448,10 @@ function fn_checkboxClick(value) {
 				</div>
 			</div><!-- /.search -->
 		
-			<div id="list">
+			<div id="itemList" class="row">
 			<%-- list.jsp import --%>
 			</div>
-			
-	      	<!-- Pagination -->
-	      	<div>
-		      <ul class="pagination justify-content-center">
-		        <li class="page-item">
-		          <a class="page-link" href="#" aria-label="Previous">
-		            <span aria-hidden="true">&laquo;</span>
-		            <span class="sr-only">Previous</span>
-		          </a>
-		        </li>
-		        <li class="page-item">
-		          <a class="page-link" href="#">1</a>
-		        </li>
-		        <li class="page-item">
-		          <a class="page-link" href="#">2</a>
-		        </li>
-		        <li class="page-item">
-		          <a class="page-link" href="#">3</a>
-		        </li>
-		        <li class="page-item">
-		          <a class="page-link" href="#" aria-label="Next">
-		            <span aria-hidden="true">&raquo;</span>
-		            <span class="sr-only">Next</span>
-		          </a>
-		        </li>
-		      </ul>
-	      	</div>
       	</div> <!-- /.listContainer -->
-		</c:otherwise>
-	</c:choose>
     </div><!-- /.container -->
 
     <!-- Footer -->

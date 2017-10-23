@@ -29,8 +29,16 @@ public class SearchDAO extends EgovAbstractDAO {
 		return list("search.getList", searchVO);
 	}
 	
+	public int getSearchListCnt(SearchVO searchVO) throws Exception {
+		return (int)select("search.getListCnt", searchVO);
+	}
+	
 	public int getMCtgList(SearchVO searchVO) throws Exception {
 		return (int) select("search.getMCtgList", searchVO);
+	}
+	public List<?> getNullList() {
+		// TODO Auto-generated method stub
+		return list("search.nullList");
 	}
 	
 }

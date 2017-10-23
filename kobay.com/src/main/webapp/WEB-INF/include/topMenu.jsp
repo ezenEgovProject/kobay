@@ -29,14 +29,13 @@ function searchFocus() {
 }
 function goSearch() {
 	var searchValue = document.getElementById("searchContent").value;
-	var params = "search_content=" + searchValue;
+	var params = encodeURI("search_content=" + searchValue);
 	
 	if(searchValue == "") {
 		alert("검색어를 입력해주세요.")
 		return ;
 	}
-
-	location.href = "<c:url value='/search?search_content=" + searchValue +"'/>";
+	location.href = "<c:url value='/search?" + params +"'/>";
 }
 </script>
 

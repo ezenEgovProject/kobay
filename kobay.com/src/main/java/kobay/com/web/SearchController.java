@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import kobay.com.cmmn.PaginationInfo;
 import kobay.com.service.SearchService;
 import kobay.com.service.SearchVO;
 
@@ -32,7 +33,8 @@ public class SearchController {
 	@Resource
 	SearchService searchService;
 	
-	private SearchVO searchVO;
+	private SearchVO searchVO = new SearchVO();
+	private int listCount = 0;
 	
 	/**
 	 * SearchView
@@ -44,21 +46,28 @@ public class SearchController {
 	public ModelAndView searchView(@RequestParam("search_content") String searchContent, Model model)throws Exception {
 		ModelAndView mv = new ModelAndView();
 		searchVO = new SearchVO();
+		// 검색키워드 저장
 		searchVO.setSearchKeyword(searchContent);
+		int listCnt = searchService.getSearchListCnt(searchVO);
+		if(listCnt == 0) {
+			List<?> nullList = searchService.getNullList();
+			model.addAttribute("nullList", nullList);
+			model.addAttribute("searchVO", searchVO);
+			mv.setViewName("others/null");
+			return mv;
+		}
 		
-		// !--getCategory
+		// !-- getCategory
 		List<?> lCtgList = searchService.selectctglist();
 		List<?> mCtgList = null;
 		List<List<?>> mList = new ArrayList<>();
-		
-		Map<?, ?> map = null;
 		List<Integer> lListCnt = new ArrayList<>();
+		Map<?, ?> map = null;
 		
 		for(int i = 0; i < lCtgList.size(); i++) {
 			map = (Map<?, ?>) (lCtgList.get(i));
-			
+		
 			Iterator<?> it = map.keySet().iterator();
-			
 			while(it.hasNext()) {
 				String key = (String)it.next();
 				if(key.equals("ctgcd")) {
@@ -73,7 +82,8 @@ public class SearchController {
 		for (int i = 0; i < mList.size(); i++) {
 			int cnt = 0;
 			for(int j = 0; j < mList.get(i).size(); j++) {
-				EgovMap record = (EgovMap) ((mList.get(i)).get(j));//EgovMap으로 형변환하여 담는다.
+				// EgovMap형태의  value 가져오기
+				EgovMap record = (EgovMap) ((mList.get(i)).get(j));
 				String str = (record.get("count")).toString();
 				cnt = cnt + Integer.parseInt(str);
 			}
@@ -84,8 +94,8 @@ public class SearchController {
 		model.addAttribute("lCtgList", lCtgList);
 		model.addAttribute("lCtgCnt", lListCnt);
 		model.addAttribute("mList", mList);
-		// !--getCategory
-	
+		
+		// 페이지 로딩을 위한 정보
 		if(searchVO!= null) {
 			model.addAttribute("searchVO", searchVO);
 		}
@@ -100,10 +110,80 @@ public class SearchController {
 	 */
 	@RequestMapping("/itemList")
 	public String loadList(Model model) throws Exception {
+		
+		searchVO.setPageUnit(12);
+		searchVO.setPageSize(12);
+		
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		
 		List<?> itemList = new ArrayList<>();
 		itemList = searchService.getSearchList(searchVO);
+		
+		listCount = searchVO.getPageIndex();
+		
 		model.addAttribute("itemList", itemList);
+		model.addAttribute("listName", "itemList"+listCount);
+		model.addAttribute("pageSize", searchVO.getPageIndex());
+		
 		return "others/item/list";
+	}
+	
+	/**
+	 * 페이지 스크롤 시 추가 리스트로드
+	 * @param model, SearchVO
+	 * @return listItem View
+	 * @throws SqlException
+	 */
+	@RequestMapping("/addItemList")
+	@ResponseBody Map<String, Object> addItemList(Model model, SearchVO vo) {
+		Map<String, Object> map = new HashMap<>();
+		List<?> itemList = new ArrayList<>();
+		
+		// 현재 로드할 페이지가 첫번째가 아니면 add
+		searchVO.setPageIndex(vo.getPageIndex());
+		searchVO.setPageUnit(12);
+		searchVO.setPageSize(12);
+		
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		int listCnt = 0;
+		try {
+			listCnt = searchService.getSearchListCnt(searchVO);
+			// 전체 데이터 갯수를 로드했으면 return 
+			if(searchVO.getFirstIndex() > listCnt) {
+				model.addAttribute("searchVO", vo);
+				map.put("result", "noMoreList");
+				return map;
+			}
+			itemList = searchService.getSearchList(searchVO);
+			listCount = searchVO.getPageIndex();
+			
+			model.addAttribute("listName", "itemList"+listCount);
+			model.addAttribute("pageSize", searchVO.getPageIndex());
+			map.put("result", "success");
+			model.addAttribute("itemList", itemList);
+			model.addAttribute("searchVO", vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			map.put("result", "fail");
+		} 
+		return map;
 	}
 
 	/**
@@ -113,36 +193,65 @@ public class SearchController {
 	 */
 	@RequestMapping("/reConditionalList")
 	@ResponseBody Map<String, Object> reConditionalList(Model model, SearchVO vo) {
+		searchVO.setPageIndex(1);
 		Map<String, Object> map = new HashMap<>();
 		searchVO.setmCtgList(vo.getmCtgList());
 		
-		try {
-			map.put("result", "success");
-			model.addAttribute("searchVO", vo);
-		}catch (Exception e) {
-			e.printStackTrace();
-			map.put("result", "fail");
-		}
+		map.put("result", "success");
+		model.addAttribute("searchVO", vo);
 		return map;
 	}
 
-	/**
-	 * 정렬기준에 따른 리스트 재정렬
-	 * @param vo - orderCodition(카테고리)
-	 * @return String - 리스트 재정렬에 대한 쿼리성공여부
-	 */
+	/** 정렬 기준 설정 */
 	@RequestMapping("/reOrderingList")
 	@ResponseBody Map<String, Object> listReOrder(Model model, SearchVO vo) {
-		Map<String, Object> map = new HashMap<>();
+		searchVO.setPageIndex(1);
 		searchVO.setOrderCondition(vo.getOrderCondition());
-		try {
-			map.put("result", "success");
-			model.addAttribute("searchVO", vo);
-		} catch (Exception e) {
+		
+		Map<String, Object> map = new HashMap<>();
 
-			e.printStackTrace();
-			map.put("result", "fail");
-		}
+		map.put("result", "success");
+		model.addAttribute("searchVO", vo);
 		return map;
 	}
+	
+	/** 가격범위 설정 */
+	@RequestMapping("/priceRange")
+	@ResponseBody Map<String, String> priceRange(Model model, SearchVO vo) {
+		searchVO.setMinPrice(vo.getMinPrice());
+		searchVO.setMaxPrice(vo.getMaxPrice());
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("result", "success");
+		model.addAttribute("searchVO", vo);
+		return map;
+	}
+	
+	/** 결과내 재검색어 설정 */
+	@RequestMapping("/innerKeywordSearch")
+	@ResponseBody Map<String, String> innerKeyword(Model model, SearchVO vo) {
+		searchVO.setInnerKeyword(vo.getInnerKeyword());
+
+		Map<String, String> map = new HashMap<>();
+		map.put("result", "success");
+		model.addAttribute("searchVO", vo);
+		return map;
+	}
+	
+	/** 추가 검색조건 설정 */
+	@RequestMapping("/otherConditionSearch")
+	@ResponseBody Map<String, String> otherCondition(Model model, SearchVO vo) {
+		if(vo.getDeliveryWay() != null){
+			searchVO.setDeliveryWay(vo.getDeliveryWay());
+		}
+		else if (vo.getAucStatus() != null) {
+			searchVO.setAucStatus(vo.getAucStatus());
+		}
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("result", "success");
+		model.addAttribute("searchVO", vo);
+		return map;
+	}
+	
 }
