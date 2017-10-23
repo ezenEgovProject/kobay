@@ -8,23 +8,7 @@
 <!DOCTYPE html>
 <html lang="utf-8">
   <head>
-<<<<<<< HEAD
-	<!-- <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Kobay 로그인 및 회원가입</title>
-
-    Bootstrap core CSS
-    <link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    Custom styles for this template
-    <link rel="stylesheet" href="../../../css/kobay.css" > -->
-=======
     <link rel="stylesheet" type="text/css" href="../../../css/member.css">
->>>>>>> member
   </head>
 <script type="text/javascript">
 /* 회원가입 폼에 있는 인풋 id 또는 name */
@@ -67,12 +51,6 @@ function member_Register() {
 			if(data.result == "ok") { /* 성공 */
 				alert("가입되었습니다.");
 				location.href="<c:url value='/loginreg' />";
-<<<<<<< HEAD
-			} else{
-				alert("다시 한번 확인해주세요.");
-				for(var i=0; i<data.errors.length; i++) {
-					alert(data.errors[i].field + ": " + data.errors[i].defaultMessage);
-=======
 			}
 			else if(data.result == "exists") { /* 존재하는 아이디 */
 				$("#regForm i[id='icon_memberId']").attr("class","fa fa-ban");
@@ -84,7 +62,6 @@ function member_Register() {
 			else{
 				alert("다시 확인해주세요.");
 				for(var i=0; i<data.errors.length; i++) { /* 유효성검사에 따른 v 또는 x 체크 */
->>>>>>> member
 					$("#regForm i[id='icon_"+data.errors[i].field+"']").attr("class","fa fa-ban");
 					$("#regForm i[id='icon_"+data.errors[i].field+"']").css({
 						 "color":"#FF0000"
@@ -143,10 +120,6 @@ function member_CheckForm(va) {
 /*  */
 </script>
 <body>
-<<<<<<< HEAD
-    
-=======
->>>>>>> member
     <!-- Page Content -->
     <div class="container">
 		<!-- 로그인 부분 -->
@@ -223,10 +196,6 @@ function member_CheckForm(va) {
     <!-- /.Page Content -->
 
     <!-- Footer -->
-<<<<<<< HEAD
-
-=======
->>>>>>> member
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>

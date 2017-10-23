@@ -90,46 +90,15 @@ public class LoginController {
 		return map;
 	}
 	
-<<<<<<< HEAD
-/*	@RequestMapping(value = "/logout")
-	@ResponseBody
-	public  Map<String, Object> logout(HttpSession session) {
-=======
 	
 	@RequestMapping(value = "/logout") /*로그아웃 실행*/
 	public String logout(HttpSession session) {
->>>>>>> member
 		
 		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
 		log.info(session.getAttribute("id") + " Logout 현재시간 : "+curTime);
 		
 		session.invalidate();
 		
-<<<<<<< HEAD
-		return map;
-	}*/
-	
-	@RequestMapping(value = "/logout")
-	public String logout(HttpSession session) {
-		
-		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
-		log.info(session.getAttribute("ld") + " Logout 현재시간 : "+curTime);
-	
-		session.invalidate();
-		
-		return "redirect:/main";
-	}
-}
-
-
-
-/*
-public String loginRegPage(MemberVO vo, HttpSession session) {
-	String member_id = (String) session.getAttribute("id");
-	
-	if(member_id != null) {
-=======
->>>>>>> member
 		return "redirect:/main";
 	}
 	
