@@ -8,6 +8,7 @@
 	
 	
 <insert id="memberDAO.insertMember">
+<<<<<<< HEAD
 	INSERT INTO kobay_member(
 		MEMBER_UNQ,
 		MEMBER_ID,
@@ -15,17 +16,29 @@
 		MEMBER_NAME,
 		MEMBER_PHONE,
 		MEMBER_RDATE
+=======
+	INSERT INTO kobayMember(
+		memberUnq,
+		memberId,
+		memberPwd,
+		memberName,
+		memberPhone,
+		memberRdate,
+		memberMdate
+>>>>>>> member
 	)
 	VALUES(
-		MEMBER_UNQ.NEXTVAL,
-		'$member_id$',
-		'$member_pwd$',
-		'$member_name$',
-		'$member_phone$',
+		member_seq.NEXTVAL,
+		'$memberId$',
+		'$memberPwd$',
+		'$memberName$',
+		'$memberPhone$',
+		sysdate,
 		sysdate
 	)
 </insert>
 <select id="memberDAO.selectMemberTotal" resultClass="java.lang.Integer">
+<<<<<<< HEAD
 	SELECT COUNT(MEMBER_UNQ) total FROM kobay_member
 </select>
 
@@ -51,19 +64,73 @@
 	SELECT COUNT(member_id)
 	FROM kobay_member
 	WHERE member_id = #member_id#
+=======
+	SELECT COUNT(memberUnq) total FROM kobayMember
 </select>
-</sqlMap>
-<!-- 
-CREATE TABLE member(
-MEMBER_UNQ number,
-MEMBER_ID varchar2(100),
-MEMBER_PWD varchar2(100),
-MEMBER_NAME varchar2(10),
-MEMBER_PHONE varchar2(20),
-MEMBER_RDATE timestamp);
 
-create sequence MEMBER_UNQ
-INCREMENT BY 1
-START WITH 1
-MAXVALUE 999999;
- -->
+<select id="memberDAO.selectMemberList" resultClass="egovMap">
+	SELECT  memberUnq,
+			memberId,
+			memberPwd,
+			memberName,
+			memberPhone,
+			TO_CHAR(memberRdate, 'yyyy-mm-dd') memberRdate
+	FROM	kobayMember
+</select>
+
+<select id="memberDAO.selectMemberDetail" resultClass="memberVO">
+	SELECT memberUnq,
+		   memberId,
+		   memberName,
+		   memberPhone,
+		   TO_CHAR(memberRdate, 'yyyy-mm-dd') memberRdate,
+		   TO_CHAR(memberMdate, 'yyyy-mm-dd') memberMdate
+	FROM kobayMember
+	WHERE memberId = '$memberId$'
+</select>
+
+<select id="memberDAO.memberCheckId" resultClass="java.lang.Integer">
+	SELECT COUNT(memberId)
+	FROM kobayMember
+	WHERE memberId = #memberId#
+>>>>>>> member
+</select>
+
+<update id="memberDAO.editProfile">
+	UPDATE kobayMember SET memberPwd='$memberPwd$',
+						   memberName='$memberName$', 
+						   memberPhone='$memberPhone$',
+						   memberMdate = sysdate
+				  WHERE memberUnq = '$memberUnq$'
+</update>
+
+<select id="memberDAO.foundId" resultClass="egovMap">
+	SELECT memberId
+	FROM   kobayMember
+	WHERE  memberName = '$memberName$' AND
+		   memberPhone = '$memberPhone$'
+	
+</select>
+
+<update id="memberDAO.updateRandomPassword">
+	UPDATE kobayMember SET memberPwd='$memberPwd$'
+	WHERE  memberId = '$memberId$' AND
+		   memberName = '$memberName$' AND
+		   memberPhone = '$memberPhone$'
+</update>
+
+
+<select id="memberDAO.findMember" resultClass="java.lang.Integer">
+			SELECT COUNT(memberId) 
+			FROM kobayMember
+			WHERE  memberName = '$memberName$' AND
+				   memberPhone = '$memberPhone$'
+	<isNotNull property="memberId">
+		<isNotEmpty property="memberId">
+											   AND
+				   memberId = '$memberId$'
+			</isNotEmpty>
+	</isNotNull>
+</select>
+
+</sqlMap>

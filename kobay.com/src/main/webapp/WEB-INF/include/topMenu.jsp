@@ -16,6 +16,7 @@ function fn_logout() {
 }
 </script>
 
+<<<<<<< HEAD
 <script type="text/javascript">
 function searchFocus() {
 	var searchInput = document.getElementById("searchContent");
@@ -40,6 +41,8 @@ function goSearch() {
 }
 </script>
 
+=======
+>>>>>>> member
 <%-- 상단 고정메뉴 --%> 
 <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
 	<div class="container" style="width: 100%;">
@@ -50,17 +53,27 @@ function goSearch() {
 			<div class="col-4 order-sm-2">
 			    <div class="input-group">
 			    	<span class="input-group-btn">
+<<<<<<< HEAD
 				       	<a id="searchBtn" class="btn search-btn" href="javascript:goSearch()"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
 			        </span>
 			  		<input id="searchContent" onfocus="searchFocus()" type="text" class="form-control search-input" 
 			  				placeholder="검색어를 입력하세요." value ="${searchVO.searchKeyword}">
+=======
+			        	<a class="btn search-btn" href="/action/search"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
+			  		</span>
+			  		<input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
+>>>>>>> member
 				</div><!-- /.input-group -->
 			</div>
 			<div class="col-6 col-sm-auto order-sm-3" >
 				<c:if test="${sessionScope.id  != null}">
 					 <span class="top-icon"><font style="color:white;">${sessionScope.name}님</font></span>
 					 <span class="top-icon"><a href="/write"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
+<<<<<<< HEAD
 					 <span class="top-icon"><a href="#"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
+=======
+					 <span class="top-icon"><a href="/confirm"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
+>>>>>>> member
 					 <span class="top-icon"><a href="javascript:fn_logout()"><i class="fa fa-power-off fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
 				</c:if>
 				<c:if test="${sessionScope.id == null}">

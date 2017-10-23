@@ -40,53 +40,72 @@ public class LoginController {
 		return new MemberVO();
 	}
 		
-	@RequestMapping(value="/login")
+	@RequestMapping("/loginreg") /*로그인 회원가입 페이지*/
+	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
+		
+		loginBack();
+		regBack();
+		
+		String memberId = (String) session.getAttribute("id");
+		
+		if(memberId != null) {
+			return "redirect:/main";
+		}
+		return "login/loginRegWrite";
+	}
+	
+	@RequestMapping(value="/login") /*로그인 실행*/
 	@ResponseBody
 	public Map<String, Object> login(MemberVO vo, HttpSession session) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		String id = vo.getMember_id();
-		String pwd =  vo.getMember_pwd();
+		int unq = 0;
+		String id = vo.getMemberId();
 		String name = "";
 		String result = "";
 
-		int loginIdentify = loginService.loginCheck(vo);
+		int loginIdentify = loginService.loginCheck(vo); /*아이디 패스워드 확인*/
 
 		if(loginIdentify == 1) {
+			/*로그인 성공*/
 			session.setAttribute("id", id);
-			session.setAttribute("pwd", pwd);
 			result = "ok";
 			
 			String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
 			log.info(session.getAttribute("id") + " Login 현재시간 : "+curTime);
 			
-			vo = memberService.selectMemberDetail(vo);
+			vo = memberService.selectMemberDetail(vo); /*회원 이름이랑 Unq값 세션에 담으려고 가져옴*/
 			
-			name = vo.getMember_name();
+			unq = vo.getMemberUnq();
+			name = vo.getMemberName();
+			
+			/*세션에 셋팅*/
+			session.setAttribute("unq", unq); 
 			session.setAttribute("name", name);
-			System.out.println(name);
+			/* */
+			
 		}
-		
 		map.put("result", result);
-		
 		return map;
 	}
 	
+<<<<<<< HEAD
 /*	@RequestMapping(value = "/logout")
 	@ResponseBody
 	public  Map<String, Object> logout(HttpSession session) {
+=======
+	
+	@RequestMapping(value = "/logout") /*로그아웃 실행*/
+	public String logout(HttpSession session) {
+>>>>>>> member
 		
-		Map<String, Object> map = new HashMap<String, Object>();
 		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
-		String result = "";
-
-		log.info(session.getAttribute("ld") + " Logout 현재시간 : "+curTime);
+		log.info(session.getAttribute("id") + " Logout 현재시간 : "+curTime);
 		
-		result = "ok";
 		session.invalidate();
-		map.put("result", result);
 		
+<<<<<<< HEAD
 		return map;
 	}*/
 	
@@ -109,13 +128,9 @@ public String loginRegPage(MemberVO vo, HttpSession session) {
 	String member_id = (String) session.getAttribute("id");
 	
 	if(member_id != null) {
+=======
+>>>>>>> member
 		return "redirect:/main";
 	}
 	
-	else if(vo.getMember_id().isEmpty() == false) {
-	member_id = vo.getMember_id();
-	int check = memberService.memberCheckId(member_id);
-	}
-	return "login/loginRegWrite";
 }
-*/

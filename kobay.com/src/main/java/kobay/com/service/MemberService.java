@@ -14,6 +14,14 @@ public interface MemberService {
 
 	MemberVO selectMemberDetail(MemberVO vo) throws Exception;
 
-	int memberCheckId(String member_id);
+	int memberCheckId(String memberId);
+
+	void editProfile(MemberVO vo);
+
+	int findMember(MemberVO vo);
+
+	List<?> foundId(MemberVO vo);
+
+	void updateRandomPassword(MemberVO vo);
 	
 }

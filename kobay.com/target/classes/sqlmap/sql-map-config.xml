@@ -11,4 +11,14 @@
 <sqlMap resource="sqlmap/sql/MemberSQL.xml" />
 <sqlMap resource="sqlmap/sql/LoginSQL.xml" />
 
+<<<<<<< HEAD
+=======
+
+
+
+
+<sqlMap resource="sqlmap/sql/MemberSQL.xml" />
+<sqlMap resource="sqlmap/sql/LoginSQL.xml" />
+
+>>>>>>> member
 </sqlMapConfig>
