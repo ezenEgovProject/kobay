@@ -64,6 +64,7 @@
 			ctgcd,
 			ctgnm
 		from
+
 			AUCTIONCTG
 		where ctgcd like #ctgcd# || '_%'
 	</select>

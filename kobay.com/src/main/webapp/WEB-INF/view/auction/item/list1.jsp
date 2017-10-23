@@ -146,6 +146,10 @@
           	 <c:set var="totcnt1" value="${(totcnt1)-1}"/>
           	 </div>
           </c:forEach> <!-- /list-forEach -->
+<<<<<<< HEAD
 	   </div> <!-- /.row -->
+=======
+	   </div> <!-- /.row -->    
+>>>>>>> list
 </body>
 </html>

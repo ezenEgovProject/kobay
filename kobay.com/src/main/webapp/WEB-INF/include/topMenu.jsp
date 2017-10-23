@@ -15,6 +15,7 @@ function fn_logout() {
 	}
 }
 </script>
+
 <script type="text/javascript">
 function searchFocus() {
 	var searchInput = document.getElementById("searchContent");
@@ -49,10 +50,10 @@ function goSearch() {
 			<div class="col-4 order-sm-2">
 			    <div class="input-group">
 			    	<span class="input-group-btn">
-			        	<a id="searchBtn" class="btn search-btn" href="javascript:goSearch()"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
+				       	<a id="searchBtn" class="btn search-btn" href="javascript:goSearch()"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
 			        </span>
-			  		<input id="searchContent" onfocus="searchFocus()" type="text" 
-			  		class="form-control search-input" placeholder="검색어를 입력하세요." value ="${searchVO.searchKeyword}">
+			  		<input id="searchContent" onfocus="searchFocus()" type="text" class="form-control search-input" 
+			  				placeholder="검색어를 입력하세요." value ="${searchVO.searchKeyword}">
 				</div><!-- /.input-group -->
 			</div>
 			<div class="col-6 col-sm-auto order-sm-3" >
