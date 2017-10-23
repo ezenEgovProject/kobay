@@ -7,8 +7,14 @@
         padding-top: 68px;
     }
  }
+body {
+	font-size: .9rem; 
+	font-family:"NanumGothic";
+} 
  /* menu navigation height setting end  */
-
+.strong {
+	font-weight: bold;
+}
  .bg-blue {
 	background-color: #56B6E6!important;
  }

@@ -15,6 +15,29 @@ function fn_logout() {
 	}
 }
 </script>
+<script type="text/javascript">
+function searchFocus() {
+	var searchInput = document.getElementById("searchContent");
+	var searchButton = document.getElementById("searchBtn");
+	
+	searchInput.onkeydown = function (e) {
+	    if (e.keyCode == 13) {
+	    	goSearch();
+	    }
+	}
+
+}
+function goSearch() {
+	var searchValue = document.getElementById("searchContent").value;
+	var params = encodeURI("search_content=" + searchValue);
+	
+	if(searchValue == "") {
+		alert("검색어를 입력해주세요.")
+		return ;
+	}
+	location.href = "<c:url value='/search?" + params +"'/>";
+}
+</script>
 
 <%-- 상단 고정메뉴 --%> 
 <nav class="navbar navbar-default fixed-top navbar-static-top bg-blue" role="navigation" style="margin-bottom: 0">
@@ -26,9 +49,10 @@ function fn_logout() {
 			<div class="col-4 order-sm-2">
 			    <div class="input-group">
 			    	<span class="input-group-btn">
-			        	<a class="btn search-btn" href="/action/search"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
-			  		</span>
-			  		<input type="text" class="form-control search-input" placeholder="검색어를 입력하세요.">
+			        	<a id="searchBtn" class="btn search-btn" href="javascript:goSearch()"><i class="fa fa-search fa-lg" style="color: #0080ff"></i></a>
+			        </span>
+			  		<input id="searchContent" onfocus="searchFocus()" type="text" 
+			  		class="form-control search-input" placeholder="검색어를 입력하세요." value ="${searchVO.searchKeyword}">
 				</div><!-- /.input-group -->
 			</div>
 			<div class="col-6 col-sm-auto order-sm-3" >

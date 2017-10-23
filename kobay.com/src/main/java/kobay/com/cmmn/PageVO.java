@@ -1,12 +1,11 @@
 package kobay.com.cmmn;
 
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class PageVO {
-	/**
-	 * Page Value
-	 */
-	
+
 	/** 현재페이지 */
 	private int pageIndex = 1;
 
@@ -14,7 +13,7 @@ public class PageVO {
 	private int pageUnit = 10;
 
 	/** 페이지사이즈 */
-	private int pageSize = 10;
+	private int pageSize = 12;
 
 	/** firstIndex */
 	private int firstIndex = 1;
@@ -23,7 +22,7 @@ public class PageVO {
 	private int lastIndex = 1;
 
 	/** recordCountPerPage */
-	private int recordCountPerPage = 10;
+	private int recordCountPerPage = 12;
 	
 	public int getFirstIndex() {
 		return firstIndex;
@@ -73,47 +72,11 @@ public class PageVO {
 		this.pageSize = pageSize;
 	}
 
-	/**
-	 * Search Value
-	 */
-	
-	/** 검색조건 */
-	private String searchCondition = "";
 
-	/** 검색Keyword */
-	private String searchKeyword = "";
-
-	/** 검색사용여부 */
-	private String searchUseYn = "";
-	
-	
-	public String getSearchCondition() {
-		return searchCondition;
-	}
-
-	public void setSearchCondition(String searchCondition) {
-		this.searchCondition = searchCondition;
-	}
-
-	public String getSearchKeyword() {
-		return searchKeyword;
-	}
-
-	public void setSearchKeyword(String searchKeyword) {
-			this.searchKeyword = searchKeyword;
-	}
-
-	public String getSearchUseYn() {
-		return searchUseYn;
-	}
-
-	public void setSearchUseYn(String searchUseYn) {
-		this.searchUseYn = searchUseYn;
-	}
-
-	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+
+	
 }
