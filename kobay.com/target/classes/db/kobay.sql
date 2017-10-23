@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 	/**
 	 * Kobay.sql (database 최종본)
 	 * 계정 생성 - create user kobay identified by kobay1234;
@@ -79,11 +78,8 @@
 	/**
 	 * Auction Category Table
 	 */
-<<<<<<< HEAD
+
 	create table AUCTIONCTG( 
-=======
-	create table aucCategory( 
->>>>>>> list
 	ctgcd varchar2(10) not null /* 카테고리 코드 */, 
 	ctgnm varchar2(50) not null /* 카테고리 이름 */
 	);
@@ -175,12 +171,12 @@
 	-- member sequence
 	create sequence member_seq
 	INCREMENT BY 1
-	START WITH 1
+	START WITH 100
 	MAXVALUE 999999;
 	-- auction sequence
 	create sequence auction_seq 
 	increment by 1 
-	start with 1 
+	start with 100 
 	nocache
 	maxvalue 999999; 
 	-- qustion sequence
@@ -190,10 +186,10 @@
 	maxvalue 9999999;
 	-- bid seqeunce
 	create sequence bid_seq
-	start with 1
+	start with 2396
 	increment by 1
 	maxvalue 9999999;
-=======
+
 /**
  * Kobay.sql (database 최종본)
  * 계정 생성 - create user kobay identified by kobay1234;

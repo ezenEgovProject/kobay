@@ -1,7 +1,11 @@
 package kobay.com.web;
 
 import java.io.File;
+
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,9 +13,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,52 +31,80 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import kobay.com.service.KobayService;
 import kobay.com.service.KobayVO;
-import kobay.com.service.TableVO;
 
 @Controller
 public class KobayController {
 	@Resource(name = "kobayService")
 	private KobayService kobayService;
-	
+
 	@Resource(name = "multipartResolver")
 	CommonsMultipartResolver multipartResolver;
-	
+
 	@RequestMapping("/write")
-	public String Write(Model model) throws Exception{
+	public String Write(Model model) throws Exception {
 		
 		List<?> ctgList = kobayService.selectctglist();
-		
-		model.addAttribute("resultList", ctgList);	
+
+		model.addAttribute("resultList", ctgList);
 		
 		return "write/kobayWrite";
 	}
-	
-	@RequestMapping(value="selectMlist")
-	@ResponseBody public Map<String, Object> SelectMlist(KobayVO vo,Model model) throws Exception{
-		
+
+	@RequestMapping(value = "selectMlist")
+	@ResponseBody
+	public Map<String, Object> SelectMlist(KobayVO vo, Model model) throws Exception {
+
 		List<?> ctgMlist = kobayService.selectctgmlist(vo);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("resultMList", ctgMlist);
-		
+
 		return map;
-			
+
 	}
 
 	@RequestMapping(value = "/uploadFileSave")
-	@ResponseBody public Map<String, String> multipartProcess(final MultipartHttpServletRequest multiRequest,
-			HttpServletResponse response,KobayVO vo,Model model,TableVO tvo) throws Exception {
+	@ResponseBody
+	public Map<String, Object> multipartProcess(final MultipartHttpServletRequest multiRequest,
+			HttpServletResponse response, KobayVO vo, Model model, HttpServletRequest request,HttpSession session ) throws Exception {
 		
+		
+		//사진 이름에 붙이기 위해 현재시간 가져옴
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		
+		String addTime = dateFormat.format(calendar.getTime());
+//		int munq = (int) session.getAttribute("memberUnq");
+//		
+//		vo.setMemberunq(munq);
+			
+		int a;
+		int b;
+		int c;
+		
+		a = Integer.parseInt(vo.getDw());
+		
+		if(vo.getDf()==null){
+			System.out.println("sadfljsdafjsdajfkl");
+			b = 0;
+		}else{
+			b = Integer.parseInt(vo.getDf());
+		}
+
+		c = Integer.parseInt(vo.getSp());
+
+		vo.setDeliveryway(a);
+		vo.setDeliveryfee(b);
+		vo.setSprice(c);
+
 		MultipartFile file;
 		String filePath = "";
 		int cnt = 0;
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
-		
-		
-		String uploadPath = "c:/upload";
 
+		String uploadPath = request.getSession().getServletContext().getRealPath("upload");
 
 		// 폴더의 존재 유무 및 생성
 
@@ -89,76 +124,110 @@ public class KobayController {
 		 * InputStream getInputStream()InputStrem을 구한다. void transferTo(File
 		 * dest)업로드 한 파일 데이터를 지정한 파일에 저장한다. --> 요고도 파일쓰는거다.
 		 */
-		
+
 		String filename = "";
-		
+
 		while (itr.hasNext()) {
 			Entry<String, MultipartFile> entry = itr.next();
 			file = entry.getValue();
 			if (!"".equals(file.getOriginalFilename())) {
-				filePath = uploadPath + "/" + file.getOriginalFilename();
+				filePath = uploadPath + "/" + addTime + file.getOriginalFilename();
 				file.transferTo(new File(filePath));
-				
-				filename += file.getOriginalFilename() + "／";
-				
-				cnt++;
+
+				filename += addTime + file.getOriginalFilename() + "／";		
 			}
 		}
-			
-		vo.setImage(filename);
+
+		String[] filelist = filename.split("／");
+
+		for(int i=0;i<filelist.length;i++){
+			if(i==0){
+				vo.setAucimagemain(filelist[i]);
+			}else if(i==1){
+				vo.setAucimagesub1(filelist[i]);
+			}else if(i==2){
+				vo.setAucimagesub2(filelist[i]);
+			}else{
+				vo.setAucimagesub3(filelist[i]);
+			}
+		}
 		
-		String[] dr = vo.getDateRange().split(" ~ ");	
-				
-		try{
-		SimpleDateFormat org_frm = new SimpleDateFormat("yyyy-MM-dd H:mm a", Locale.US);
-		SimpleDateFormat new_frm = new SimpleDateFormat("yyyy-MM-dd H:mm");
-		
-		System.out.println(dr[1]);
-				
-		Date std = org_frm.parse(dr[0]);
-		Date end = org_frm.parse(dr[1]);
-		
-		System.out.println(dr[0]);
-		
-		String new_std = new_frm.format(std);
-		String new_end = new_frm.format(end);
-		
-		vo.setSdate(new_std);
-		vo.setEdate(new_end);
-		
-		}catch(Exception e){
+		String[] dr = vo.getDateRange().split(" ~ ");
+
+		try {
+			SimpleDateFormat org_frm = new SimpleDateFormat("yyyy-MM-dd H:mm a", Locale.US);
+			SimpleDateFormat new_frm = new SimpleDateFormat("yyyy-MM-dd H:mm");
+
+			System.out.println(dr[1]);
+
+			Date std = org_frm.parse(dr[0]);
+			Date end = org_frm.parse(dr[1]);
+
+			System.out.println(dr[0]);
+
+			String new_std = new_frm.format(std);
+			String new_end = new_frm.format(end);
+
+			vo.setSdate(new_std);
+			vo.setEdate(new_end);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String result="";
+		String fullphone = vo.getPhone1() + vo.getPhone2() + vo.getPhone3(); 
 		
-		result = kobayService.insertWrite(vo);
+		vo.setSellerphone(fullphone);
 		
-		if(result==null){
-			cnt = cnt+1;
+		String result = "";
+
+		try {
+			result = kobayService.insertWrite(vo);
+		} catch (Exception e) {
+			map.put("cnt", 0);
+//			e.printStackTrace();
+			return map;
 		}
 		
-		map.put("cnt", Integer.toString(cnt));
-		System.out.println("cnt -> " + cnt);	
-				
-//		Map<String, Integer> createMap = new HashMap<String, Integer>();
-//		
-//		int auction_unq = 1;
-//		int member_unq = 2;
-//		
-//		createMap.put("auction_unq", auction_unq);
-//		createMap.put("member_unq", member_unq);
-		
-		int seqn = kobayService.selectSeqNumber();
-		
-		tvo.setAuction_unq(seqn);
-		tvo.setMember_unq(1);
-		
-		kobayService.createTable(tvo);
+
+		if (result == null) {
+			cnt = cnt + 1;
+		}
+
+		map.put("cnt", cnt);
 		
 		return map;
 	}
 	
+	@RequestMapping(value="/image")
+	public void profileUpload(String email, MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("SummernoteImg");
+		UUID uuid = UUID.randomUUID();
+		
+		System.out.println(realFolder);
+
+		// 업로드할 파일 이름
+		String org_filename = file.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+
+//		System.out.println("원본 파일명 : " + org_filename);
+//		System.out.println("저장할 파일명 : " + str_filename);
+		
+		String filepath = realFolder + "\\" + str_filename;
+//		System.out.println("파일경로 : " + filepath);
+
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		
+		file.transferTo(f);
+		out.println("SummernoteImg/"+str_filename);
+		out.close();
+	}
 	
-	
+
 }

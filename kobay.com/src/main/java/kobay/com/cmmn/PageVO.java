@@ -1,7 +1,5 @@
 package kobay.com.cmmn;
 
-import java.util.List;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class PageVO {
