@@ -4,28 +4,243 @@
 	<typeAlias alias="listVO" type="kobay.com.service.ListVO"/>
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
-	<select id="listDAO.selectList" resultClass="egovMap">
-		select title,auction_price,to_char(sdate,'yyyy/mm/dd hh24:mi:ss') sdate 
-			from RecentList_test
-			order by sprice asc
+ 	<!-- 진행중인 리스트 -->
+ 	<select id="listDAO.selectList1" parameterClass="listVO" resultClass="egovMap"> 
+ 	
+ 		SELECT A.* FROM (	
+			SELECT ROWNUM RN, B.* FROM (
+		
+		SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
+				to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
+			FROM KOBAYAUCTION  WHERE 1=1
+            AND to_char(sDate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(sysdate,'yyyy/mm/dd hh24:mi')
+            AND to_char(sysdate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(eDate,'yyyy/mm/dd hh24:mi') 
+            
+            <isNull property="orderCondition">
+				ORDER BY eDate ASC ) B
+			</isNull> 
+			
+			<isNotNull property="orderCondition">
+				<isEqual property="orderCondition" compareValue=" "> 
+					ORDER BY auctionUnq ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
+					ORDER BY auctionUnq DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="newest">
+					ORDER BY to_date(eDate,'yyyy/mm/dd hh24:mi') - to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') ASC ) B  
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="lowprice">
+					ORDER BY sPrice ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="highprice">
+					ORDER BY sPrice DESC ) B
+				</isEqual>
+			</isNotNull>
+            
+            ) A
+		WHERE RN >= 1 AND RN <![CDATA[<=]]> 200
+		
+	</select> 
+	
+	<!-- 진행중인 리스트 정렬 -->
+	<select id="listDAO.selectReList1" parameterClass="listVO" resultClass="egovMap">  
+		
+		SELECT A.* FROM (	
+			SELECT ROWNUM RN, B.* FROM (	
+				SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
+						to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
+					FROM KOBAYAUCTION  WHERE 1=1
+			
+			<isNull property="orderCondition">
+				ORDER BY auctionUnq ASC ) B
+			</isNull> 
+			
+			<isNotNull property="orderCondition">
+				<isEqual property="orderCondition" compareValue=" "> 
+					ORDER BY auctionUnq ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
+					ORDER BY auctionUnq DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="newest">
+					ORDER BY to_date(eDate,'yyyy/mm/dd hh24:mi') - to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') ASC ) B  
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="lowprice">
+					ORDER BY sPrice ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="highprice">
+					ORDER BY sPrice DESC ) B
+				</isEqual>
+			</isNotNull>
+			
+			) A
+		WHERE RN >= 1 AND RN <![CDATA[<=]]> 200
+		
 	</select>
 	
-	<select id="listDAO.selectListArray" resultClass="egovMap"> <!-- 정렬 미완성 -->
-		select title,auction_price,to_char(sdate,'yyyy/mm/dd hh24:mi:ss') sdate 
-			from RecentList_test
-			<isEqual property="arrayType" compareValue="newest">
-				order by sdate desc
-			</isEqual>
-			<isEqual property="arrayType" compareValue="lowprice">
-				order by sprice asc
-			</isEqual>
-			<isEqual property="arrayType" compareValue="highprice">
-				order by sprice desc
-			</isEqual>
+	<!-- 진행중인 리스트 갯수 -->
+	<select id="listDAO.selectListTotal1" resultClass="java.lang.Integer">
+		select count (*) from KOBAYAUCTION WHERE 1=1
+            AND to_char(sDate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(sysdate,'yyyy/mm/dd hh24:mi')
+            AND to_char(sysdate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(eDate,'yyyy/mm/dd hh24:mi') 
 	</select>
 	
-	<select id="listDAO.selectListTotal" resultClass="java.lang.Integer">
-		select count (*) from RecentList_test where 1=1
+	<!-- 진행예정중인 리스트 -->
+	<select id="listDAO.selectList2" parameterClass="listVO" resultClass="egovMap"> 
+		SELECT A.* FROM (	
+			SELECT ROWNUM RN, B.* FROM (
+		 SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
+				to_char(eDate,'yyyy/mm/dd hh24:mi') eDate, aucTitle, sPrice, ePrice, aucImageMain
+			FROM KOBAYAUCTION WHERE 1=1
+                AND to_char(sDate,'yyyy/mm/dd hh24:mi') > to_char(sysdate,'yyyy/mm/dd hh24:mi')
+                   
+             <isNull property="orderCondition">
+				 ORDER BY sDate ASC ) B
+			 </isNull> 
+			
+			 <isNotNull property="orderCondition">
+				<isEqual property="orderCondition" compareValue=" "> 
+					ORDER BY sDate ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
+					ORDER BY auctionUnq DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="newest">
+					ORDER BY sDate ASC ) B  
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="lowprice">
+					ORDER BY sPrice ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="highprice">
+					ORDER BY sPrice DESC ) B
+				</isEqual>
+			 </isNotNull>
+            
+           		 ) A
+			WHERE RN >= 1 AND RN <![CDATA[<=]]> 200
+			
+	</select>
+	
+	<!-- 진행예정중인 리스트 정렬 -->
+	<select id="listDAO.selectReList2" parameterClass="listVO" resultClass="egovMap">  
+		
+		SELECT A.* FROM (	
+			SELECT ROWNUM RN, B.* FROM (	
+				SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
+						to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
+					FROM KOBAYAUCTION  WHERE 1=1
+                AND to_char(sDate,'yyyy/mm/dd hh24:mi') > to_char(sysdate,'yyyy/mm/dd hh24:mi')
+			
+			<isNull property="orderCondition">
+				 ORDER BY sDate ASC ) B
+			 </isNull> 
+			
+			 <isNotNull property="orderCondition">
+				<isEqual property="orderCondition" compareValue=" "> 
+					ORDER BY sDate ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
+					ORDER BY auctionUnq DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="newest">
+					ORDER BY sDate ASC ) B  
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="lowprice">
+					ORDER BY sPrice ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="highprice">
+					ORDER BY sPrice DESC ) B
+				</isEqual>
+			 </isNotNull>
+			
+			) A
+		WHERE RN >= 1 AND RN <![CDATA[<=]]> 200
+		
+	</select>
+	
+	<!-- 진행예정중인 리스트 갯수 -->
+	<select id="listDAO.selectListTotal2" resultClass="java.lang.Integer">
+		select count (*) from KOBAYAUCTION WHERE 1=1
+                AND to_char(sDate,'yyyy/mm/dd hh24:mi') > to_char(sysdate,'yyyy/mm/dd hh24:mi')
+	</select>
+	
+	<!-- 마감된 리스트 -->
+	<select id="listDAO.selectList3" parameterClass="listVO" resultClass="egovMap"> 
+		SELECT A.* FROM (	
+			SELECT ROWNUM RN, B.* FROM (
+		select memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
+				to_char(eDate,'yyyy/mm/dd hh24:mi') eDate, aucTitle, sPrice, ePrice, aucImageMain
+			from KOBAYAUCTION WHERE 1=1
+				AND to_char(sysdate,'yyyy/mm/dd hh24:mi') > to_char(eDate,'yyyy/mm/dd hh24:mi')
+					
+			<isNull property="orderCondition">
+				ORDER BY eDate DESC ) B
+			</isNull> 
+			
+			<isNotNull property="orderCondition">
+				<isEqual property="orderCondition" compareValue=" "> 
+					ORDER BY eDate DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
+					ORDER BY auctionUnq DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="newest">
+					ORDER BY eDate ASC ) B  
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="lowprice">
+					ORDER BY sPrice ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="highprice">
+					ORDER BY sPrice DESC ) B
+				</isEqual>
+			</isNotNull>
+           		 ) A
+			WHERE RN >= 1 AND RN <![CDATA[<=]]> 200
+			
+	</select> 
+	
+	<!-- 마감된 리스트 정렬 -->
+	<select id="listDAO.selectReList3" parameterClass="listVO" resultClass="egovMap">  
+		
+		SELECT A.* FROM (	
+			SELECT ROWNUM RN, B.* FROM (	
+				SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
+						to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
+					FROM KOBAYAUCTION  WHERE 1=1
+				AND to_char(sysdate,'yyyy/mm/dd hh24:mi') > to_char(eDate,'yyyy/mm/dd hh24:mi')
+			
+			<isNull property="orderCondition">
+				ORDER BY eDate DESC ) B
+			</isNull> 
+			
+			<isNotNull property="orderCondition">
+				<isEqual property="orderCondition" compareValue=" "> 
+					ORDER BY eDate DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
+					ORDER BY auctionUnq DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="newest">
+					ORDER BY eDate ASC ) B  
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="lowprice">
+					ORDER BY sPrice ASC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="highprice">
+					ORDER BY sPrice DESC ) B
+				</isEqual>
+			</isNotNull>
+			
+			) A
+		WHERE RN >= 1 AND RN <![CDATA[<=]]> 200
+		
+	</select>
+	
+	<!-- 마감된 리스트 갯수 -->
+	<select id="listDAO.selectListTotal3" resultClass="java.lang.Integer">
+		select count (*) from KOBAYAUCTION WHERE 1=1
+				AND to_char(sysdate,'yyyy/mm/dd hh24:mi') > to_char(eDate,'yyyy/mm/dd hh24:mi')
 	</select>
 	
 </sqlMap>
