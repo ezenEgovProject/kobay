@@ -12,7 +12,7 @@
   </head>
 <script type="text/javascript">
 /* edit 폼에 있는 인풋 id 또는 name */
-var editList = ["memberId","memberPwd","memberName","memberPhone"];
+var editList = ["memberPwd","memberName","memberPhone"];
 /*  */
 /* 회원정보 수정 */
 function member_Update() {
@@ -88,7 +88,7 @@ function member_CheckForm(va) {
     <!-- Page Content -->
     <div class="container">
 		<!-- 수정 부분 -->
-		<div class="table-margin-settings">
+		<div class="member-margin-settings">
 		<h2>
 			<label for="editTitle" class="title-margin-settings">회원 수정</label>
 		</h2>
@@ -101,25 +101,25 @@ function member_CheckForm(va) {
 			 </div>	
 			<div class="form-group">
 				<form:label path="memberPwd" class="col-sm-2 control-label">
-					비밀번호<i class="fa fa" id="icon_memberPwd" aria-hidden="true" style="color:#1DDB16;"></i>
+					비밀번호<i class="fa fa-ban" id="icon_memberPwd" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
 				<form:password path="memberPwd" class="form-control" placeholder="비밀번호 8자리 이상" onchange="member_CheckForm('memberPwd')" />
 			</div>
 			<div class="form-group">
 				<form:label path="memberName" class="col-sm-2 control-label">
-					이름<i class="fa fa" id="icon_memberName" aria-hidden="true" style="color:#1DDB16;"></i>
+					이름<i class="fa fa-check" id="icon_memberName" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
 				<form:input path="memberName"  class="form-control" value="${vo.memberName}" placeholder="ex) 홍길동" onchange="member_CheckForm('memberName')" />
 			</div>
 			<div class="form-group">
 				<form:label path="memberPhone" class="col-sm-2 control-label">
-					핸드폰 번호<i class="fa fa" id="icon_memberPhone" aria-hidden="true" style="color:#1DDB16;"></i>
+					핸드폰 번호<i class="fa fa-check" id="icon_memberPhone" aria-hidden="true" style="color:#1DDB16;"></i>
 				</form:label>
 				<form:input path="memberPhone" class="form-control" value="${vo.memberPhone}" placeholder="ex) 010-1234-5678" onchange="member_CheckForm('memberPhone')" />
 				<br>
 				</div>
 			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
+			    <div class="member-align">
 					<form:button class="btn btn-primary btn-lg" onclick="member_Update()">수정</form:button>
 				</div>
 			</div>

@@ -4,7 +4,7 @@ public class BidVO {
 	
 	private int bidUnq = 0;
 	private int auctionUnq = 0;
-	private int memberUnq = 0;
+	private int bidmemberUnq = 0;
 	private int bidPrice = 0;
 	private String bidRdate;
 	private int aucStatus = 0;
@@ -20,11 +20,11 @@ public class BidVO {
 	public void setAuctionUnq(int auctionUnq) {
 		this.auctionUnq = auctionUnq;
 	}
-	public int getMemberUnq() {
-		return memberUnq;
+	public int getBidmemberUnq() {
+		return bidmemberUnq;
 	}
-	public void setMemberUnq(int memberUnq) {
-		this.memberUnq = memberUnq;
+	public void setBidmemberUnq(int bidmemberUnq) {
+		this.bidmemberUnq = bidmemberUnq;
 	}
 	public int getBidPrice() {
 		return bidPrice;

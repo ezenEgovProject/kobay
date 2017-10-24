@@ -24,12 +24,12 @@ public class ListController {
 	@RequestMapping(value="/list_1")
 	public String selectList1(Model model) throws Exception{
 		
-		ListVO vo = listVO;
+		ListVO vo = new ListVO();
+		vo.setOrderCondition("best");
 		List<?> list = listService.selectList1(vo);
-		int totcnt1 = listService.selectListTotal1(vo);
 		
-		model.addAttribute("totcnt1", totcnt1);
-		model.addAttribute("resultList", list); 
+		model.addAttribute("count", "4");
+		model.addAttribute("bestList", list); 
 		
 		return "auction/list_1";
 	}

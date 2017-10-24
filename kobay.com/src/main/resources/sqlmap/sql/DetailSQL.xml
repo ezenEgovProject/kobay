@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
-<sqlMap namespace="QnaSpace">
+<sqlMap namespace="DetailSpace">
 	
 	<typeAlias alias="detailVO" type="kobay.com.service.DetailVO"/>
 	<typeAlias alias="qnaVO" type="kobay.com.service.QnaVO"/>
@@ -19,6 +19,10 @@
 		       k.aucTitle,
 		       k.sPrice,
 		       k.ePrice,
+		       k.aucImageMain,
+		       k.aucImageSub1,
+		       k.aucImageSub2,
+		       k.aucImageSub3,
 		       k.deliveryWay,
 		       k.deliveryFee,
 		       k.sellerName,
@@ -56,6 +60,10 @@
 		       k.aucTitle,
 		       k.sPrice,
 		       k.ePrice,
+		       k.aucImageMain,
+		       k.aucImageSub1,
+		       k.aucImageSub2,
+		       k.aucImageSub3,
 		       k.deliveryWay,
 		       k.deliveryFee,
 		       k.sellerName,
@@ -201,4 +209,46 @@
 			    sysdate
 			)		
 	</insert>  
+	
+	
+	<!-- 경매 참가  -->
+	<insert id="bid.insertBid" parameterClass="bidVO">
+		INSERT INTO auctionBid
+			(	
+				bidUnq,
+				auctionUnq,
+	 			memberUnq,
+				bidPrice,
+				bidRdate,
+				aucStatus
+			)
+		VALUES
+			(	
+				bid_seq.nextval,
+				#auctionUnq#,
+			    #bidmemberUnq#,
+			    #bidPrice#,			 
+			    sysdate,
+			    0
+			)			
+	</insert>
+	
+	<!-- 회원 별 경매 참가 금액 -->
+	<select id="bid.myPrice" resultClass="bidVO">
+		 SELECT
+				bidUnq,
+				auctionUnq,
+				memberUnq,
+				bidPrice,
+				bidRdate,
+				aucStatus
+		FROM 	auctionBid		
+		WHERE	auctionUnq=#auctionUnq#
+		  AND	memberUnq=#bidmemberUnq#
+		  AND   bidPrice = (SELECT max(bidPrice)
+		                    FROM auctionBid 
+		                    WHERE memberUnq = #bidmemberUnq#
+                            and auctionUnq = #auctionUnq#
+		                   )
+	</select>
 </sqlMap>

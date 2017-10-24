@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="utf-8">
 <script type="text/javascript">
+var isLogin = "<%=(String) session.getAttribute("name")%>";
 function fn_logout() {
 	var returnValue = confirm("로그아웃 하시겠습니까?");
 	if(returnValue) {
@@ -55,16 +56,15 @@ function goSearch() {
 			  				placeholder="검색어를 입력하세요." value ="${searchVO.searchKeyword}">
 				</div><!-- /.input-group -->
 			</div>
-			<div class="col-4 order-sm-3" align="right">
+			<div class="col-4 order-sm-3 pr-0" align="right">
 				<c:choose>
 					<c:when test="${sessionScope.id  != null}">
-						 <span class="top-icon"><font style="color:white;">${sessionScope.name}님</font></span>
+						 <span class="top-icon"><a href="/confirm"><font style="color:white;">${sessionScope.name}님</font></a></span>
+						 <span class="top-icon"><a href="javascript:fn_logout()"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
 						 <span class="top-icon"><a href="/write"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-						 <span class="top-icon"><a href="/confirm"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
-						 <span class="top-icon"><a href="javascript:fn_logout()"><i class="fa fa-power-off fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
 					</c:when>
 					<c:otherwise>
-						<span class="top-icon"><a href="/write"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
+						<span class="top-icon"><font style="color:white;">로그인 해주세요</font></span>
 						<span class="top-icon"><a href="/loginreg"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true" style="color: #ffffff"></i></a></span>
 					</c:otherwise>
 				</c:choose>

@@ -10,9 +10,22 @@
  		SELECT A.* FROM (	
 			SELECT ROWNUM RN, B.* FROM (
 		
-		SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
-				to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
-			FROM KOBAYAUCTION  WHERE 1=1
+		SELECT 
+			k.memberUnq, 
+			k.auctionUnq, 
+			k.LCTG, 
+			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg,
+			(select max(bidprice) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)price,
+	        (select count(*) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)bids,
+			to_char(k.sDate,'yyyy/mm/dd hh24:mi') sDate,
+			to_char(k.eDate,'yyyy/mm/dd hh24:mi') eDate,
+			k.aucTitle, 
+			k.sPrice, 
+			k.ePrice, 
+			k.sellername,
+			k.aucImageMain
+			FROM KOBAYAUCTION k
+			WHERE 1=1
             AND to_char(sDate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(sysdate,'yyyy/mm/dd hh24:mi')
             AND to_char(sysdate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(eDate,'yyyy/mm/dd hh24:mi') 
             
@@ -22,7 +35,7 @@
 			
 			<isNotNull property="orderCondition">
 				<isEqual property="orderCondition" compareValue=" "> 
-					ORDER BY auctionUnq ASC ) B
+					ORDER BY bids DESC ) B 
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
 					ORDER BY auctionUnq DESC ) B

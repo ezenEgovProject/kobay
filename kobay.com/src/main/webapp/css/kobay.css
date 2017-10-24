@@ -1,15 +1,17 @@
  /* menu navigation height setting */
  .subnav {
    	padding-top: 82px;
-}
+ }
  @media (min-width: 576px) {
     .subnav {
         padding-top: 74px;
+        line-height: 0.9;
+       
     }
- }
-a:link { text-decoration: none;}
-a:visited {  text-decoration: none;}
-a:hover { text-decoration: none; color:#007bff;}
+  }
+ a:link { text-decoration: none;}
+ a:visited {  text-decoration: none;}
+ a:hover { text-decoration: none; color:#007bff;}
 
 body {
 	font-size: .9rem; 
@@ -39,7 +41,7 @@ body {
     padding-left: 0;
  }
  .carousel-item {
-    height: 65vh;
+    height: 48vh;
     min-height: 300px;
     background: no-repeat center center scroll;
     -webkit-background-size: cover;
@@ -86,11 +88,11 @@ body {
  	background-color:#dae0e5!important
  }
  .navbar-light .navbar-nav .nav-link {
-	font-size: 1rem;
+	font-size: 0.9rem;
  	color: rgba(255, 255, 255, 1);
  }
  .navbar-light .navbar-nav .nav-link:focus,.navbar-light .navbar-nav .nav-link:hover {
- 	font-size: 1rem;
+ 	font-size: 0.9rem;
  	color: rgba(0, 128, 255,.8);
  }
  .navbar-light .navbar-nav .nav-link.disabled {
@@ -102,8 +104,8 @@ body {
  .navbar-light .navbar-nav .show>.nav-link {
  	color: rgba(255, 255, 255, 1);
  	font-weight: bold;
- 	font-size: 1rem;
- 	 text-shadow: 1px 1px #ddd;
+ 	font-size: 0.9rem;
+ 	text-shadow: 1px 1px #ddd;
  }
 
  .dropdown-item{
@@ -145,4 +147,19 @@ body {
  	padding-left:5px
  }
  
+ .card-img-top {
+	max-height: 198px;
+}
  
+ .banner{
+	border:2px solid #56b6e6;
+	background:#fff;
+	width:150px;
+	height:500px;
+	position:absolute;
+	right:30px;
+	top:600px;
+	color:#56b6e6;
+	text-align:center;
+}
+		

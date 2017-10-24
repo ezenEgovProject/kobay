@@ -170,3 +170,6 @@ a:hover { text-decoration: none; color:#007bff;}
 .c-grey {
 	color: #999;
 }
+ .card-img-top {
+	max-height: 198px;
+}

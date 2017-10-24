@@ -2,238 +2,26 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"      	uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn"		uri="http://java.sun.com/jsp/jstl/functions" %>
-
-
 <!DOCTYPE html>
-<html lang="utf-8">
-  <head>
-
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <style>
-    	.kobayDetail_row{
-    		margin: 30px auto;
-    	}
-    	
-    	.kobayDetail_info{
-    		width: 100%;
-    	}
-    	.kobayDetail_info_left {
-    		width:30%; 
-    		height:300px; 
-    		float:left;
-    	}
-
-    	.kobayDetail_info_imgtable{
-    		width:100%;
-    	}
-    	.kobayDetail_info_mainimg{
-    		height:200px; 
-    		border: 1px solid #BDBDBD;
-    		border-collapse:collapse;
-    		text-align:center;    		
-    	}
-    	
-    	.kobayDetail_info_mainimg img{
-    		width:100%;
-    		height:100%;
-    	}
-    	
-    	.kobayDetail_info_subimg{
-    		width:30%; 
-    		height: 100px; 
-    		border: 1px solid #BDBDBD;
-    		border-collapse:collapse;
-    		text-align:center;
-    	}
-    	
-    	.kobayDetail_info_subimg img{
-    		width:100%;
-    		height:100%;
-    	}
-    	
-    	.kobayDetail_info_rigth{
-    		width:70%; 
-    		height:300px; 
-    		border: 1px solid #BDBDBD; 
-    		padding: 1em;
-    		float:right;
-    		vertical-align:top;
-    		text-align:left;
-    	}
-	
-    	.kobayDetail_info_rightinfo{
-    		width:100%;
-    		min-height: 200px;
-    	}
-    	
-    	.kobayDetail_bidStamp{
-			width:200px; 
-			height:100px; 
-			font:12px; 
-			color: blue; 
-			font-weight:bold; 
-			border:2px solid blue; 
-			text-align:center; 
-			padding-top:20px; 
-			float:right;
-		}
-		
-    	.kobayDetail_info_rightbtn{
-    		width:100%;
-    		margin-top:20px;
-    	}
-    	
-    	.kobayDetail_bidbtn{
-    		padding:0.6em;
-    		float:right;
-    	}
-  		.kobayDetail_bidbtn2{
-    		min-height:50px;
-    		margin-left:20px;
-    		padding:0.6em;
-    		float:right;
-    		background-color:#56B6E6;
-    		color: white;
-    		font:bold;
-    	}
-    	.kobayDetail_infotable{
-    		width: 100%;
-    	}
-  
-    	#kobayDetail_tabcontainer {
-		    width: 100%;
-		    margin-top:30px;
-		}
-		ul.tabs {
-		    margin: 0;
-		    padding: 0;
-		    float: left;
-		    list-style: none;
-		    height: 51px;
-		    border-bottom: 1px solid #eee;
-		    border-left: 1px solid #eee;
-		    width: 100%;
-		    font-family:"dotum";
-		    font-size:12px;
-		}
-		ul.tabs li {
-		    float: left;
-		    text-align:center;
-		    cursor: pointer;
-		    width:250px;
-		    height: 50px;
-		    line-height: 50px;
-		    border: 1px solid #eee;
-		    border-left: none;
-		    font-weight: bold;
-		    background: #fafafa;
-		    overflow: hidden;
-		    position: relative;
-		}
-		ul.tabs li.active {
-		    background: #FFFFFF;
-		    border-bottom: 1px solid #FFFFFF;
-		}
-		.kobayDetail_tab_container {
-		    border: 1px solid #eee;
-		    border-top: none;
-		    clear: both;
-		    float: left;
-		    width: 100%;
-		    background: #FFFFFF;
-		}
-		.tab_content {
-		    padding: 2em;
-		    font-size: 12px;
-		    display: none;
-		}
-		.kobayDetail_tab_container .tab_content ul {
-		    width:100%;
-		    margin:0px;
-		    padding:0px;
-		}
-		.kobayDetail_tab_container .tab_content ul li {
-		    padding:5px;
-		    list-style:none;
-		}
-		
-		
-		
-		/** QnA Css **/
-		.kobayDetail_row{
-			margin: 30px auto;
-		}
-		.kobayDetail_qnabox{
-			width:100%;
-			float:center;
-			margin:auto;
-		}
-		.kobayDetail_answertxt{
-			width:100%; 
-			margin-bottom:1em;
-		}
-		.kobayDetail_answertxt td{
-			text-align:right; 
-			padding-bottom: 20px;
-		}
-		.kobayDetail_answertextarea{
-			width:100%;
-		}
-		
-		.kobayDetail_qnalist{
-			width:100%;
-			float:center;
-			margin:auto;
-		}
-		.kobayDetail_question{
-			width:100%;
-			min-height:50px;	
-		}
-		.kobayDetail_question_name{
-			padding-top:1em;
-			text-align:left;
-			border-top:1px solid #BDBDBD;	
-		}
-		.kobayDetail_question_date{
-			padding-top:1em;
-			text-align:right;
-			border-top:1px solid #BDBDBD;	
-		}
-		.kobayDetail_question_content{
-			padding-top:1em;
-			text-align:left;
-			padding-bottom:1em;
-		}
-		.kobayDetail_question_btn{
-			padding-top:1em;
-			padding-bottom:1em;
-			text-align:right;
-		}
-		.kobayDetail_answertextarea{
-			margin-top:1em;
-			margin-bottom:0.3em;
-		}
-		blockquote{
-			border-left: 5px solid #BDBDBD;
-			padding-left:1em;
-		}
-		
-		
-	</style>
-	
-	
+<link rel="stylesheet" href="../../../css/detail.css" />
 	<script>
+	$(document).ready(function() {
+		 var bidmemberUnq = ${sessionScope.unq};
+		 var registerUnq = ${detailResult.memberUnq };
+		 
+		if(bidmemberUnq == registerUnq) {
+			document.getElementById("bidInsetBtn").disabled = true;
+		}
+	});
 	
 		<%-- 메인/서브이미지 mouseover 이벤트 --%>
 		function showSub(val) {
 			var sobj = document.getElementById("main_img");
-			sobj.src = "../../../images/" + val;
+			//sobj.src = "../../../images/" + val;
 		}
 		function showMain(val){
 			var mobj = document.getElementById("main_img");
-			mobj.src = "../../../images/main_" + val;
+			//mobj.src = "../../../images/main_" + val;
 		};
 			
 		<%-- 경매 참여	 --%>		
@@ -312,8 +100,13 @@
 		
 		<%-- 질문 입력 시작 --%>
 		function kobayDetail_questionInsert(){
+			var content = document.getElementById("qnaContent").value;
 			var params = $("#kobayDetail_question").serialize();
-		
+			
+			if(content == "") {
+				alert("질문을 입력해 주세요");
+				return;
+			}
 			$.ajax({
 				type: 'POST',
 				data: params,
@@ -409,47 +202,64 @@
 		}
 	
 	</script>
-  </head>
 
   <body>
+  <c:set var="bidmemberUnq" value="${sessionScope.unq}" />
+  <c:set var="registerUnq" value="${detailResult.memberUnq }" />
     <!-- Page Content -->
     <div class="container">
-		<div class="kobayDetail_row">
-		        		
+		<div class="kobayDetail_row">     		
 		<%-- 경매등록 회원이 보는 화면 시작  --%>
-		
 			<div class="kobayDetail_info">
-				<div class="kobayDetail_info_left" >
+				<div id="image" class="kobayDetail_info_left" >
 					<table class="kobayDetail_info_imgtable">
-						<tr rowspan="4">
+						<tr>
 							<td colspan="3" class="kobayDetail_info_mainimg">
-								
-								<img src="../../../images/main_${detailResult.auctionUnq}.jpg" id="main_img" />
-							
+								<img src="/upload/${detailResult.aucImageMain}" id="main_img" />
 							</td>
 						</tr>
-						<tr rowspan="3">
+						<tr>
 							<td class="kobayDetail_info_subimg">
-								<img src="../../../images/sub1_${detailResult.auctionUnq}.jpg" onmouseover="showSub('sub1_'+${detailResult.auctionUnq}+'.jpg');" onmouseout="showMain(${detailResult.auctionUnq}+'.jpg');" />
+							<c:choose>
+								<c:when test="${detailResult.aucImageSub1 ne null}">
+									<img src="/upload/${detailResult.aucImageSub1}" onmouseover="showSub('sub1_'+${detailResult.auctionUnq}+'.jpg');" onmouseout="showMain(${detailResult.auctionUnq}+'.jpg');" />
+								</c:when>
+								<c:otherwise>
+									<img src="/upload/null.png" />
+								</c:otherwise>
+							</c:choose>
 							</td>
 							<td class="kobayDetail_info_subimg">
-								<img src="../../../images/sub2_${detailResult.auctionUnq}.jpg" onmouseover="showSub('sub2_'+${detailResult.auctionUnq}+'.jpg');" onmouseout="showMain(${detailResult.auctionUnq}+'.jpg');"/>
+							<c:choose>
+								<c:when test="${detailResult.aucImageSub2 ne null}">
+									<img src="/upload/${detailResult.aucImageSub2}" onmouseover="showSub('sub1_'+${detailResult.auctionUnq}+'.jpg');" onmouseout="showMain(${detailResult.auctionUnq}+'.jpg');" />
+								</c:when>
+								<c:otherwise>
+									<img src="/upload/null.png" />
+								</c:otherwise>
+							</c:choose>
 							</td>
 							<td class="kobayDetail_info_subimg">
-								<img src="../../../images/sub3_${detailResult.auctionUnq}.jpg" onmouseover="showSub('sub3_'+${detailResult.auctionUnq}+'.jpg');" onmouseout="showMain(${detailResult.auctionUnq}+'.jpg');"/>
+							<c:choose>
+								<c:when test="${detailResult.aucImageSub3 ne null}">
+									<img src="/upload/${detailResult.aucImageSub3}" onmouseover="showSub('sub1_'+${detailResult.auctionUnq}+'.jpg');" onmouseout="showMain(${detailResult.auctionUnq}+'.jpg');" />
+								</c:when>
+								<c:otherwise>
+									<img src="/upload/null.png" />
+								</c:otherwise>
+							</c:choose>
 							</td>
 						</tr>
 					</table>
-				</div>
+				</div> <!-- /.end of image div -->
 				
-				<div class="kobayDetail_info_rigth">
+				<div id="content" class="kobayDetail_info_rigth">
 					<table class="kobayDetail_info_rightinfo">
 						<tr>
 							<td>[ <c:out value="${detailResult.lCtg}"/> ]</td>
 							<td><c:out value="${detailResult.aucTitle}"/></td>
-							
-							<c:set var="loginUnq" value="88" />
-							<c:if test="${loginUnq eq detailResult.memberUnq}">
+
+							<c:if test="${bidmemberUnq ne detailResult.memberUnq}">
 								<td rowspan="5">
 									<div class="kobayDetail_bidStamp">
 										입찰참여 중<br>
@@ -480,22 +290,23 @@
 							</td>
 						</tr>
 					</table>
-		
 					
 					<table class="kobayDetail_info_rightbtn">
 						<tr>
 							<td>
 								<form name="bid" id="bid">
 									<div class="row">
+										<c:if test="${bidmemberUnq == registerUnq}">
+											<label for="bidPrice" class="text-danger mb-0 ml-4" style="font-size: 9pt;">
+												※ 게시글 등록회원은 경매에 참여 할 수 없습니다.</label>
+										</c:if>
 										<div class="col-lg-8">
-											<div class="input-group">
-											
-												<input type="hidden" name="memberUnq" value="88">
-												<input type="hidden" name="auctionUnq" value="1">
-											
-												<input type="text" class="form-control" id="bidPrice" name="bidPrice" placeholder="현재입찰가 : ${detailResult.bidPrice}">
+											<div class="input-group">				
+												<input type="hidden" name="bidmemberUnq" value="${bidmemberUnq }">
+												<input type="hidden" name="auctionUnq" value="${detailResult.auctionUnq}">
+												<input type="text" class="form-control" id="bidPrice" name="bidPrice" placeholder="현재입찰가 : ${detailResult.bidPrice}">						
 												<span class="input-group-btn">
-												  <button class="btn btn-primary" type="button" 
+												  <button class="btn btn-primary" type="button" id="bidInsetBtn"
 												  onclick="biding('${detailResult.auctionUnq}','${detailResult.bidPrice}','${detailResult.sDate}','${detailResult.eDate}','${detailResult.bidRdate}')">경매 참여</button>
 												</span>
 											</div><!-- /input-group -->
@@ -514,58 +325,49 @@
 						</tr>
 						-->
 					</table>
-				</div>
-			</div><!-- end of kobayDetail_info -->
+				</div><!-- /.end of content -->
+			</div><!-- /.end of kobayDetail_info -->
 	
 		
 			<table class="kobayDetail_infotable">
 				<tr>
-				<td colspan="2">
-						
+				<td colspan="2">	
 					<div id="kobayDetail_tabcontainer">
 					    <ul class="tabs">
 					        <li class="active" rel="tab1" onclick="fn_tab('#tab1')">상세정보</li>
 					        <li rel="tab2" onclick="fn_tab('#tab2')">Q&A</li>
 					    </ul>
-					    <div class="kobayDetail_tab_container">
-					    
+					    <div class="kobayDetail_tab_container">  
 					    	<!-- #tab1 상세정보 탭 내용 시작 -->
-					        <div id="tab1" class="tab_content">
-					           
+					        <div id="tab1" class="tab_content">   
 				          		<c:out value="${detailResult.aucDetail}"/>
-					       
-					        </div> <!-- end of div#tab1 -->
-					        
+					        </div> <!-- end of div#tab1 -->   
 					  	 	<!-- #tab2 Q&A 탭 내용 시작-->     
 					        <div id="tab2" class="tab_content">
 					        	<form name="kobayDetail_qna" id="kobayDetail_question">
-					        		<!-- 질문 등록 창 -->			        	
+					        		<!-- 질문 등록 창 게시글 등록자는 보이지 않음-->	
+					        		<c:if test="${registerUnq ne bidmemberUnq}">	        	
 									<div class="kobayDetail_qnabox">
 										<table class="kobayDetail_answertxt">
 											<tr>
 												<td>
-													<input type="hidden" name="memberUnq" value="1">
-													<input type="hidden" name="auctionUnq" value="1">
-													<input type="hidden" name="questionerUnq" value="4">
-													
-													<textarea name="qnaContent" rows='5' class="kobayDetail_answertextarea"></textarea>
+													<input type="hidden" name="memberUnq" value="${registerUnq }">
+													<input type="hidden" name="auctionUnq" value="${detailResult.auctionUnq}">
+													<input type="hidden" name="questionerUnq" value="${bidmemberUnq}">	
+													<textarea id="qnaContent" name="qnaContent" rows='5' class="kobayDetail_answertextarea"></textarea>
 												</td>
 											</tr>
 											<tr>
 												<td>
 													<input type="checkbox" name="qnaSecret" value="1"> 비밀글 &nbsp
-													<input type="button" value="문의 하기"  class="btn btn-primary btn-sm" onclick="kobayDetail_questionInsert()">
+													<input id="questionBtn" type="button" value="문의 하기"  class="btn btn-primary btn-sm" onclick="kobayDetail_questionInsert()">
 												</td>
 											</tr>
 										</table>
 									</div> <!-- end of kobayDetail_qnabox -->
+									</c:if>
 								</form><!-- end of form#kobayDetail_question -->
-								
-								
-					<c:set var="registerUnq" value="${detailResult.memberUnq }" />
-					<c:set var="loginUnq" value="88" />		
-					
-					
+
 								<!-- 질문목록 -->
 								<div class="kobayDetail_qnalist">
 									<table class="kobayDetail_question">
@@ -600,15 +402,15 @@
 													
 													
 													<%-- 게시글 작성자의 답변 --%>
-													<c:if test="${registerUnq eq loginUnq && qnalist.qnastep eq 0}">
+													<c:if test="${registerUnq eq bidmemberUnq && qnalist.qnastep eq 0}">
 														<form id="kobayDetail_Answer${status.count }">
 															<tr>
 																<td colspan="2" class="kobayDetail_question_btn">
 																	<a href="#answer${status.count}" class="btn btn-info btn-sm" data-toggle="collapse">답변</a>
 																	<div id="answer${status.count}" class="collapse">
-																		<input type="hidden" name="memberUnq" value="1">
-																		<input type="hidden" name="auctionUnq" value="1">
-																		<input type="hidden" name="questionerUnq" value="1">
+																		<input type="hidden" name="memberUnq" value="${registerUnq }">
+																		<input type="hidden" name="auctionUnq" value="${detailResult.auctionUnq}">
+																		<input type="hidden" name="questionerUnq" value="${bidmemberUnq}">
 																		<input type="hidden" name="qnaGroup" value="${qnalist.qnaunq}">
 																		<textarea rows='5' class="kobayDetail_answertextarea" name="qnaContent"></textarea>																	
 																		<input type="button" value="답변 등록" class="btn btn-danger btn-sm" onclick="qnaAnswer('kobayDetail_Answer${status.count }')">
@@ -620,7 +422,7 @@
 													
 													
 													<%-- 질문 수정/삭제 --%>
-													<c:if test="${loginUnq eq questionerunq}">
+													<c:if test="${bidmemberUnq eq questionerunq}">
 														<tr>
 															<td colspan="2" class="kobayDetail_question_btn">
 																<input type="button" class="btn btn-warning btn-sm" onclick="fn_action('${qnalist.qnaunq}', 'M')" value="수정"/> /  
@@ -644,7 +446,7 @@
 														</tr>
 														
 														<%-- 답변 수정/삭제 --%>
-														<c:if test="${registerUnq eq loginUnq }">
+														<c:if test="${registerUnq eq bidmemberUnq }">
 															<tr>
 																<td colspan="2" class="kobayDetail_question_btn">
 																	<input type="button" class="btn btn-default btn-sm" onclick="fn_action('${qnalist.qnaunq}', 'M')" value="답변 수정"/>  
@@ -860,4 +662,3 @@
 
   </body>
 
-</html>

@@ -189,3 +189,149 @@
 	start with 2396
 	increment by 1
 	maxvalue 9999999;
+	
+	
+	
+	
+	
+	/** kobay 2차 merge version db 수정 및 추가 해야할 내용 */
+	
+	update kobayAuction set eprice=0;
+	update kobayAuction set aucStatus = 0;
+	
+	-- aucStatus comment 수정 : 경매결과(진행/예정-0, 낙찰-1, 유찰-2)
+	
+	 CREATE TABLE "KOBAY"."AUCTIONQNA" 
+	   (	"QNAUNQ" NUMBER(11,0) NOT NULL ENABLE, 
+		"MEMBERUNQ" NUMBER(11,0) NOT NULL ENABLE, 
+		"AUCTIONUNQ" NUMBER(11,0) NOT NULL ENABLE, 
+		"QNAGROUP" NUMBER(11,0), 
+		"QNASTEP" NUMBER(1,0) DEFAULT '0' /* 질문과 답변 구분값  0이면 질문, 1이면 답변 */, 
+		"QUESTIONERUNQ" NUMBER(11,0) NOT NULL ENABLE, 
+		"QNACONTENT" CLOB, 
+		"QNASECRET" NUMBER(2,0) DEFAULT '0' /* 비밀글여부  (0=공개, 1=비밀)  */, 
+		"DELSTATUS" NUMBER(2,0) DEFAULT '0' /* 삭제여부 (0=노출, 1=비노출)*/, 
+		"QNARDATE" DATE NOT NULL ENABLE, 
+		 CONSTRAINT "QNASTEP_CK" CHECK (qnaStep='0' or qnaStep='1') ENABLE, 
+		 CONSTRAINT "QNASECRET_CK" CHECK (qnaSecret='0' or qnaSecret='1') ENABLE, 
+		 CONSTRAINT "QNA_DELSTATUS_CK" CHECK (delStatus='0' or delStatus='1') ENABLE, 
+		 PRIMARY KEY ("QNAUNQ")
+	  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+	  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+	  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+	  TABLESPACE "USERS"  ENABLE
+	   ) SEGMENT CREATION IMMEDIATE 
+	  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+	  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+	  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+	  TABLESPACE "USERS" 
+	 LOB ("QNACONTENT") STORE AS BASICFILE (
+	  TABLESPACE "USERS" ENABLE STORAGE IN ROW CHUNK 8192 RETENTION 
+	  NOCACHE LOGGING 
+	  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+	  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)) ;
+	  
+	
+	update kobayAuction set AUCIMAGEMAIN='kobay (1).jpg' where auctionUnq=1;
+	update kobayAuction set AUCIMAGEMAIN='kobay (2).jpg' where auctionUnq=2;
+	update kobayAuction set AUCIMAGEMAIN='kobay (3).jpg' where auctionUnq=3;
+	update kobayAuction set AUCIMAGEMAIN='kobay (4).jpg' where auctionUnq=4;
+	update kobayAuction set AUCIMAGEMAIN='kobay (5).jpg' where auctionUnq=5;
+	update kobayAuction set AUCIMAGEMAIN='kobay (6).jpg' where auctionUnq=6;
+	update kobayAuction set AUCIMAGEMAIN='kobay (7).jpg' where auctionUnq=7;
+	update kobayAuction set AUCIMAGEMAIN='kobay (8).jpg' where auctionUnq=8;
+	update kobayAuction set AUCIMAGEMAIN='kobay (9).jpg' where auctionUnq=9;
+	update kobayAuction set AUCIMAGEMAIN='kobay (10).jpg' where auctionUnq=10;
+	update kobayAuction set AUCIMAGEMAIN='kobay (11).jpg' where auctionUnq=11;
+	update kobayAuction set AUCIMAGEMAIN='kobay (12).jpg' where auctionUnq=12;
+	update kobayAuction set AUCIMAGEMAIN='kobay (13).jpg' where auctionUnq=13;
+	update kobayAuction set AUCIMAGEMAIN='kobay (14).jpg' where auctionUnq=14;
+	update kobayAuction set AUCIMAGEMAIN='kobay (15).jpg' where auctionUnq=15;
+	update kobayAuction set AUCIMAGEMAIN='kobay (16).jpg' where auctionUnq=16;
+	update kobayAuction set AUCIMAGEMAIN='kobay (17).jpg' where auctionUnq=17;
+	update kobayAuction set AUCIMAGEMAIN='kobay (18).jpg' where auctionUnq=18;
+	update kobayAuction set AUCIMAGEMAIN='kobay (19).jpg' where auctionUnq=19;
+	update kobayAuction set AUCIMAGEMAIN='kobay (20).jpg' where auctionUnq=20;
+	update kobayAuction set AUCIMAGEMAIN='kobay (21).jpg' where auctionUnq=21;
+	update kobayAuction set AUCIMAGEMAIN='kobay (22).jpg' where auctionUnq=22;
+	update kobayAuction set AUCIMAGEMAIN='kobay (23).jpg' where auctionUnq=23;
+	update kobayAuction set AUCIMAGEMAIN='kobay (24).jpg' where auctionUnq=24;
+	update kobayAuction set AUCIMAGEMAIN='kobay (25).jpg' where auctionUnq=25;
+	update kobayAuction set AUCIMAGEMAIN='kobay (26).jpg' where auctionUnq=26;
+	update kobayAuction set AUCIMAGEMAIN='kobay (27).jpg' where auctionUnq=27;
+	update kobayAuction set AUCIMAGEMAIN='kobay (28).jpg' where auctionUnq=28;
+	update kobayAuction set AUCIMAGEMAIN='kobay (29).jpg' where auctionUnq=29;
+	update kobayAuction set AUCIMAGEMAIN='kobay (30).jpg' where auctionUnq=30;
+	update kobayAuction set AUCIMAGEMAIN='kobay (31).jpg' where auctionUnq=31;
+	update kobayAuction set AUCIMAGEMAIN='kobay (32).jpg' where auctionUnq=32;
+	update kobayAuction set AUCIMAGEMAIN='kobay (33).jpg' where auctionUnq=33;
+	update kobayAuction set AUCIMAGEMAIN='kobay (34).jpg' where auctionUnq=34;
+	update kobayAuction set AUCIMAGEMAIN='kobay (35).jpg' where auctionUnq=35;
+	update kobayAuction set AUCIMAGEMAIN='kobay (36).jpg' where auctionUnq=36;
+	update kobayAuction set AUCIMAGEMAIN='kobay (37).jpg' where auctionUnq=37;
+	update kobayAuction set AUCIMAGEMAIN='kobay (38).jpg' where auctionUnq=38;
+	update kobayAuction set AUCIMAGEMAIN='kobay (39).jpg' where auctionUnq=39;
+	update kobayAuction set AUCIMAGEMAIN='kobay (40).jpg' where auctionUnq=40;
+	update kobayAuction set AUCIMAGEMAIN='kobay (41).jpg' where auctionUnq=41;
+	update kobayAuction set AUCIMAGEMAIN='kobay (42).jpg' where auctionUnq=42;
+	update kobayAuction set AUCIMAGEMAIN='kobay (43).jpg' where auctionUnq=43;
+	update kobayAuction set AUCIMAGEMAIN='kobay (44).jpg' where auctionUnq=44;
+	update kobayAuction set AUCIMAGEMAIN='kobay (45).jpg' where auctionUnq=45;
+	update kobayAuction set AUCIMAGEMAIN='kobay (46).jpg' where auctionUnq=46;
+	update kobayAuction set AUCIMAGEMAIN='kobay (47).jpg' where auctionUnq=47;
+	update kobayAuction set AUCIMAGEMAIN='kobay (48).jpg' where auctionUnq=48;
+	update kobayAuction set AUCIMAGEMAIN='kobay (49).jpg' where auctionUnq=49;
+	update kobayAuction set AUCIMAGEMAIN='kobay (50).jpg' where auctionUnq=50;
+	update kobayAuction set AUCIMAGEMAIN='kobay (51).jpg' where auctionUnq=51;
+	update kobayAuction set AUCIMAGEMAIN='kobay (52).jpg' where auctionUnq=52;
+	update kobayAuction set AUCIMAGEMAIN='kobay (53).jpg' where auctionUnq=53;
+	update kobayAuction set AUCIMAGEMAIN='kobay (54).jpg' where auctionUnq=54;
+	update kobayAuction set AUCIMAGEMAIN='kobay (55).jpg' where auctionUnq=55;
+	update kobayAuction set AUCIMAGEMAIN='kobay (56).jpg' where auctionUnq=56;
+	update kobayAuction set AUCIMAGEMAIN='kobay (57).jpg' where auctionUnq=57;
+	update kobayAuction set AUCIMAGEMAIN='kobay (58).jpg' where auctionUnq=58;
+	update kobayAuction set AUCIMAGEMAIN='kobay (59).jpg' where auctionUnq=59;
+	update kobayAuction set AUCIMAGEMAIN='kobay (60).jpg' where auctionUnq=60;
+	update kobayAuction set AUCIMAGEMAIN='kobay (61).jpg' where auctionUnq=61;
+	update kobayAuction set AUCIMAGEMAIN='kobay (62).jpg' where auctionUnq=62;
+	update kobayAuction set AUCIMAGEMAIN='kobay (63).jpg' where auctionUnq=63;
+	update kobayAuction set AUCIMAGEMAIN='kobay (64).jpg' where auctionUnq=64;
+	update kobayAuction set AUCIMAGEMAIN='kobay (65).jpg' where auctionUnq=65;
+	update kobayAuction set AUCIMAGEMAIN='kobay (66).jpg' where auctionUnq=66;
+	update kobayAuction set AUCIMAGEMAIN='kobay (67).jpg' where auctionUnq=67;
+	update kobayAuction set AUCIMAGEMAIN='kobay (68).jpg' where auctionUnq=68;
+	update kobayAuction set AUCIMAGEMAIN='kobay (69).jpg' where auctionUnq=69;
+	update kobayAuction set AUCIMAGEMAIN='kobay (70).jpg' where auctionUnq=70;
+	update kobayAuction set AUCIMAGEMAIN='kobay (71).jpg' where auctionUnq=71;
+	update kobayAuction set AUCIMAGEMAIN='kobay (72).jpg' where auctionUnq=72;
+	update kobayAuction set AUCIMAGEMAIN='kobay (73).jpg' where auctionUnq=73;
+	update kobayAuction set AUCIMAGEMAIN='kobay (74).jpg' where auctionUnq=74;
+	update kobayAuction set AUCIMAGEMAIN='kobay (75).jpg' where auctionUnq=75;
+	update kobayAuction set AUCIMAGEMAIN='kobay (76).jpg' where auctionUnq=76;
+	update kobayAuction set AUCIMAGEMAIN='kobay (77).jpg' where auctionUnq=77;
+	update kobayAuction set AUCIMAGEMAIN='kobay (78).jpg' where auctionUnq=78;
+	update kobayAuction set AUCIMAGEMAIN='kobay (79).jpg' where auctionUnq=79;
+	update kobayAuction set AUCIMAGEMAIN='kobay (80).jpg' where auctionUnq=80;
+	update kobayAuction set AUCIMAGEMAIN='kobay (81).jpg' where auctionUnq=81;
+	update kobayAuction set AUCIMAGEMAIN='kobay (82).jpg' where auctionUnq=82;
+	update kobayAuction set AUCIMAGEMAIN='kobay (83).jpg' where auctionUnq=83;
+	update kobayAuction set AUCIMAGEMAIN='kobay (84).jpg' where auctionUnq=84;
+	update kobayAuction set AUCIMAGEMAIN='kobay (85).jpg' where auctionUnq=85;
+	update kobayAuction set AUCIMAGEMAIN='kobay (86).jpg' where auctionUnq=86;
+	update kobayAuction set AUCIMAGEMAIN='kobay (87).jpg' where auctionUnq=87;
+	update kobayAuction set AUCIMAGEMAIN='kobay (88).jpg' where auctionUnq=88;
+	update kobayAuction set AUCIMAGEMAIN='kobay (89).jpg' where auctionUnq=89;
+	update kobayAuction set AUCIMAGEMAIN='kobay (90).jpg' where auctionUnq=90;
+	update kobayAuction set AUCIMAGEMAIN='kobay (91).jpg' where auctionUnq=91;
+	update kobayAuction set AUCIMAGEMAIN='kobay (92).jpg' where auctionUnq=92;
+	update kobayAuction set AUCIMAGEMAIN='kobay (93).jpg' where auctionUnq=93;
+	update kobayAuction set AUCIMAGEMAIN='kobay (94).jpg' where auctionUnq=94;
+	update kobayAuction set AUCIMAGEMAIN='kobay (95).jpg' where auctionUnq=95;
+	update kobayAuction set AUCIMAGEMAIN='kobay (96).jpg' where auctionUnq=96;
+	update kobayAuction set AUCIMAGEMAIN='kobay (97).jpg' where auctionUnq=97;
+	update kobayAuction set AUCIMAGEMAIN='kobay (98).jpg' where auctionUnq=98;
+	update kobayAuction set AUCIMAGEMAIN='kobay (99).jpg' where auctionUnq=99;
+	update kobayAuction set AUCIMAGEMAIN='kobay (100).jpg' where auctionUnq=100;
+	
+	commit;
+		

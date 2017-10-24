@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,14 +35,13 @@ public class AuctionController {
 	
 	// http://localhost:8080/kobayDetail_detail?auctionUnq=1
 	@RequestMapping (value="/kobayDetail_detail")
-	public String kobayDetail_detailView(DetailVO vo, Model model) throws Exception {
-		
-
+	public String kobayDetail_detailView(DetailVO vo, Model model, HttpSession session) throws Exception {
 		vo = detailService.selectDetail(vo.getAuctionUnq());
 		model.addAttribute("detailResult", vo);
 		
 		BidVO bo = new BidVO();
-		bo.setMemberUnq(vo.getMemberUnq());
+		//bo.setMemberUnq(vo.getMemberUnq());
+		bo.setBidmemberUnq((int) session.getAttribute("unq"));
 		bo.setAuctionUnq(vo.getAuctionUnq());
 		bo = bidService.myBid(bo);
 		model.addAttribute("myBid", bo);

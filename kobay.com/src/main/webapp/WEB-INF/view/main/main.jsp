@@ -3,6 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="utf-8">
+<link rel="stylesheet" href="../../../css/search.css" />
+<style>
+.slide-item-img {
+	max-height: 98px;
+}
+.slide-main-text {
+	text-shadow: 2px 1px #fff;
+	text-decoration: underline;
+}
+</style>
+<script>
+//게시글 이동
+function fn_detail(value) {
+	location.href = "/list_1";
+}
+</script>
   <body>
 	<!-- Main Slider -->
     <header>
@@ -14,24 +30,45 @@
         </ol>
         <div class="carousel-inner" role="listbox">
           <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>First Slide</h3>
-              <p>This is a description for the first slide.</p>
+          <div class="carousel-item  active" style="background-image: url('../../../images/slide01_bg.jpg'); padding-left: 5%;">
+             <div class="d-md-block" style="margin-left: 5%;">
+              	<div id="nullList" class="row" style="padding-top: 5%">
+					<c:forEach items="${nullList}" end="2" var="nullList">
+						<div id="item" class="col-lg-2 col-sm-2 portfolio-item">
+							<div id="itemCard" class="card">
+								<div class="item-body">
+									<div class="item">
+									 	<img class="card-img-top slide-item-img" src="/upload/${nullList.aucimagemain}" alt="">
+									  	<span class="item item-content">
+									  		<span class="item-text c-grey" style="font-size: 10pt;">[${nullList.mctg}]</span>
+									    	<span class="item-text item-title ">${nullList.auctitle}</span>
+									  		<span class="item-text">
+									  			<strong>₩ ${nullList.price }</strong>
+									  		</span>		
+										</span>   
+									</div>
+								</div>
+							</div>
+			    				</div>	<!-- /.list -->
+					</c:forEach><!-- /list-foreach -->
+					<div style="text-align: right; margin-left: 10%; margin-top: 10%;">
+						<h2 class="strong slide-main-text"><a class="text-warning" href="/list_1">진행중인 경매 보러가기!</a></h2>
+				</div>
+				</div>
             </div>
           </div>
+          
           <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Second Slide</h3>
-              <p>This is a description for the second slide.</p>
+          <div class="carousel-item" style="background-image: url('../../../images/slide02_bg.jpg')">
+            <div class="d-md-block" style="margin-left: 10%">
+              <img src="../../../images/slide02_content.png"/>
             </div>
           </div>
+          
           <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Third Slide</h3>
-              <p>This is a description for the third slide.</p>
+          <div class="carousel-item" style="background-image: url('../../../images/slide03_bg.jpg')">
+            <div class="d-md-block" style="margin-left: 18%;">
+              <a href="/write"><img src="../../../images/slide03_content.png"/></a>
             </div>
           </div>
         </div>

@@ -8,13 +8,14 @@ $(document).ready(function() {
 	
 });
 </script>
+
 <body>
 	<c:forEach items="${itemList}" var="list">
 		<div id="item" class="col-lg-4 col-sm-6 portfolio-item">
 			<div id="itemCard" class="card">
 				<div class="item-body">
-					<a href="#" class="item">
-					 	<img class="card-img-top" src="http://placehold.it/700x400" alt="">
+					<a href="javascript:fn_detail('${list.auctionunq}')" class="item">
+					 	<img class="card-img-top" src="/upload/${list.aucimagemain}" alt="">
 					  	<span class="item item-content">
 					  		<span class="item-text c-grey" style="font-size: 10pt;">[${list.mctg}]</span>
 					    	<span class="item-text item-title ">${list.auctitle}</span>

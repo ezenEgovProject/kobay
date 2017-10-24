@@ -7,119 +7,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="utf-8">
-  <head>
-  	<style type="text/css">
-  	.breadcrumb {
-  		background-color: #eee;
-  	}
-  	a:link { text-decoration: none;}
-a:visited {  text-decoration: none;}
-a:hover { text-decoration: none; color:#007bff;}
-  	
-  	</style>
-  	
-    <style>  
-	.banner{
-			border:2px solid #56b6e6;
-			background:#fff;
-			width:150px;
-			height:500px;
-			position:absolute;
-			right:30px;
-			top:600px;
-			color:#56b6e6;
-			text-align:center;
-		  }
-			
-	.item-body {
-    	-ms-flex: 1 1 auto;
-    	flex: 1 1 auto;
-    	padding: .5rem;
-		}
-		
-	.item > span {
-		display: block;
-		}
-		
-	.item-footer {
-   	 	padding: .25rem .25rem;
-   		background-color: rgba(0,0,0,.03);
-    	border-top: 1px solid rgba(0,0,0,.125);
- 		}
- 		
-	.item-title {
-		margin-top: .25rem;
-    	margin-bottom: .5rem;
-    	height: 56px;
-		}
-		
-	.item-text {
-		text-align: left;
-		color: #6e6e6e;
-		margin-left: .25rem; 
-		margin-right: .25rem; 
-		overflow: hidden;
-    	text-overflow: ellipsis; 
-		}
-		
-	.item-right {
-		float: right;
-    	width: 49.9%;
-		}
-		
-	.item-left {
-		float: left;
-    	width: 49.9%;
-		}
-		
-	.list_select {
-    	height: 46px;
-    	text-align: left;
-    	font-size: 14px;
-		}
-		
-	.card-body {
-		font-size: 0.9rem;
-		position: relative;
-		}
-	
-	.card-text {
-		font-weight: bold; 
-		text-align: left;
-		margin-left: 1rem;
-		}
-		
-	.card-text-normal {
-		text-align: left;
-		color: #6e6e6e;
-		margin-left: .25rem; 
-		margin-right: .25rem; 
-		}
-		
-	.card{
- 		position:relative;
- 		display:-ms-flexbox;
- 		display:flex;
- 		-ms-flex-direction:column;
- 		flex-direction:column;
- 		min-width:0;
- 		word-wrap:break-word;
- 		background-color:#fff;
- 		background-clip:border-box;
- 		border:1px solid rgba(0,0,0,.125);
- 		border-radius:.25rem;
- 		}
- 		
- 	.array{
- 		border:0px;
- 		width:1600px;
- 		text-align:right;
- 		}
-
-</style>
-</head>
+<link rel="stylesheet" href="../../../css/list.css" />
 <script>
   	
+$(document).ready(function() {
+	$('#itemList').load("/list3");
+}) ;
+
 	/* 상세보기 페이지 */
 	function fn_detail(a) {
 		var f = document.hiddenFrm;
@@ -239,27 +133,23 @@ a:hover { text-decoration: none; color:#007bff;}
 	       </li>
 		</ol>
 		
-		
-		
-      
-     
       <!-- 낙찰된 경매 리스트 -->    
         
-      <%--   <p class="count">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;낙찰된 경매 상품 수:&nbsp;${totcnt3}개</p>  --%>
-        
       <!-- Marketing Icons Section -->
-       <div id="itemList" class="row">
+      <div id="itemList">
+    	
+   	  </div>
+       <%-- <div id="itemList" class="row">
    		 <c:forEach var="list" items="${resultList}" varStatus="status"> 
               <div class="col-lg-4 col-sm-6 portfolio-item">
               <div class="card">
-              <span class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px; font-size:16pt; font-weight: bold;">마감${totcnt3}</span>
-              	<a href="#" onclick="fn_detail('${list.auctionUnq}')">
+              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
               		<img class="card-img-top" src="http://placehold.it/700x400" alt="">
+              		<span class="pt-2 pb-2 text-center" style="display: block; border-bottom: 1px solid #ddd">마감${totcnt3}</span>
               		<span class="item item-body">
               			<span class="item-title item-text" style="font-size: 14pt;">${list.auctitle}</span>
 					  		<span class="item-text item-text">
 					  			<span class="item-left">경매가격: ${list.sprice}</span>
-				   				<span class="item-right">마감시간: ${list.edate}</span>
 					  		</span>	
               		</span>
               	</a>
@@ -270,12 +160,11 @@ a:hover { text-decoration: none; color:#007bff;}
           	 <c:set var="totcnt3" value="${(totcnt3)-1}"/>
           	 </div>
           </c:forEach> <!-- /list-forEach -->
-	   </div> <!-- /.row -->
-	   
+	   </div> <!-- /.row --> --%>
 </div>
 
 
-<%-- <div class="banner">최근 본 상품<br><br>
+ <div class="banner">최근 본 상품<br><br>
 	<a href="#" onclick="fn_detail('${list.auctionunq}')">
 	<table border="1" align="center" style="width:100px; height:100px;">
 		<tr>
@@ -301,7 +190,7 @@ a:hover { text-decoration: none; color:#007bff;}
 	</a>
 <br><br>
 	<a href="#" id="topBtn">TOP</a><!-- topBtn: 페이지 상단으로 가는 버튼 -->
-</div>  --%>
+</div>  
 
 
     <!-- Bootstrap core JavaScript -->

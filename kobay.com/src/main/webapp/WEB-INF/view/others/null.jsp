@@ -26,21 +26,19 @@
 				<li class="c-grey " style="display:inline-block;">· 검색어의 단어 수를 줄이거나 <span class="text-warning">예술품, 컴퓨터</span>와 같은 일반적인 단어로 검색해 보세요.</li>
 			</ul>
 		</div> 
-		
 		<ol class="breadcrumb">
 	        <li class="breadcrumb-item">
 	          	<i class="fa fa-exclamation-circle text-danger fa-lg"></i> 지금  <span style="font-weight: bold">실시간 인기상품</span>을 확인해보세요!
 	        </li>
       	</ol>
-      	
 		<%-- 검색 값이 없을 때 오눌 오픈한 경매 or 인기 경매 몇개만 보여주기  --%>
 		<div id="nullList" class="row">
 			<c:forEach items="${nullList}" var="nullList">
 				<div id="item" class="col-lg-4 col-sm-6 portfolio-item">
 					<div id="itemCard" class="card">
 						<div class="item-body">
-							<a href="#" class="item">
-							 	<img class="card-img-top" src="http://placehold.it/700x400" alt="">
+							<a href="javascript:fn_detail('${list.auctionunq}')" class="item">
+							 	<img class="card-img-top" src="/upload/${nullList.aucimagemain}" alt="">
 							  	<span class="item item-content">
 							  		<span class="item-text c-grey" style="font-size: 10pt;">[${nullList.mctg}]</span>
 							    	<span class="item-text item-title ">${nullList.auctitle}</span>

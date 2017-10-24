@@ -12,10 +12,37 @@ public class QnaVO {
 	private int qnaSecret = 0;
 	private int delStatus = 0;
 	private String qnaRdate;
+
+	private String aucImageMain;
+	private String aucImageSub1;
+	private String aucImageSub2;
+	private String aucImageSub3;
 	
 	
-	
-	
+	public String getAucImageMain() {
+		return aucImageMain;
+	}
+	public void setAucImageMain(String aucImageMain) {
+		this.aucImageMain = aucImageMain;
+	}
+	public String getAucImageSub1() {
+		return aucImageSub1;
+	}
+	public void setAucImageSub1(String aucImageSub1) {
+		this.aucImageSub1 = aucImageSub1;
+	}
+	public String getAucImageSub2() {
+		return aucImageSub2;
+	}
+	public void setAucImageSub2(String aucImageSub2) {
+		this.aucImageSub2 = aucImageSub2;
+	}
+	public String getAucImageSub3() {
+		return aucImageSub3;
+	}
+	public void setAucImageSub3(String aucImageSub3) {
+		this.aucImageSub3 = aucImageSub3;
+	}
 	public int getQnaUnq() {
 		return qnaUnq;
 	}

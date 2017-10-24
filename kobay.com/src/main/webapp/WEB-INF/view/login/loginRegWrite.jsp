@@ -123,7 +123,7 @@ function member_CheckForm(va) {
     <!-- Page Content -->
     <div class="container">
 		<!-- 로그인 부분 -->
-		<div class="table-margin-settings">
+		<div class="member-margin-settings">
 		<h2>
 			<label for="loginTitle" class="title-margin-settings">로그인</label>
 		</h2>
@@ -141,18 +141,18 @@ function member_CheckForm(va) {
 				<form:password path="memberPwd" name="memberPwd"  class="form-control" placeholder="비밀번호 8자리 이상" />
 			</div>
 			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
+			    <div class="member-align">
 					<form:button class="btn btn-primary btn-lg" onclick="member_Login()">로그인</form:button>
 				</div>
-			</div>			
+			</div>
 		</form:form>
 		</div>
 		<!--  -->
 		<!-- 아이디/비밀번호 찾기 -->
-		<a href="/lost">아이디/비밀번호 찾기</a>
+		<p class="p-margin-settings"><a href="/lost">아이디/비밀번호 찾기</a></p>
 		<!--  -->
 		<!-- 회원가입 부분 -->
-		<div class="table-margin-settings">
+		<div class="member-margin-settings">
 		<h2>
 			<label for="regTitle" class="title-margin-settings">회원가입</label>
 		</h2>
@@ -183,8 +183,7 @@ function member_CheckForm(va) {
 				<br>
 				</div>				
 			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
-					<!-- <button type="button" class="btn btn-primary btn-lg" onclick="member_Register()">가입</button> -->
+			    <div class="member-align">
 					<form:button class="btn btn-primary btn-lg" onclick="member_Register()">가입</form:button>
 				</div>
 			</div>

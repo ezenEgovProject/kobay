@@ -39,19 +39,20 @@ function member_Find(va) {
 					window.open(link,popTitle,"width=600, height=275"); //팝업창 실행
 					formData.submit(); //팝업창으로 값 전송
 					
+					alert(formData.memberName.value);
 					/* 부모창 값 초기화 */
-					formData.memberId.value = "";
 					formData.memberName.value = "";
 					formData.memberPhone.value = "";
+					formData.memberId.value = "";
 					/*  */
 			}
 			else {
 				alert("일치하는 정보가 없습니다.");
 				
 				/* 부모창 값 초기화 */
-				formData.memberId.value = "";
 				formData.memberName.value = "";
 				formData.memberPhone.value = "";
+				formData.memberId.value = "";
 				/*  */
 			}
 		},
@@ -66,7 +67,7 @@ function member_Find(va) {
     <!-- Page Content -->
     <div class="container">
 		<!-- 아이디 찾기 -->
-		<div class="table-margin-settings">
+		<div class="member-margin-settings">
 		<h2>
 			<label for="findIdTitle" class="title-margin-settings">아이디 찾기</label>
 		</h2>
@@ -84,7 +85,7 @@ function member_Find(va) {
 				<form:input path="memberPhone" name="memberPhone" placeholder="ex) 010-1234-5678" class="form-control" />
 			</div>
 			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
+			    <div class="member-align">
 					<form:button class="btn btn-primary btn-lg" onclick="member_Find('findIdForm')">아이디 찾기</form:button>
 				</div>
 			</div>			
@@ -92,7 +93,7 @@ function member_Find(va) {
 		</div>
 		<!--  -->
 		<!-- 아이디 찾기 -->
-		<div class="table-margin-settings">
+		<div class="member-margin-settings">
 		<h2>
 			<label for="findPwdTitle" class="title-margin-settings">비밀번호 찾기</label>
 		</h2>
@@ -116,16 +117,14 @@ function member_Find(va) {
 				<form:input path="memberPhone" name="memberPhone" placeholder="ex) 010-1234-5678" class="form-control" />
 			</div>
 			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
+			    <div class="member-align">
 					<form:button class="btn btn-primary btn-lg" onclick="member_Find('findPwdForm')">비밀번호 찾기</form:button>
 				</div>
 			</div>			
 		</form:form>
 		</div>
 		<!--  -->
-	</div>
-	<div>
-		<a href="/loginreg">로그인 및 회원가입 페이지로</a>
+		<p class="p-margin-settings"><a href="/loginreg">로그인 및 회원가입 페이지로</a></p>
 	</div>
     <!-- /.container -->
     <!-- /.Page Content -->

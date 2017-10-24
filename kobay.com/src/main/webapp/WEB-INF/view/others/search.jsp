@@ -14,8 +14,6 @@ var curToggle;
 // lCategory 컬럼 사이즈
 var listSize = ${listSize};
 
-
-
 // mCategory를 숨기는 함수(toggle여부에 따름)
 function mCtgHide() {
 	//var listSize = ${listSize};
@@ -94,6 +92,16 @@ function toggelClick(thisValue) {
 			$("#fa"+i).attr('class', 'fa fa-plus-circle');
 		}
     } 
+}
+
+// 게시글 이동
+function fn_detail(value) {
+  	if(isLogin == "null") {
+		alert("로그인이 필요한 서비스입니다.\n로그인 해주세요.");
+	  	location.href = "/loginreg";
+  	} else {
+	 	location.href = "/kobayDetail_detail?auctionUnq=" + value ;
+  	}
 }
 </script>
 

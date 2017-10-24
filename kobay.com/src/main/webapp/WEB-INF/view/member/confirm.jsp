@@ -41,7 +41,7 @@ function member_confirm() {
     <!-- Page Content -->
     <div class="container">
 		<!-- 비밀번호 확인 부분 -->
-		<div class="table-margin-settings">
+		<div class="member-margin-settings">
 		<h2>
 			<label for="confirmTitle" class="title-margin-settings">비밀번호 확인</label>
 		</h2>
@@ -59,7 +59,7 @@ function member_confirm() {
 				<form:password path="memberPwd" name="memberPwd"  class="form-control" placeholder="비밀번호 8자리 이상" />
 			</div>
 			<div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
+			    <div class="member-align">
 					<form:button class="btn btn-primary btn-lg" onclick="member_confirm()">확인</form:button>
 				</div>
 			</div>			
