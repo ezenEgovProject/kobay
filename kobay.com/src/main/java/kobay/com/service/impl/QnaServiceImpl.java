@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import kobay.com.service.QnaService;
 import kobay.com.service.QnaVO;
+import kobay.com.service.TestService;
+import kobay.com.service.TestVO;
 
 @Repository(value="QnaService")
 public class QnaServiceImpl implements QnaService {
@@ -17,8 +19,8 @@ public class QnaServiceImpl implements QnaService {
 	
 
 	@Override
-	public List<?> selectQnaList(int auctionUnq) throws Exception {
-		return qnaDao.selectQnaList(auctionUnq);
+	public List<?> selectQnaList(int auction_unq) throws Exception {
+		return qnaDao.selectQnaList(auction_unq);
 	}
 
 	@Override
@@ -27,25 +29,12 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public void deleteQuestion(QnaVO vo) throws Exception {
-		qnaDao.deleteQuestion(vo);
-	}
-	
-	@Override
-	public QnaVO selectQuestion(int qnaUnq) throws Exception {
-		return qnaDao.selectQuestion(qnaUnq);
+	public QnaVO selectQuestion(int qna_unq) throws Exception {
+		return (QnaVO) qnaDao.selectQuestion(qna_unq);
 	}
 
 	@Override
-	public void updateQuestion(QnaVO vo) throws Exception {
+	public void udateQuestion(QnaVO vo) throws Exception {
 		qnaDao.updateQuestion(vo);
 	}
-
-	@Override
-	public void insertAnswer(QnaVO vo) throws Exception {
-		qnaDao.insertAnswer(vo);
-		
-	}
-
-
 }

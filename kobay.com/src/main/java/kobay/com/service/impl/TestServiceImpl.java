@@ -18,4 +18,5 @@ public class TestServiceImpl implements TestService {
 		// TODO Auto-generated method stub
 		return testDao.getDept(deptno);
 	}
+
 }

@@ -23,23 +23,6 @@ public class MainController {
 	public String introView() {
 		return "main/intro";
 	}
-	  
-	/* list */
-	
-/*	@RequestMapping (value="/list_1")
-	public String ListView1() {
-		return "auction/list_1";
-	}
-	
-	@RequestMapping (value="/list_2")
-	public String ListView2() { 
-		return "auction/list_2";
-	}
-	
-	@RequestMapping (value="/list_3")
-	public String ListView3() {
-		return "auction/list_3";
-	}*/
 
 	/**
 	 * Test Server
@@ -51,12 +34,7 @@ public class MainController {
 	public String testView(@RequestParam("deptno") int deptno, Model model) throws Exception {
 		TestVO dept = testService.getDept(deptno);
 		model.addAttribute("dept", dept);
-
+		
 		return "main/test";
-	}
-	
-	@RequestMapping(value="/c")
-	public String test() {
-		return "main/cal";
 	}
 }

@@ -2,47 +2,83 @@ package kobay.com.service;
 
 public class BidVO {
 	
-	private int bidUnq = 0;
-	private int auctionUnq = 0;
-	private int memberUnq = 0;
-	private int bidPrice = 0;
-	private String bidRdate;
-	private int aucStatus = 0;
-	public int getBidUnq() {
-		return bidUnq;
+	private int bid_unq;
+	private int auction_unq;
+	private int member_unq;
+	private String member_name;
+	private String member_phone;
+	private String member_post;
+	private String member_addr1;
+	private String member_addr2;
+	private int bid_price;
+	private String bid_rdate;
+	private int bid_status;
+	public int getBid_unq() {
+		return bid_unq;
 	}
-	public void setBidUnq(int bidUnq) {
-		this.bidUnq = bidUnq;
+	public void setBid_unq(int bid_unq) {
+		this.bid_unq = bid_unq;
 	}
-	public int getAuctionUnq() {
-		return auctionUnq;
+	public int getAuction_unq() {
+		return auction_unq;
 	}
-	public void setAuctionUnq(int auctionUnq) {
-		this.auctionUnq = auctionUnq;
+	public void setAuction_unq(int auction_unq) {
+		this.auction_unq = auction_unq;
 	}
-	public int getMemberUnq() {
-		return memberUnq;
+	public int getMember_unq() {
+		return member_unq;
 	}
-	public void setMemberUnq(int memberUnq) {
-		this.memberUnq = memberUnq;
+	public void setMember_unq(int member_unq) {
+		this.member_unq = member_unq;
 	}
-	public int getBidPrice() {
-		return bidPrice;
+	public String getMember_name() {
+		return member_name;
 	}
-	public void setBidPrice(int bidPrice) {
-		this.bidPrice = bidPrice;
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
 	}
-	public String getBidRdate() {
-		return bidRdate;
+	public String getMember_phone() {
+		return member_phone;
 	}
-	public void setBidRdate(String bidRdate) {
-		this.bidRdate = bidRdate;
+	public void setMember_phone(String member_phone) {
+		this.member_phone = member_phone;
 	}
-	public int getAucStatus() {
-		return aucStatus;
+	public String getMember_post() {
+		return member_post;
 	}
-	public void setAucStatus(int aucStatus) {
-		this.aucStatus = aucStatus;
+	public void setMember_post(String member_post) {
+		this.member_post = member_post;
 	}
+	public String getMember_addr1() {
+		return member_addr1;
+	}
+	public void setMember_addr1(String member_addr1) {
+		this.member_addr1 = member_addr1;
+	}
+	public String getMember_addr2() {
+		return member_addr2;
+	}
+	public void setMember_addr2(String member_addr2) {
+		this.member_addr2 = member_addr2;
+	}
+	public int getBid_price() {
+		return bid_price;
+	}
+	public void setBid_price(int bid_price) {
+		this.bid_price = bid_price;
+	}
+	public String getBid_rdate() {
+		return bid_rdate;
+	}
+	public void setBid_rdate(String bid_rdate) {
+		this.bid_rdate = bid_rdate;
+	}
+	public int getBid_status() {
+		return bid_status;
+	}
+	public void setBid_status(int bid_status) {
+		this.bid_status = bid_status;
+	}
+	
 	
 }

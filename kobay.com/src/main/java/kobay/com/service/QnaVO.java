@@ -2,81 +2,78 @@ package kobay.com.service;
 
 public class QnaVO {
 	
-	private int qnaUnq = 0;
-	private int memberUnq = 0;
-	private int auctionUnq = 0;
-	private int qnaGroup = 0;
-	private int qnaStep = 0;
-	private int questionerUnq = 0;
-	private String qnaContent;
-	private int qnaSecret = 0;
-	private int delStatus = 0;
-	private String qnaRdate;
+	private int qna_unq;
+	private int qna_group;
+	private int qna_step;
+	private int member_unq;
+	private int auction_unq;
+	private int questioner_unq;
+	private String qna_content;
+	private int qna_secret;
+	private int qna_status;
+	private String qna_rdate;
+
 	
-	
-	
-	
-	public int getQnaUnq() {
-		return qnaUnq;
+	public int getQna_unq() {
+		return qna_unq;
 	}
-	public void setQnaUnq(int qnaUnq) {
-		this.qnaUnq = qnaUnq;
+	public void setQna_unq(int qna_unq) {
+		this.qna_unq = qna_unq;
 	}
-	public int getMemberUnq() {
-		return memberUnq;
+	public int getQna_group() {
+		return qna_group;
 	}
-	public void setMemberUnq(int memberUnq) {
-		this.memberUnq = memberUnq;
+	public void setQna_group(int qna_group) {
+		this.qna_group = qna_group;
 	}
-	public int getAuctionUnq() {
-		return auctionUnq;
+	public int getQna_step() {
+		return qna_step;
 	}
-	public void setAuctionUnq(int auctionUnq) {
-		this.auctionUnq = auctionUnq;
+	public void setQna_step(int qna_step) {
+		this.qna_step = qna_step;
 	}
-	public int getQnaGroup() {
-		return qnaGroup;
+	public int getMember_unq() {
+		return member_unq;
 	}
-	public void setQnaGroup(int qnaGroup) {
-		this.qnaGroup = qnaGroup;
+	public void setMember_unq(int member_unq) {
+		this.member_unq = member_unq;
 	}
-	public int getQnaStep() {
-		return qnaStep;
+	public int getAuction_unq() {
+		return auction_unq;
 	}
-	public void setQnaStep(int qnaStep) {
-		this.qnaStep = qnaStep;
+	public void setAuction_unq(int auction_unq) {
+		this.auction_unq = auction_unq;
 	}
-	public int getQuestionerUnq() {
-		return questionerUnq;
+	public int getQuestioner_unq() {
+		return questioner_unq;
 	}
-	public void setQuestionerUnq(int questionerUnq) {
-		this.questionerUnq = questionerUnq;
+	public void setQuestioner_unq(int questioner_unq) {
+		this.questioner_unq = questioner_unq;
 	}
-	public String getQnaContent() {
-		return qnaContent;
+	public String getQna_content() {
+		return qna_content;
 	}
-	public void setQnaContent(String qnaContent) {
-		this.qnaContent = qnaContent;
+	public void setQna_content(String qna_content) {
+		this.qna_content = qna_content;
 	}
-	public int getQnaSecret() {
-		return qnaSecret;
+	public int getQna_secret() {
+		return qna_secret;
 	}
-	public void setQnaSecret(int qnaSecret) {
-		this.qnaSecret = qnaSecret;
+	public void setQna_secret(int qna_secret) {
+		this.qna_secret = qna_secret;
 	}
-	public int getDelStatus() {
-		return delStatus;
+	public int getQna_status() {
+		return qna_status;
 	}
-	public void setDelStatus(int delStatus) {
-		this.delStatus = delStatus;
+	public void setQna_status(int qna_status) {
+		this.qna_status = qna_status;
 	}
-	public String getQnaRdate() {
-		return qnaRdate;
+	public String getQna_rdate() {
+		return qna_rdate;
 	}
-	public void setQnaRdate(String qnaRdate) {
-		this.qnaRdate = qnaRdate;
+	public void setQna_rdate(String qna_rdate) {
+		this.qna_rdate = qna_rdate;
 	}
-	
-	
+
 	
 }
