@@ -2,12 +2,12 @@ package kobay.com.service;
 
 public class BidVO {
 	
-	private int bidUnq;
-	private int auctionUnq;
-	private int memberUnq;
-	private int bidPrice;
+	private int bidUnq = 0;
+	private int auctionUnq = 0;
+	private int memberUnq = 0;
+	private int bidPrice = 0;
 	private String bidRdate;
-	private int aucStatus;
+	private int aucStatus = 0;
 	public int getBidUnq() {
 		return bidUnq;
 	}

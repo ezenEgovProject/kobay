@@ -68,6 +68,18 @@
     		min-height: 200px;
     	}
     	
+    	.kobayDetail_bidStamp{
+			width:200px; 
+			height:100px; 
+			font:12px; 
+			color: blue; 
+			font-weight:bold; 
+			border:2px solid blue; 
+			text-align:center; 
+			padding-top:20px; 
+			float:right;
+		}
+		
     	.kobayDetail_info_rightbtn{
     		width:100%;
     		margin-top:20px;
@@ -146,17 +158,6 @@
 		    padding:5px;
 		    list-style:none;
 		}
-		.kobayDetail_bidStamp{
-			style="width:200px; 
-			height:100px; 
-			font:12px; 
-			color: blue; 
-			font-weight:bold; 
-			border:2px solid blue; 
-			text-align:center; 
-			padding-top:20px; 
-			float:right;
-		}
 		
 		
 		
@@ -224,7 +225,70 @@
 	
 	
 	<script>
-		<!-- 상세보기 / QnA Tab 시작-->
+	
+		<%-- 메인/서브이미지 mouseover 이벤트 --%>
+		function showSub(val) {
+			var sobj = document.getElementById("main_img");
+			sobj.src = "../../../images/" + val;
+		}
+		function showMain(val){
+			var mobj = document.getElementById("main_img");
+			mobj.src = "../../../images/main_" + val;
+		};
+			
+		<%-- 경매 참여	 --%>		
+		function biding(aunq,curprice,sdate,edate,curdate){
+			var unq = aunq;
+			var curPrice=curprice;
+			var startDate=sdate;
+			var endDate =edate;
+			var curDate = curdate;
+			var inputBid =  document.getElementById("bidPrice").value;
+			var bidParams = $("#bid").serialize();
+			
+			
+			if(curdate<startDate){
+				
+				alert('경매진행 대기중 입니다.');
+				
+			} else if(curdate>endDate){
+				
+				alert('종료 된 경매입니다.');
+				
+			} else {
+				
+				if(inputBid != null){
+					if (inputBid > curPrice){
+		
+						$.ajax({
+							type: 'POST',
+							data: bidParams,
+							url:"<c:url value='/kobayDetail_bidInsert'/>",
+							dataType: "json",
+							success: function(data) {
+								if(data.bidResult == "success") {
+									
+									alert(inputBid+"원으로 경매에 참여하셨습니다.");
+									self.location.reload();
+								
+								} else {
+									alert("다시 시도해 주세요.");
+								}
+							},
+							error: function(error) {
+								alert("ersssror: "+error);
+							}
+						});
+						
+					} else if(inputBid <= curPrice) {
+						alert("가격을 올려서 입력하세요");
+					}
+				} <%-- if(inputBid != null) --%>
+			} <%-- else --%>
+
+		}	
+	
+		<%-- 상세보기 / QnA Tab 시작 --%>
 		$(function () {
 			$(".tab_content").hide();
 			$(".tab_content:first").show();
@@ -246,6 +310,32 @@
 			
 		}
 		
+		<%-- 질문 입력 시작 --%>
+		function kobayDetail_questionInsert(){
+			var params = $("#kobayDetail_question").serialize();
+		
+			$.ajax({
+				type: 'POST',
+				data: params,
+				url: "<c:url value='/kobayDetail_insertQuestion'/>",
+				dataType: "json",
+				success: function(data) {
+					if(data.qnaResult == "success") {
+						alert("질문이 등록되었습니다.");
+						self.location.reload();
+					
+					} else {
+						alert("다시 시도해 주세요.");	
+					}
+					
+				},
+				error: function(error) {
+					alert("ersssror: "+error);
+				}
+				
+			});
+				
+		}
 		
 		<%-- 수정 /삭제 열기 시작 --%>
 		function fn_action(qUnq, actionVal) {
@@ -290,35 +380,6 @@
 		}
 		
 		
-		<%-- 질문 입력 시작 --%>
-		function kobayDetail_questionInsert(){
-			var params = $("#kobayDetail_question").serialize();
-		
-			$.ajax({
-				type: 'POST',
-				data: params,
-				url: "<c:url value='/kobayDetail_insertQuestion'/>",
-				dataType: "json",
-				success: function(data) {
-					if(data.qnaResult == "success") {
-						alert("질문이 등록되었습니다.");
-						self.location.reload();
-					
-					} else {
-						alert("다시 시도해 주세요.");	
-					}
-					
-				},
-				error: function(error) {
-					alert("ersssror: "+error);
-				}
-				
-			});
-				
-		}
-		
-		
-		
 		<%-- 답변 달기 --%>
 		function qnaAnswer(formID) {
 		
@@ -346,54 +407,7 @@
 			});
 			
 		}
-		
-		
-		<%-- 메인/서브이미지 mouseover 이벤트 --%>
-		function showSub(val) {
-			var sobj = document.getElementById("main_img");
-			sobj.src = "../../../images/" + val;
-		}
-		function showMain(val){
-			var mobj = document.getElementById("main_img");
-			mobj.src = "../../../images/main_" + val;
-		};
-			
-		
-		<%-- 경매 참여	 --%>		
-		function biding(aunq,curprice){
-			var unq = aunq;
-			var curPrice=curprice;
-			var inputBid =  document.getElementById("bidPrice").value;
-			var bidParams = $("#bid").serialize();
-			
-			if(inputBid != null){
-				if (inputBid > curPrice){
 	
-					$.ajax({
-						type: 'POST',
-						data: bidParams,
-						url:"<c:url value='/kobayDetail_bidInsert'/>",
-						dataType: "json",
-						success: function(data) {
-							if(data.bidResult == "success") {
-								
-								alert(inputBid+"원으로 경매에 참여하셨습니다.");
-								self.location.reload();
-							
-							} else {
-								alert("다시 시도해 주세요.");
-							}
-						},
-						error: function(error) {
-							alert("ersssror: "+error);
-						}
-					});
-					
-				} else if(inputBid <= curPrice) {
-					alert("가격을 올려서 입력하세요");
-				}
-			}
-		}		
 	</script>
   </head>
 
@@ -439,7 +453,7 @@
 								<td rowspan="5">
 									<div class="kobayDetail_bidStamp">
 										입찰참여 중<br>
-										<c:out value="${detailResult.bidPrice}"/>원
+										<c:out value="${myBid.bidPrice}"/>원
 									</div>
 								</td>
 							</c:if>
@@ -479,9 +493,10 @@
 												<input type="hidden" name="memberUnq" value="88">
 												<input type="hidden" name="auctionUnq" value="1">
 											
-												<input type="text" class="form-control" id="bidPrice" name="bidPrice" placeholder="${detailResult.bidPrice}">
+												<input type="text" class="form-control" id="bidPrice" name="bidPrice" placeholder="현재입찰가 : ${detailResult.bidPrice}">
 												<span class="input-group-btn">
-												  <button class="btn btn-primary" type="button" onclick="biding('${detailResult.auctionUnq}','${detailResult.bidPrice}')">경매 참여</button>
+												  <button class="btn btn-primary" type="button" 
+												  onclick="biding('${detailResult.auctionUnq}','${detailResult.bidPrice}','${detailResult.sDate}','${detailResult.eDate}','${detailResult.bidRdate}')">경매 참여</button>
 												</span>
 											</div><!-- /input-group -->
 										</div><!-- /.col-lg-6 -->

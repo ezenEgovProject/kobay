@@ -4,19 +4,7 @@
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="bidVO" type="kobay.com.service.BidVO"/>
 	
-	<select id="bid.selectBidList" resultClass="egovMap">
-		SELECT  
-				bidUnq,
-				auctionUnq,
-	 			memberUnq,
-				bidPrice,
-				bidRdate,
-				aucStatus
-		FROM auctionBid
-		WHERE auctionUnq = #auctionUnq#
-		ORDER BY bidRdate DESC
-	</select>
-	
+
 	<!-- 경매 참가  -->
 	<insert id="bid.insertBid" parameterClass="bidVO">
 		INSERT INTO auctionBid
@@ -39,34 +27,23 @@
 			)			
 	</insert>
 	
-	<!-- 경매참여 내용 불러오기 -->
-	<select id="bid.selectBid" resultClass="bidVO">
-		SELECT  
+	<!-- 회원 별 경매 참가 금액 -->
+	<select id="bid.myPrice" resultClass="bidVO">
+		 SELECT
 				bidUnq,
 				auctionUnq,
-	 			memberUnq,
+				memberUnq,
 				bidPrice,
 				bidRdate,
 				aucStatus
-		FROM 	auctionBid
-		WHERE	memberUnq=#memberUnq# AND auctionUnq=#auctionUnq#
+		FROM 	auctionBid		
+		WHERE	auctionUnq=#auctionUnq#
+		  AND	memberUnq=#memberUnq#
+		  AND   bidPrice = (SELECT max(bidPrice)
+		                    FROM auctionBid 
+		                    WHERE memberUnq = #memberUnq#
+                            and auctionUnq = #auctionUnq#
+		                   )
 	</select>
-	
-	<!-- 경매 별 최대 입찰가 불러오기
-	<select id="bid.selectMaxPrice" resultClass="bidVO">
-		SELECT			   
-				max(bidPrice) maxPrice
-		FROM	auctionBid
-		WHERE	auctionUnq = #auctionUnq#
-	</select>
-	 -->
-	 
-	 
-	<!-- 경매참여 내용 수정 -->
-	<update id="bid.updateBid">
-		UPDATE auctionBid
-		SET bidPrice=#bidPrice#
-		WHERE bidUnq=#bidUnq#
-	</update>
 	
 </sqlMap>

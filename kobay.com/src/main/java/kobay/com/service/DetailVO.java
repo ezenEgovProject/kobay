@@ -2,8 +2,8 @@ package kobay.com.service;
 
 public class DetailVO {
 
-	private int memberUnq;
-	private int auctionUnq;
+	private int memberUnq = 0;
+	private int auctionUnq = 0;
 	private String lCtg;
 	private String mCtg;
 	private String sDate;
@@ -13,18 +13,18 @@ public class DetailVO {
 	private String aucImageSub1;
 	private String aucImageSub2;
 	private String aucImageSub3;
-	private int sPrice;
-	private int ePrice;
-	private int deliveryWay;
-	private int deliveryFee;
+	private int sPrice = 0;
+	private int ePrice = 0;
+	private int deliveryWay = 0;
+	private int deliveryFee = 0;
 	private String sellerName;
 	private String sellerPhone;
 	private String aucDetail;
-	private int aucStatus;
-	private int delStatus;
+	private int aucStatus = 0;
+	private int delStatus = 0;
 	
-	private int bidUnq;
-	private int bidPrice;
+	private int bidUnq = 0;
+	private int bidPrice = 0;
 	private String bidRdate;
 	
 	public int getMemberUnq() {

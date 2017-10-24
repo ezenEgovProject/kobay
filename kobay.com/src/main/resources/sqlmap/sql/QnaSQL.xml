@@ -4,11 +4,9 @@
 	
 	<typeAlias alias="detailVO" type="kobay.com.service.DetailVO"/>
 	<typeAlias alias="qnaVO" type="kobay.com.service.QnaVO"/>
-	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-	
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="bidVO" type="kobay.com.service.BidVO"/>
 
-	
-	
 	<!-- Detail페이지 SELECT문 NEW -->
 	<select id="detail.selectDetail" resultClass="detailVO">
 		SELECT 
@@ -20,6 +18,7 @@
 		       k.eDate,
 		       k.aucTitle,
 		       k.sPrice,
+		       k.ePrice,
 		       k.deliveryWay,
 		       k.deliveryFee,
 		       k.sellerName,
@@ -44,6 +43,53 @@
 		AND a.auctionUnq = #auctionUnq#
 	</select>
 	
+	
+	<!-- 낙찰자 -->
+	<select id="detail.selectWinner" resultClass="detailVO">
+		SELECT 
+		       k.memberUnq,
+		       k.auctionUnq,
+		       k.lCtg,
+		       k.mCtg,
+		       k.sDate,
+		       k.eDate,
+		       k.aucTitle,
+		       k.sPrice,
+		       k.ePrice,
+		       k.deliveryWay,
+		       k.deliveryFee,
+		       k.sellerName,
+		       k.sellerPhone,
+		       k.aucDetail,
+		       k.delStatus,
+		       a.bidUnq,
+		       a.auctionUnq,
+		       a.memberUnq,
+		       a.bidPrice,
+		       a.bidRdate,
+		       a.aucStatus
+		FROM kobayAuction k
+		LEFT OUTER JOIN auctionBid a
+		ON k.auctionUnq = a.auctionUnq
+		AND k.sDate = to_char(k.sDate, 'YYYY-MM-DD HH24:MI:SS')
+		AND k.eDate = to_char(k.eDate, 'YYYY-MM-DD HH24:MI:SS')
+		WHERE a.bidPrice = (SELECT max(bidPrice)
+		                    FROM auctionBid
+		                    WHERE auctionUnq = a.auctionUnq
+		                   )
+		AND a.auctionUnq = #auctionUnq#
+        AND k.eDate<![CDATA[<]]>  sysdate
+	</select>
+	
+	<!-- kobayAuction table ePrice Update -->
+	<update id ="detail.epriceUpdate" parameterClass="bidVO">
+		UPDATE kobayAuction
+		   SET ePrice = (SELECT max(bidPrice)
+		                 FROM auctionBid 
+		                 WHERE auctionUnq = #auctionUnq#)
+		 WHERE auctionUnq = #auctionUnq#
+		   AND eDate<![CDATA[<]]> sysdate
+	</update>
 	
 	
 	<!-- 질문 리스트  -->

@@ -2,15 +2,15 @@ package kobay.com.service;
 
 public class QnaVO {
 	
-	private int qnaUnq;
-	private int memberUnq;
-	private int auctionUnq;
-	private int qnaGroup;
-	private int qnaStep;
-	private int questionerUnq;
+	private int qnaUnq = 0;
+	private int memberUnq = 0;
+	private int auctionUnq = 0;
+	private int qnaGroup = 0;
+	private int qnaStep = 0;
+	private int questionerUnq = 0;
 	private String qnaContent;
-	private int qnaSecret;
-	private int delStatus;
+	private int qnaSecret = 0;
+	private int delStatus = 0;
 	private String qnaRdate;
 	
 	

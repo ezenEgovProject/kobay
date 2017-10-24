@@ -41,6 +41,11 @@ public class AuctionController {
 		vo = detailService.selectDetail(vo.getAuctionUnq());
 		model.addAttribute("detailResult", vo);
 		
+		BidVO bo = new BidVO();
+		bo.setMemberUnq(vo.getMemberUnq());
+		bo.setAuctionUnq(vo.getAuctionUnq());
+		bo = bidService.myBid(bo);
+		model.addAttribute("myBid", bo);
 
 		List<?> list = qnaService.selectQnaList(vo.getAuctionUnq());
 		model.addAttribute("qnaResult", list);

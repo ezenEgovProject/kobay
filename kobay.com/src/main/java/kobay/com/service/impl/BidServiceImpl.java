@@ -1,7 +1,5 @@
 package kobay.com.service.impl;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
@@ -16,33 +14,13 @@ public class BidServiceImpl implements BidService {
 	private BidDAO bidDao;
 	
 	@Override
-	public List<?> selectBidList(int auctionUnq) throws Exception {
-		return bidDao.selectBidList(auctionUnq);
-	}
-	
-	@Override
 	public void insertBid(BidVO vo) throws Exception {
 		bidDao.insertBid(vo);
 	}
 
 	@Override
-	public BidVO selectBid(BidVO vo) throws Exception {
-		
-		return (BidVO) bidDao.selectBid(vo);
+	public BidVO myBid(BidVO bidVO) throws Exception {
+		return bidDao.myBid(bidVO);
 	}
-	
-//	@Override
-//	public BidVO selectMaxPrice(int auctionUnq) throws Exception {
-//		
-//		return (BidVO) bidDao.selectMaxPrice(auctionUnq);
-//	}
-
-	@Override
-	public void udateBid(BidVO vo) throws Exception {
-		
-		
-		bidDao.updateBid(vo);
-	}
-
 	
 }
