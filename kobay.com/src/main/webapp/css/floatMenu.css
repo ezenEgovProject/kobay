@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+/* #floatMenu{
+	position:absolute;
+	width:200px;
+	height:200px;
+	left:50px;
+	top:250px;
+	background-color: #606060;
+	color: #fff;
+} */
+body {margin:0;}
+#wrap {margin:0 auto;text-align:center;}
+#quick_bg {margin:0 auto;text-align:center;width:1130px;position:relative;}
+#quick {position:absolute;z-index:2;top:15px;width:153px;right:0px;}
+#container {position:relative;}
