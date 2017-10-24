@@ -17,8 +17,8 @@ public class QnaServiceImpl implements QnaService {
 	
 
 	@Override
-	public List<?> selectQnaList(int auction_unq) throws Exception {
-		return qnaDao.selectQnaList(auction_unq);
+	public List<?> selectQnaList(int auctionUnq) throws Exception {
+		return qnaDao.selectQnaList(auctionUnq);
 	}
 
 	@Override
@@ -27,12 +27,25 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public QnaVO selectQuestion(int qna_unq) throws Exception {
-		return (QnaVO) qnaDao.selectQuestion(qna_unq);
+	public void deleteQuestion(QnaVO vo) throws Exception {
+		qnaDao.deleteQuestion(vo);
+	}
+	
+	@Override
+	public QnaVO selectQuestion(int qnaUnq) throws Exception {
+		return qnaDao.selectQuestion(qnaUnq);
 	}
 
 	@Override
-	public void udateQuestion(QnaVO vo) throws Exception {
+	public void updateQuestion(QnaVO vo) throws Exception {
 		qnaDao.updateQuestion(vo);
 	}
+
+	@Override
+	public void insertAnswer(QnaVO vo) throws Exception {
+		qnaDao.insertAnswer(vo);
+		
+	}
+
+
 }

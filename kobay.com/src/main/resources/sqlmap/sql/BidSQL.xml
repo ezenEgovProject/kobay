@@ -4,79 +4,46 @@
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="bidVO" type="kobay.com.service.BidVO"/>
 	
-	<select id="bid.selectBidList" resultClass="egovMap">
-		SELECT  
-				bid_unq,
-			    auction_unq,
-			    member_unq,
-			    member_name,
-			    member_phone,
-			    member_post,
-			    member_addr1,
-			    member_addr2,
-			    bid_price,
-			    bid_rdate,
-			    bid_status
-		FROM bid
-		WHERE auction_unq = #auction_unq#
-		ORDER BY bid_rdate DESC
-	</select>
-	
+
 	<!-- 경매 참가  -->
-	<insert id="bid.insertBid">
-		INSERT INTO bid
+	<insert id="bid.insertBid" parameterClass="bidVO">
+		INSERT INTO auctionBid
 			(	
-				bid_unq,
-			    auction_unq,
-			    member_unq,
-			    member_name,
-			    member_phone,
-			    member_post,
-			    member_addr1,
-			    member_addr2,
-			    bid_price,
-			    bid_rdate,
-			    bid_status
+				bidUnq,
+				auctionUnq,
+	 			memberUnq,
+				bidPrice,
+				bidRdate,
+				aucStatus
 			)
 		VALUES
 			(	
-				bid_unq_seq.nextval,
-				#auction_unq#,
-			    #member_unq#,
-			    #member_name#,
-			    #member_phone#,
-			    #member_post#,
-			    #member_addr1#,
-			    #member_addr2#,			    
-			    #bid_price#,			 
+				bid_seq.nextval,
+				#auctionUnq#,
+			    #memberUnq#,
+			    #bidPrice#,			 
 			    sysdate,
-			    '0'
+			    0
 			)			
 	</insert>
 	
-	<!-- 경매참여 내용 불러오기 -->
-	<select id="bid.selectBid" resultClass="bidVO">
-		SELECT  
-				bid_unq,
-			    auction_unq,
-			    member_unq,
-			    member_name,
-			    member_phone,
-			    member_post,
-			    member_addr1,
-			    member_addr2,
-			    bid_price,
-			    bid_rdate,
-			    bid_status
-		FROM 	bid
-		WHERE	bid_unq=#bid_unq# AND action_unq=#auction_unq#
+	<!-- 회원 별 경매 참가 금액 -->
+	<select id="bid.myPrice" resultClass="bidVO">
+		 SELECT
+				bidUnq,
+				auctionUnq,
+				memberUnq,
+				bidPrice,
+				bidRdate,
+				aucStatus
+		FROM 	auctionBid		
+		WHERE	auctionUnq=#auctionUnq#
+		  AND	memberUnq=#memberUnq#
+		  AND   bidPrice = (SELECT max(bidPrice)
+		                    FROM auctionBid 
+		                    WHERE memberUnq = #memberUnq#
+                            and auctionUnq = #auctionUnq#
+		                   )
 	</select>
-	
-	<!-- 경매참여 내용 수정 -->
-	<update id="bid.updateBid">
-		UPDATE bid
-		SET bid_price=#bid_price#
-		WHERE bid_unq=#bid_unq#
-	</update>
 	
 </sqlMap>

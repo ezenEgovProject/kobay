@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"      	uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn"		uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="utf-8">
  <head>
@@ -88,6 +91,12 @@
 		f.action = "/kobayDetail_BidInsert";
 		f.submit();
 	}
+	
+	<%-- 대표 이미지 --%>
+	function showMain(val){
+		var mobj = document.getElementById("main_img");
+		mobj.src = "../../../images/main_" + val;
+	};
 </script>
 
 </head>
@@ -127,18 +136,18 @@
 				</tr>
 				<tr>
 					<td class="kobayDetail_paytable_td">
-						대표이미지1
+						<img src="../../../images/main_${detailResult.auctionUnq}.jpg" id="main_img" />
 					</td>
 					<td class="kobayDetail_paytable_td">
-						[카테고리명] 상품이름
-					</td>
-					
-					<td class="kobayDetail_paytable_td">
-						10,000원
+						[<c:out value="${detailResult.lCtg}"/>] <c:out value="${detailResult.aucTitle}"/>
 					</td>
 					
 					<td class="kobayDetail_paytable_td">
-						120,000원
+						<c:out value="${detailResult.deliveryFee}"/>원
+					</td>
+					
+					<td class="kobayDetail_paytable_td">
+						<c:out value="${detailResult.bidPrice}"/>원
 					</td>
 				</tr>
 			</table> <!-- end of kobayDetail_paytable -->
