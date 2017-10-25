@@ -18,6 +18,10 @@
 function fn_detail(value) {
 	location.href = "/list_1";
 }
+function reqlog(){
+    alert("로그인을 해주세요.");
+    location.href = "/loginreg";
+}
 </script>
   <body>
 	<!-- Main Slider -->
@@ -67,10 +71,18 @@ function fn_detail(value) {
           
           <!-- Slide Three - Set the background image for this slide in the line below -->
           <div class="carousel-item" style="background-image: url('../../../images/slide03_bg.jpg')">
-            <div class="d-md-block" style="margin-left: 18%;">
-              <a href="/write"><img src="../../../images/slide03_content.png"/></a>
-            </div>
+              <div class="d-md-block" style="margin-left: 18%;">
+                   <c:choose>
+                    <c:when test="${sessionScope.id  != null}">
+                        <a href="/write"><img src="../../../images/slide03_content.png"/></a>
+                    </c:when>
+                    <c:otherwise>   
+                        <a href="javascript:reqlog();"><img src="../../../images/slide03_content.png"/></a>
+                    </c:otherwise>
+                 </c:choose>
+            </div>  
           </div>
+          
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>

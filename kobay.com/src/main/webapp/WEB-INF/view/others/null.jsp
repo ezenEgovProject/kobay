@@ -9,6 +9,16 @@
 	color: #ff0000;
 }
 </style>
+<script>
+function fn_detail(value) {
+  	if(isLogin == "null") {
+		alert("로그인이 필요한 서비스입니다.\n로그인 해주세요.");
+	  	location.href = "/loginreg";
+  	} else {
+	 	location.href = "/kobayDetail_detail?auctionUnq=" + value ;
+  	}
+}
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
   	<!-- Page Content -->
@@ -37,7 +47,7 @@
 				<div id="item" class="col-lg-4 col-sm-6 portfolio-item">
 					<div id="itemCard" class="card">
 						<div class="item-body">
-							<a href="javascript:fn_detail('${list.auctionunq}')" class="item">
+							<a href="javascript:fn_detail('${nullList.auctionunq}')" class="item">
 							 	<img class="card-img-top" src="/upload/${nullList.aucimagemain}" alt="">
 							  	<span class="item item-content">
 							  		<span class="item-text c-grey" style="font-size: 10pt;">[${nullList.mctg}]</span>
