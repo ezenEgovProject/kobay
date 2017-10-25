@@ -327,5 +327,37 @@
 		WHERE ctgcd like #ctgcd# || '_%'
 	</select>
 	
+	<select id="main.selectLctgList" resultClass="egovMap">
+		SELECT A.* FROM (
+			SELECT ROWNUM RN, B.* FROM (
+			        SELECT  k.auctionUnq, 
+			            to_char(k.sdate, 'yyyy-mm-dd')sDate, 
+			            to_char(k.eDate, 'yyyy-mm-dd')eDate,
+			            k.lctg,
+			            k.aucTitle,
+			            k.aucImageMain, 
+			            k.aucImageSub1, 
+			            k.aucImageSub2, 
+			            k.aucImageSub3, 
+			            k.ePrice, 
+			            k.sellerName, 
+			            k.aucStatus,
+			            k.aucdetail,
+			            (select max(bidprice) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)price,
+			            (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
+			            (select ctgnm from auctionctg where ctgcd = k.mctg)mctg
+			    	FROM    KOBAYAUCTION K
+					WHERE	lctg = #lctg# 
+					<!-- AND
+						TO_zDATE(to_char(k.edate, 'YYYY-mm-dd') ,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0 -->
+			 		ORDER BY bids DESC 
+			 		) B 
+			 	<!-- WHERE TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') <![CDATA[>=]]> 0
+				AND TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[>=]]> 0	 -->
+			)A
+		WHERE RN <![CDATA[>]]> 0 AND RN <![CDATA[<=]]> 100
+	</select>
+	
+	
 
 </sqlMap>

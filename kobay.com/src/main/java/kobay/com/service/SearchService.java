@@ -17,4 +17,5 @@ public interface SearchService {
 	
 	List<?> getNullList() throws Exception;
 
+	List<?> getMainCtgList(String lctg) throws Exception;
 }

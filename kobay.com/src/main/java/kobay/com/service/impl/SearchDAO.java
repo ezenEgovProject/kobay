@@ -41,4 +41,12 @@ public class SearchDAO extends EgovAbstractDAO {
 		return list("search.nullList");
 	}
 	
+	
+	/**
+	 * main
+	 */
+	public List<?> getMainCtgList(String lctg) throws Exception {
+		return list("main.selectLctgList", lctg);
+	}
+	
 }

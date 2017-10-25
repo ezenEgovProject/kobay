@@ -14,34 +14,54 @@
 	text-shadow: 2px 1px #fff;
 	text-decoration: underline;
 }
-</style>
-<style>
 
-/* a {
-    color: #337ab7;
-    text-decoration: none;
+.main-list-item {
+ position:relative;
+ display:block;
+ width: 8%;
+ margin-right: 4%;
+ height: 102px;
+ padding: 0rem .35rem 0.5rem;
+ background-color:#fff;
+ border:1px solid rgba(255,255,255,1);
+ border-radius:.25rem;
+ text-align: center;
+ color: #000;
+ font-size: 0.8rem;
+ }
+ .main-list-item:first-child {
+ 	margin-left: 10%;
+ }
+ .main-list-item:last-child {
+	margin-right: 10%;
 }
-
-a {
-    background-color: transparent;
-} */
+.main-list-item:focus,.main-list-item:hover{text-decoration:none}
+.main-list-item.disabled,.main-list-item:disabled{color:#868e96;background-color:#fff}
+.main-list-item.active{
+z-index:2;
+color:#007bff;
+background-color:rgba(255,255,255,0);
+border-color:#007bff;
+border:2px solid #007bff;
+/* border-bottom: 0px solid rgba(255,255,255,0); */}
 </style>
-<script>
 
-</script>
 <script>
-//게시글 이동
-function fn_detail(value) {
-	location.href = "/list_1";
-}
 function reqlog(){
     alert("로그인을 해주세요.");
     location.href = "/loginreg";
 }
+function fn_detail(value) {
+  	if(isLogin == "null") {
+		alert("로그인이 필요한 서비스입니다.\n로그인 해주세요.");
+	  	location.href = "/loginreg";
+  	} else {
+	 	location.href = "/kobayDetail_detail?auctionUnq=" + value ;
+  	}
+}
 </script>
   <body>
 	<!-- Main Slider -->
-    <header>
       	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         	<ol class="carousel-indicators">
           		<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -106,187 +126,330 @@ function reqlog(){
 	          	<span class="sr-only">Next</span>
 	        </a>
       	</div>
-    </header>
     <!-- /메엔화면이 아니면 삭제해주세요. -->
     <!-- /Main Slider -->
-
+	
     <!-- Page Content -->
     <!-- 각자페이지에서 변경할 부분 -->
     <div class="container">
 			<!-- Sidebar Column -->
-	  		<div class="mt-4">
-	    		<div class="nav nav-pills nav-stacked " >
-	       			<a href="#tab_a" data-toggle="pill" class="list-group-item active">Kobay 소개</a>
-	       			<a href="#tab_b" data-toggle="pill" class="list-group-item">경매방법</a>
-	       			<a href="#tab_c" data-toggle="pill" class="list-group-item">마감경매</a>
+	  		<div class="mt-4" >
+	    		<div class="nav nav-pills nav-stacked">
+	       			<c:forEach items="${lCtgList}" var="lCtg" varStatus="tabStatus">
+	       				<c:set var="tabHref" value="#${lCtg.ctgcd}"/> 
+	       				<c:set var="img" value="ctg0${tabStatus.count}.png"/>
+	       				<c:if test="${tabStatus.count eq 1 }">
+	       					<a href="${tabHref }" data-toggle="pill" class="main-list-item active">
+	       					<img alt="" src="../../../images/category/${img}">
+		       				<p>${lCtg.ctgnm }</p>
+	       				</a>
+	       				</c:if>
+	       				<c:if test="${tabStatus.count ne 1 }">
+	       					<a href="${tabHref }" data-toggle="pill" class="main-list-item">
+	       					<img alt="" src="../../../images/category/${img}">
+		       				<p>${lCtg.ctgnm }</p>
+	       				</a>
+	       				</c:if>
+		       				
+	       			</c:forEach>
 				</div>
 	   		</div>	   		
 	  		<!-- Content Column -->
-	      	<div class="mb-4" style="margin-top: 1px; border-top: 1px solide #ddd;">
-	       		<div class="tab-content">
-	        		<div class="tab-pane active" id="tab_a">
-	        			<h4>Kobay 소개</h4>
-	            			<p>To change our Pills/Tabs into a vertically stacked variation we need to insert the class nav-stacked into the opening ul tag. 
-	            			The result would be a vertical stack of pills/tabs and the content pane displayed below that stack. 
-	            			I prefer to change this into panes that display to the right or left of the tabs/pills. 
-	            			To achieve that we need to add Bootstrap 3’s grid classes that set the number of columns for the nav and for the tab-content:.</p>
-	            	</div>
-		        	<div class="tab-pane" id="tab_b">
-		             	<h4>경매방법</h4>
-		            	<p>bbbbbbbbbbbb.</p>
-		        	</div>
-		        	<div class="tab-pane" id="tab_c">
-		             	<h4>마감경매</h4>
-		            	<p>ccccccccccccccccc.</p>
-		        	</div>
-				</div>
+	      	<div class="mb-4">
+	       		<div class="tab-content" style="border: none;">
+	       		    <div class="tab-pane active" id="A01">
+       					<div id="itemList1" class="row">
+       						<c:forEach items="${A01List}" var="mainList">
+								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
+       				<div class="tab-pane active" id="A01">
+       					<div id="itemList1" class="row">
+       						<c:forEach items="${A01List}" var="mainList">
+								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
+       				<div class="tab-pane" id="A02">
+       					<div id="itemList2" class="row">
+       						<c:forEach items="${A02List}" var="mainList">
+								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
+       				<div class="tab-pane" id="A03">
+       					<div id="itemList3" class="row">
+       						<c:forEach items="${A03List}" var="mainList">
+								<div id="item" class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
+       				<div class="tab-pane" id="A04">
+       					<div id="itemList4" class="row">
+       						<c:forEach items="${A04List}" var="mainList">
+								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
+       				<div class="tab-pane" id="A05">
+       					<div id="itemList5" class="row">
+       						<c:forEach items="${A05List}" var="mainList">
+								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
+       				<div class="tab-pane" id="A06">
+       					<div id="itemList6" class="row">
+       						<c:forEach items="${A06List}" var="mainList">
+								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
+	       			<div class="tab-pane" id="A07">
+       					<div id="itemList7" class="row">
+       						<c:forEach items="${A07List}" var="mainList">
+								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
+									<div id="itemCard" class="card">
+										<div class="item-body">
+											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
+												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
+												<span class="item item-content">
+													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
+													<span class="item-text item-title ">${mainList.auctitle}</span>
+													<span class="item-text">
+														<c:choose>
+															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
+																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
+															</c:when>
+															<c:otherwise>
+																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
+															</c:otherwise>
+														</c:choose>				  			
+														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
+															<span style="color:red;">${mainList.bids }</span>명 입찰참여
+														</span>
+													</span>		
+												</span>   
+											</a>
+										</div>
+										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+											<div class="col-4">${mainList.sellername}</div>
+											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
+										 </div>
+									</div>
+								</div>	<!-- /.list -->
+							</c:forEach>
+       					</div>
+       				</div>
 			</div><!-- tab content -->
   
-      <!-- Marketing Icons Section -->
-      <div class="row" id="pills-tabContent">
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
-            <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
-            <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
-            <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <!-- Portfolio Section -->
-      <h2>Portfolio Heading</h2>
-
-      <div class="row">
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project One</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Two</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Three</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quisquam, error quod sed cumque, odio distinctio velit nostrum temporibus necessitatibus et facere atque iure perspiciatis mollitia recusandae vero vel quam!</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Four</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Five</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Six</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates, nemo repellat fugiat excepturi! Nemo, esse.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <!-- Features Section -->
-      <div class="row">
-        <div class="col-lg-6">
-          <h2>Modern Business Features</h2>
-          <p>The Modern Business template by Start Bootstrap includes:</p>
-          <ul>
-            <li>
-              <strong>Bootstrap v4</strong>
-            </li>
-            <li>jQuery</li>
-            <li>Font Awesome</li>
-            <li>Working contact form with validation</li>
-            <li>Unstyled page elements for easy customization</li>
-          </ul>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum ducimus unde.</p>
-        </div>
-        <div class="col-lg-6">
-          <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <hr>
-
-      <!-- Call to Action Section -->
-      <div class="row mb-4">
-        <div class="col-md-8">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
-        </div>
-        <div class="col-md-4">
-          <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
-        </div>
-      </div>
-
+  		</div>
+      
+   
     </div>
     <!-- /.container -->
     <!-- /.Page Content -->

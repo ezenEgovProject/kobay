@@ -40,5 +40,12 @@ public class SearchServiceImpl implements SearchService {
 		// TODO Auto-generated method stub
 		return searchDao.getNullList();
 	}
+	
+	/** main */
+	@Override
+	public List<?> getMainCtgList(String lctg) throws Exception {
+		// TODO Auto-generated method stub
+		return searchDao.getMainCtgList(lctg);
+	}
 
 }
