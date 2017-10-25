@@ -340,7 +340,7 @@
 					    <div class="kobayDetail_tab_container">  
 					    	<!-- #tab1 상세정보 탭 내용 시작 -->
 					        <div id="tab1" class="tab_content">   
-				          		<c:out value="${detailResult.aucDetail}"/>
+				          		${detailResult.aucDetail}
 					        </div> <!-- end of div#tab1 -->   
 					  	 	<!-- #tab2 Q&A 탭 내용 시작-->     
 					        <div id="tab2" class="tab_content">
