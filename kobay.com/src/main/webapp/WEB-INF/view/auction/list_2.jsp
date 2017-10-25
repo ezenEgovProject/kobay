@@ -59,18 +59,19 @@
        }
    };
   
-  /* 최근 본 상품 따라오는 배너 */
-  $(function(){
-  	$(window).scroll(function(){ // window창이 스크롤 될때 실행되는 함수
-  		
-  		var top=$(window).scrollTop(); // 현재 window창의 스크롤의 위치값	
-  		$(".banner").animate({"top":top+280+"px"},10); //현재 위치에서 280px의 여백을 두고 10의 속도로 움직임
-  	});
-  	
-  /* TOP 버튼 */
-  	$(".topBtn").click(function(){$("html,body").animate({scrollTop:0},500); }); //500의 속도로 맨위로 이동
-  });
-
+   /* 최근 본 상품 따라오는 배너 */
+   $(function(){
+   	$(window).scroll(function(){ // window창이 스크롤 될때 실행되는 함수
+   		
+   		var top=$(window).scrollTop(); // 현재 window창의 스크롤의 위치값	
+   		$(".banner").animate({"top":top+500+"px"},10); //현재 위치에서 500px의 여백을 두고 10의 속도로 움직임
+   		
+   	});
+   	
+   /* TOP 버튼 */
+   $(".topBtn").click(function(){$("html,body").animate({scrollTop:0},500); }); //500의 속도로 맨위로 이동
+   });
+   
 </script>
 <body>
 
@@ -98,7 +99,7 @@
 		              	<a href="javascript:fn_detail('${best.auctionunq}')">
 		              		<img class="card-img-top" style="height: 154px;" src="/upload/${best.aucimagemain}" alt="">
 	              			<span class="pt-2 pb-2 text-center" style="display: block; border-bottom: 1px solid #ddd">
-		              		 Close Auction Best ${status.count}
+		              		 진행 예정 ${status.count}
 		              		</span>
 			              	<span class="pl-2 pr-2 pt-2 pb-2 item"  style="display: block;">
 			              		<span class="item item-text" style="font-size: 1.2rem;">${best.auctitle }</span>
@@ -106,7 +107,7 @@
 		              		</span>
 						</a>
 	              		<div class="item-footer pl-2 pr-2 pb-1 pt-1">
-					   		경매예정기간:${best.sdate} ~ <br>${best.edate}
+					   		경매예정기간: ${best.sdate} ~ ${best.edate}
 					  	</div>
 		              </div>		      
 		          </div> 
@@ -144,7 +145,7 @@
 	    </div>
 		</div>
 	
-
+<div class="banner" style="width:80px;height:30px;"><a href="#" id="topBtn">TOP</a></div>
 <%-- <div class="banner">최근 본 상품<br><br>
 	<a href="#" onclick="fn_detail('${list.auctionunq}')">
 	<table border="1" align="center" style="width:100px; height:100px;">

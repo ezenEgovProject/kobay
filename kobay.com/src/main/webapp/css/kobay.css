@@ -154,11 +154,11 @@ body {
  .banner{
 	border:2px solid #56b6e6;
 	background:#fff;
-	width:150px;
-	height:500px;
+	width:30px;
+	height:30px;
 	position:absolute;
-	right:30px;
-	top:600px;
+	right:50px;
+	top:500px;
 	color:#56b6e6;
 	text-align:center;
 }
