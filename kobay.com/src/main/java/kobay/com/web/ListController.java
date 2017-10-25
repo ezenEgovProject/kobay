@@ -27,7 +27,9 @@ public class ListController {
 		ListVO vo = new ListVO();
 		vo.setOrderCondition("best");
 		List<?> list = listService.selectList1(vo);
+		int totcnt1 = listService.selectListTotal1(vo);
 		
+		model.addAttribute("totcnt1", totcnt1);
 		model.addAttribute("count", "4");
 		model.addAttribute("bestList", list); 
 		
@@ -37,12 +39,9 @@ public class ListController {
 	@RequestMapping(value="/list1")
 	public String selectReList1(Model model) throws Exception{
 		
-		//Map<String, Object> map = new HashMap<String,Object>();
 		ListVO vo = listVO;
 		List<?> list = listService.selectList1(vo);
-		int totcnt1 = listService.selectListTotal1(vo);
 		
-		model.addAttribute("totcnt1", totcnt1);
 		model.addAttribute("resultList", list); 
 		
 		return "auction/item/list1";
@@ -50,13 +49,16 @@ public class ListController {
 	
 	/* 진행예정중인 리스트 */
 	@RequestMapping(value="/list_2")
-	public String selectList2(@ModelAttribute("listVO") ListVO vo,Model model) throws Exception{
+	public String selectList2(Model model) throws Exception{
 		
+		ListVO vo = new ListVO();
+		vo.setOrderCondition("best");
 		List<?> list = listService.selectList2(vo);
 		int totcnt2 = listService.selectListTotal2(vo);
 		
 		model.addAttribute("totcnt2", totcnt2);
-		model.addAttribute("resultList", list); 
+		model.addAttribute("count", "4");
+		model.addAttribute("bestList", list); 
 		
 		return "auction/list_2";
 	}
@@ -66,9 +68,7 @@ public class ListController {
 		
 		ListVO vo = listVO;
 		List<?> list = listService.selectList2(vo);
-		int totcnt2 = listService.selectListTotal2(vo);
 		
-		model.addAttribute("totcnt2", totcnt2);
 		model.addAttribute("resultList", list); 
 		
 		return "auction/item/list2";
@@ -76,13 +76,16 @@ public class ListController {
 	
 	/* 마감된 리스트 */
 	@RequestMapping(value="/list_3")
-	public String selectList3(@ModelAttribute("listVO") ListVO vo,Model model) throws Exception{
+	public String selectList3(Model model) throws Exception{
 		
+		ListVO vo = new ListVO();
+		vo.setOrderCondition("best");
 		List<?> list = listService.selectList3(vo);
 		int totcnt3 = listService.selectListTotal3(vo);
 		
 		model.addAttribute("totcnt3", totcnt3);
-		model.addAttribute("resultList", list); 
+		model.addAttribute("count", "4");
+		model.addAttribute("bestList", list); 
 		
 		return "auction/list_3";
 	}
@@ -92,9 +95,7 @@ public class ListController {
 		
 		ListVO vo = listVO;
 		List<?> list = listService.selectList3(vo);
-		int totcnt3 = listService.selectListTotal3(vo);
 		
-		model.addAttribute("totcnt3", totcnt3);
 		model.addAttribute("resultList", list); 
 		
 		return "auction/item/list3";

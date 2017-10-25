@@ -12,6 +12,7 @@
 	$(document).ready(function() {
 		$('#itemList').load("/list1");
 	}) ;
+	
   /* 상세보기 페이지 */
   function fn_detail(value) {
 	  if(isLogin == "null") {
@@ -95,7 +96,7 @@
 		          	추가로 status.index 를 사용하면 0, 1, 2, 3, 4, 5... 로 count와 달리 0부터 시작합니다. --%>
 					<div class="card-body" style="padding: 0px">
 		              	<a href="javascript:fn_detail('${best.auctionunq}')">
-		              		<img class="card-img-top" style="max-height: 154px;" src="/upload/${best.aucimagemain}" alt="">
+		              		<img class="card-img-top" style="height: 154px;" src="/upload/${best.aucimagemain}" alt="">
 	              			<span class="pt-2 pb-2 text-center" style="display: block; border-bottom: 1px solid #ddd">
 		              		 Close Auction Best ${status.count}
 		              		</span>
@@ -105,7 +106,7 @@
 		              		</span>
 						</a>
 	              		<div class="item-footer pl-2 pr-2 pb-1 pt-1">
-					   		경매 참여인원 :${best.bids }
+					   		경매 참여인원 :${best.bids}
 					  	</div>
 		              </div>		      
 		          </div> 

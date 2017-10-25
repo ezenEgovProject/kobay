@@ -17,7 +17,7 @@
 			<div id="itemCard" class="card">
 				<div class="item-body">
 					<a href="javascript:fn_detail('${list.auctionunq}')" class="item">
-					 	<img class="card-img-top" src="/upload/${list.aucimagemain}" alt="">
+					 	<img class="card-img-top" style="height: 198px;" src="/upload/${list.aucimagemain}" alt="">
 					  	<span class="item item-content">
 					  		<span class="item-text c-grey" style="font-size: 10pt;">[${list.mctg}]</span>
 					    	<span class="item-text item-title ">${list.auctitle}</span>
@@ -38,6 +38,6 @@
 			  	</div>
 			</div>
       	</div>	<!-- /.list -->
-	</c:forEach><!-- /list-foreach -->
+	</c:forEach><!-- /list-forEach -->
 </body>
 </html>

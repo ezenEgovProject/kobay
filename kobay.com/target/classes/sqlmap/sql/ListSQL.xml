@@ -30,24 +30,24 @@
             AND to_char(sysdate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(eDate,'yyyy/mm/dd hh24:mi') 
             
             <isNull property="orderCondition">
-				ORDER BY eDate ASC ) B
+				ORDER BY to_date(eDate,'yyyy/mm/dd hh24:mi') - to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') ASC ) B  
 			</isNull> 
 			
 			<isNotNull property="orderCondition">
 				<isEqual property="orderCondition" compareValue=" "> 
-					ORDER BY bids DESC ) B 
-				</isEqual>
-				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
-					ORDER BY auctionUnq DESC ) B
-				</isEqual>
-				<isEqual property="orderCondition" compareValue="newest">
 					ORDER BY to_date(eDate,'yyyy/mm/dd hh24:mi') - to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') ASC ) B  
 				</isEqual>
+				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
+					ORDER BY bids DESC ) B
+				</isEqual>
+				<isEqual property="orderCondition" compareValue="newest">
+					ORDER BY to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') - to_date(sDate,'yyyy/mm/dd hh24:mi') ASC ) B  
+				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
-					ORDER BY sPrice ASC ) B
+					ORDER BY price ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="highprice">
-					ORDER BY sPrice DESC ) B
+					ORDER BY price DESC ) B
 				</isEqual>
 			</isNotNull>
             
@@ -60,30 +60,46 @@
 	<select id="listDAO.selectReList1" parameterClass="listVO" resultClass="egovMap">  
 		
 		SELECT A.* FROM (	
-			SELECT ROWNUM RN, B.* FROM (	
-				SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
-						to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
-					FROM KOBAYAUCTION  WHERE 1=1
-			
+			SELECT ROWNUM RN, B.* FROM (
+		
+		SELECT 
+			k.memberUnq, 
+			k.auctionUnq, 
+			k.LCTG, 
+			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg,
+			(select max(bidprice) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)price,
+	        (select count(*) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)bids,
+			to_char(k.sDate,'yyyy/mm/dd hh24:mi') sDate,
+			to_char(k.eDate,'yyyy/mm/dd hh24:mi') eDate,
+			k.aucTitle, 
+			k.sPrice, 
+			k.ePrice, 
+			k.sellername,
+			k.aucImageMain
+			FROM KOBAYAUCTION k
+			WHERE 1=1
+			AND to_char(sDate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(sysdate,'yyyy/mm/dd hh24:mi')
+            AND to_char(sysdate,'yyyy/mm/dd hh24:mi') <![CDATA[<]]> to_char(eDate,'yyyy/mm/dd hh24:mi') 
+            
 			<isNull property="orderCondition">
-				ORDER BY auctionUnq ASC ) B
+				ORDER BY to_date(eDate,'yyyy/mm/dd hh24:mi') - to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') ASC ) B  
 			</isNull> 
 			
 			<isNotNull property="orderCondition">
 				<isEqual property="orderCondition" compareValue=" "> 
-					ORDER BY auctionUnq ASC ) B
+					ORDER BY to_date(eDate,'yyyy/mm/dd hh24:mi') - to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') ASC ) B  
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
 					ORDER BY auctionUnq DESC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="newest">
-					ORDER BY to_date(eDate,'yyyy/mm/dd hh24:mi') - to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') ASC ) B  
+					ORDER BY to_date(to_char(sysdate,'yyyy/mm/dd hh24:mi'), 'yyyy/mm/dd hh24:mi') - to_date(sDate,'yyyy/mm/dd hh24:mi') ASC ) B  
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
-					ORDER BY sPrice ASC ) B
+					ORDER BY price ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="highprice">
-					ORDER BY sPrice DESC ) B
+					ORDER BY price DESC ) B
 				</isEqual>
 			</isNotNull>
 			
@@ -103,30 +119,44 @@
 	<select id="listDAO.selectList2" parameterClass="listVO" resultClass="egovMap"> 
 		SELECT A.* FROM (	
 			SELECT ROWNUM RN, B.* FROM (
-		 SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
-				to_char(eDate,'yyyy/mm/dd hh24:mi') eDate, aucTitle, sPrice, ePrice, aucImageMain
-			FROM KOBAYAUCTION WHERE 1=1
+		
+		SELECT 
+			k.memberUnq, 
+			k.auctionUnq, 
+			k.LCTG, 
+			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg,
+			(select max(bidprice) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)price,
+	        (select count(*) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)bids,
+			to_char(k.sDate,'yyyy/mm/dd hh24:mi') sDate,
+			to_char(k.eDate,'yyyy/mm/dd hh24:mi') eDate,
+			k.aucTitle, 
+			k.sPrice, 
+			k.ePrice, 
+			k.sellername,
+			k.aucImageMain
+			FROM KOBAYAUCTION k
+			WHERE 1=1
                 AND to_char(sDate,'yyyy/mm/dd hh24:mi') > to_char(sysdate,'yyyy/mm/dd hh24:mi')
                    
              <isNull property="orderCondition">
-				 ORDER BY sDate ASC ) B
+				 ORDER BY to_date(sDate,'yyyy/mm/dd hh24:mi') - to_date(sysdate,'yyyy/mm/dd hh24:mi') ASC ) B 
 			 </isNull> 
 			
 			 <isNotNull property="orderCondition">
 				<isEqual property="orderCondition" compareValue=" "> 
-					ORDER BY sDate ASC ) B
+					ORDER BY to_date(sDate,'yyyy/mm/dd hh24:mi') - to_date(sysdate,'yyyy/mm/dd hh24:mi') ASC ) B 
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
-					ORDER BY auctionUnq DESC ) B
+					ORDER BY bids DESC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="newest">
-					ORDER BY sDate ASC ) B  
+					ORDER BY to_date(sDate,'yyyy/mm/dd hh24:mi') - to_date(sysdate,'yyyy/mm/dd hh24:mi') ASC ) B   
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
-					ORDER BY sPrice ASC ) B
+					ORDER BY price ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="highprice">
-					ORDER BY sPrice DESC ) B
+					ORDER BY price DESC ) B
 				</isEqual>
 			 </isNotNull>
             
@@ -139,31 +169,45 @@
 	<select id="listDAO.selectReList2" parameterClass="listVO" resultClass="egovMap">  
 		
 		SELECT A.* FROM (	
-			SELECT ROWNUM RN, B.* FROM (	
-				SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
-						to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
-					FROM KOBAYAUCTION  WHERE 1=1
+			SELECT ROWNUM RN, B.* FROM (
+		
+		SELECT 
+			k.memberUnq, 
+			k.auctionUnq, 
+			k.LCTG, 
+			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg,
+			(select max(bidprice) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)price,
+	        (select count(*) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)bids,
+			to_char(k.sDate,'yyyy/mm/dd hh24:mi') sDate,
+			to_char(k.eDate,'yyyy/mm/dd hh24:mi') eDate,
+			k.aucTitle, 
+			k.sPrice, 
+			k.ePrice, 
+			k.sellername,
+			k.aucImageMain
+			FROM KOBAYAUCTION k
+			WHERE 1=1
                 AND to_char(sDate,'yyyy/mm/dd hh24:mi') > to_char(sysdate,'yyyy/mm/dd hh24:mi')
-			
-			<isNull property="orderCondition">
-				 ORDER BY sDate ASC ) B
+                   
+             <isNull property="orderCondition">
+				 ORDER BY to_date(sDate,'yyyy/mm/dd hh24:mi') - to_date(sysdate,'yyyy/mm/dd hh24:mi') ASC ) B 
 			 </isNull> 
 			
 			 <isNotNull property="orderCondition">
 				<isEqual property="orderCondition" compareValue=" "> 
-					ORDER BY sDate ASC ) B
+					ORDER BY to_date(sDate,'yyyy/mm/dd hh24:mi') - to_date(sysdate,'yyyy/mm/dd hh24:mi') ASC ) B 
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
-					ORDER BY auctionUnq DESC ) B
+					ORDER BY bids DESC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="newest">
-					ORDER BY sDate ASC ) B  
+					ORDER BY to_date(sDate,'yyyy/mm/dd hh24:mi') - to_date(sysdate,'yyyy/mm/dd hh24:mi') ASC ) B   
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
-					ORDER BY sPrice ASC ) B
+					ORDER BY price ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="highprice">
-					ORDER BY sPrice DESC ) B
+					ORDER BY price DESC ) B
 				</isEqual>
 			 </isNotNull>
 			
@@ -182,30 +226,44 @@
 	<select id="listDAO.selectList3" parameterClass="listVO" resultClass="egovMap"> 
 		SELECT A.* FROM (	
 			SELECT ROWNUM RN, B.* FROM (
-		select memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
-				to_char(eDate,'yyyy/mm/dd hh24:mi') eDate, aucTitle, sPrice, ePrice, aucImageMain
-			from KOBAYAUCTION WHERE 1=1
+		
+		SELECT 
+			k.memberUnq, 
+			k.auctionUnq, 
+			k.LCTG, 
+			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg,
+			(select max(bidprice) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)price,
+	        (select count(*) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)bids,
+			to_char(k.sDate,'yyyy/mm/dd hh24:mi') sDate,
+			to_char(k.eDate,'yyyy/mm/dd hh24:mi') eDate,
+			k.aucTitle, 
+			k.sPrice, 
+			k.ePrice, 
+			k.sellername,
+			k.aucImageMain
+			FROM KOBAYAUCTION k
+			WHERE 1=1
 				AND to_char(sysdate,'yyyy/mm/dd hh24:mi') > to_char(eDate,'yyyy/mm/dd hh24:mi')
 					
 			<isNull property="orderCondition">
-				ORDER BY eDate DESC ) B
+				ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B
 			</isNull> 
 			
 			<isNotNull property="orderCondition">
 				<isEqual property="orderCondition" compareValue=" "> 
-					ORDER BY eDate DESC ) B
+					ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
-					ORDER BY auctionUnq DESC ) B
+					ORDER BY bids DESC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="newest">
-					ORDER BY eDate ASC ) B  
+					ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B  
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
-					ORDER BY sPrice ASC ) B
+					ORDER BY price ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="highprice">
-					ORDER BY sPrice DESC ) B
+					ORDER BY price DESC ) B
 				</isEqual>
 			</isNotNull>
            		 ) A
@@ -217,31 +275,45 @@
 	<select id="listDAO.selectReList3" parameterClass="listVO" resultClass="egovMap">  
 		
 		SELECT A.* FROM (	
-			SELECT ROWNUM RN, B.* FROM (	
-				SELECT memberUnq, auctionUnq, LCTG, MCTG, to_char(sDate,'yyyy/mm/dd hh24:mi') sDate,
-						to_char(eDate,'yyyy/mm/dd hh24:mi') eDate,aucTitle, sPrice, ePrice, aucImageMain
-					FROM KOBAYAUCTION  WHERE 1=1
+			SELECT ROWNUM RN, B.* FROM (
+		
+		SELECT 
+			k.memberUnq, 
+			k.auctionUnq, 
+			k.LCTG, 
+			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg,
+			(select max(bidprice) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)price,
+	        (select count(*) from AUCTIONBID where AUCTIONUNQ = k.AUCTIONUNQ)bids,
+			to_char(k.sDate,'yyyy/mm/dd hh24:mi') sDate,
+			to_char(k.eDate,'yyyy/mm/dd hh24:mi') eDate,
+			k.aucTitle, 
+			k.sPrice, 
+			k.ePrice, 
+			k.sellername,
+			k.aucImageMain
+			FROM KOBAYAUCTION k
+			WHERE 1=1
 				AND to_char(sysdate,'yyyy/mm/dd hh24:mi') > to_char(eDate,'yyyy/mm/dd hh24:mi')
-			
+					
 			<isNull property="orderCondition">
-				ORDER BY eDate DESC ) B
+				ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B
 			</isNull> 
 			
 			<isNotNull property="orderCondition">
 				<isEqual property="orderCondition" compareValue=" "> 
-					ORDER BY eDate DESC ) B
+					ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="best"> <!-- 참여자 수 순으로 정렬 -->
-					ORDER BY auctionUnq DESC ) B
+					ORDER BY bids DESC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="newest">
-					ORDER BY eDate ASC ) B  
+					ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B  
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
-					ORDER BY sPrice ASC ) B
+					ORDER BY price ASC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="highprice">
-					ORDER BY sPrice DESC ) B
+					ORDER BY price DESC ) B
 				</isEqual>
 			</isNotNull>
 			

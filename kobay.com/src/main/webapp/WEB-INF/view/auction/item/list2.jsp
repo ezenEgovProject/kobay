@@ -14,38 +14,36 @@
 		f.auctionUnq.value = a;
 		f.submit();
 	}
-
-  
 </script>
 <body>
-<form name="hiddenFrm" method="post" action="/kobayDetail_detail">
-	<input type="hidden" name="auctionunq" id="auctionunq"/>
-</form>
   <!-- 진행예정 중인 경매 리스트 -->  
-            <!-- Marketing Icons Section -->
-       <div id="itemList" class="row">
-   		 <c:forEach var="list" items="${resultList}" varStatus="status"> 
-              <div class="col-lg-4 col-sm-6 portfolio-item">
-              <div class="card">
-              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
-              		<img class="card-img-top" src="/upload/${list.aucimagemain}" alt="">
-              		<span class="pt-2 pb-2 text-center" style="display: block; border-bottom: 1px solid #ddd">진행예정${totcnt2}</span>
-              		<span class="item item-body">
-              			<span class="item-title item-text" style="font-size: 14pt;">${list.auctitle}</span>
-					  		<span class="item-text item-text">
-					  			<span class="item">시작 가격: ${list.sprice}</span><br><br>
-					  			<span class="item">시작 시간: ${list.sdate}</span><br>
-				   				<span class="item">마감 시간: ${list.edate}</span>
-					  		</span>	
-              		</span>
-              	</a>
-              	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-					   		<div class="col-8">경매 참여인원:</div>
+    <!-- Marketing Icons Section -->
+       <c:forEach items="${resultList}" var="list">
+		<div id="item" class="col-lg-4 col-sm-6 portfolio-item">
+			<div id="itemCard" class="card">
+				<div class="item-body">
+					<a href="javascript:fn_detail('${list.auctionunq}')" class="item">
+					 	<img class="card-img-top" style="height: 198px;" src="/upload/${list.aucimagemain}" alt="">
+					  	<span class="item item-content">
+					  		<span class="item-text c-grey" style="font-size: 10pt;">[${list.mctg}]</span>
+					    	<span class="item-text item-title ">${list.auctitle}</span>
+					  		<span class="item-text">
+					  			<c:if test="${list.price eq null || list.price eq 0}">
+					  				<c:set var="price" value="${list.sprice}"/>
+					  				<span class="item-left h6 c-black"><strong>₩ ${price }</strong></span>
+					  			</c:if>
+					  			<span class="item-left h6 c-black"><strong>₩ ${list.price }</strong></span>
+				   				<span class="item-right" style="text-align: right; margin-bottom: .5rem"><span style="color:red;">${list.bids }</span>명 입찰참여</span>
+					  		</span>		
+						</span>   
+					</a>
 				</div>
-              </div>
-          	 <c:set var="totcnt2" value="${(totcnt2)-1}"/>
-          	 </div>
-          </c:forEach> <!-- /list-forEach -->
-	   </div> <!-- /.row -->
+			   	<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
+			   		<div class="col-4">${list.sellername}</div>
+			   		<div class="col-8 text-right">마감 : ${list.edate }</div>
+			  	</div>
+			</div>
+      	</div>	<!-- /.list -->
+	</c:forEach><!-- /list-forEach -->
 </body>
 </html>

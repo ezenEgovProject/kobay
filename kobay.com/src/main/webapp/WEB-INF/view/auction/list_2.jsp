@@ -5,22 +5,26 @@
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="utf-8">
 <link rel="stylesheet" href="../../../css/list.css" />
 <script>
-
-$(document).ready(function() {
-	$('#itemList').load("/list2");
-}) ;
+	$(document).ready(function() {
+		$('#itemList').load("/list2");
+	}) ;
   
 	/* 상세보기 페이지 */
-	function fn_detail(a) {
-		var f = document.hiddenFrm;
-		f.auctionUnq.value = a;
-		f.submit();
-	}
-
+	  function fn_detail(value) {
+		  if(isLogin == "null") {
+			  alert("로그인이 필요한 서비스입니다.\n로그인 해주세요.");
+			  location.href = "/loginreg";
+		  } else {
+			 document.hiddenFrm.auctionUnq.value = value;
+			 document.hiddenFrm.submit();
+		  }
+		}
+	
   /* 리스트 정렬을 위한 함수 */
   function fn_array(){
 		 
@@ -71,7 +75,7 @@ $(document).ready(function() {
 <body>
 
 <form name="hiddenFrm" method="post" action="/kobayDetail_detail">
-	<input type="hidden" name="auctionUnq" id="auctionunq"/>
+	<input type="hidden" name="auctionUnq" id="auctionUnq"/>
 </form>
 
  <!-- Marketing Icons Section -->
@@ -84,25 +88,25 @@ $(document).ready(function() {
        </li>
 	</ol>
      <div class="row">
-	     <c:forEach begin="1" end="4" step="1" varStatus="status">
+	      <c:forEach items="${bestList}" end="${count-1}" var="best" varStatus="status">
 		     <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
 		          <div class="card">
 		          <%-- varStatus는 현재 forEach문의 반복값입니다. varStatus에 변수로 status라고 지정한 후에
 		          	status.count 를 사용하면 1, 2, 3, 4, 5.. 순차적으로 값을 출력할 수 있습니다.
 		          	추가로 status.index 를 사용하면 0, 1, 2, 3, 4, 5... 로 count와 달리 0부터 시작합니다. --%>
 					<div class="card-body" style="padding: 0px">
-		              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
-		              		<img class="card-img-top" src="http://placehold.it/700x400" alt="">
+		              	<a href="javascript:fn_detail('${best.auctionunq}')">
+		              		<img class="card-img-top" style="height: 154px;" src="/upload/${best.aucimagemain}" alt="">
 	              			<span class="pt-2 pb-2 text-center" style="display: block; border-bottom: 1px solid #ddd">
-		              		 Auction ${status.count}
+		              		 Close Auction Best ${status.count}
 		              		</span>
 			              	<span class="pl-2 pr-2 pt-2 pb-2 item"  style="display: block;">
-			              		<span class="item item-title item-text" style="font-size: 1.2rem;">경매title</span>
-							  	<span class="item-text item-text">가격:</span>	
+			              		<span class="item item-text" style="font-size: 1.2rem;">${best.auctitle }</span>
+							  	<span class="item-text item-text">시작 가격 : ${best.price }</span>	
 		              		</span>
 						</a>
 	              		<div class="item-footer pl-2 pr-2 pb-1 pt-1">
-					   		경매예정기간:
+					   		경매예정기간:${best.sdate} ~ <br>${best.edate}
 					  	</div>
 		              </div>		      
 		          </div> 
@@ -123,7 +127,6 @@ $(document).ready(function() {
 				<div class="col-2" style="padding: 0px"> 
 			     	<select name="orderCondition" class="form-control list_select" id="orderCondition" onchange="fn_array()">
 						<option value=" " <c:if test="${listVO.orderCondition eq ' '}">selected</c:if>> - 정렬기준 - </option>
-						<option value="best" <c:if test="${listVO.orderCondition eq 'best'}">selected</c:if>> 인기경매 순 </option>
 						<option value="newest" <c:if test="${listVO.orderCondition eq 'newest'}">selected</c:if>> 최신경매 순 </option>
 						<option value="lowprice" <c:if test="${listVO.orderCondition eq 'lowprice'}">selected</c:if>>낮은가격 순</option>
 						<option value="highprice" <c:if test="${listVO.orderCondition eq 'highprice'}">selected</c:if>>높은가격 순</option>
@@ -136,36 +139,13 @@ $(document).ready(function() {
       <!-- 진행예정 중인 경매 리스트 -->          
       
             <!-- Marketing Icons Section -->
-             <div id="itemList">
-    	
-   			 </div>
-       <%-- <div id="itemList" class="row">
-   		 <c:forEach var="list" items="${resultList}" varStatus="status"> 
-              <div class="col-lg-4 col-sm-6 portfolio-item">
-              <div class="card">
-              	<a href="#" onclick="fn_detail('${list.auctionunq}')">
-              		<img class="card-img-top" src="http://placehold.it/700x400" alt="">
-              		<span class="pt-2 pb-2 text-center" style="display: block; border-bottom: 1px solid #ddd">진행예정${totcnt2}</span>
-              		<span class="item item-body">
-              			<span class="item-title item-text" style="font-size: 14pt;">${list.auctitle}</span>
-					  		<span class="item-text item-text">
-					  			<span class="item-left">경매가격: ${list.sprice}</span>
-				   				<span class="item-right">마감시간: ${list.edate}</span>
-					  		</span>	
-              		</span>
-              	</a>
-              	<div class="item-footer mt-2 row" style="margin-right: 0px; margin-left: 0px;">
-					   		<div class="col-8">경매 참여인원: </div>
-				</div>
-              </div>
-          	 <c:set var="totcnt2" value="${(totcnt2)-1}"/>
-          	 </div>
-          </c:forEach> <!-- /list-forEach -->
-	   </div> <!-- /.row --> --%>
-</div>
+        <div id="itemList" class="row"> 
+	    	
+	    </div>
+		</div>
 	
 
-<div class="banner">최근 본 상품<br><br>
+<%-- <div class="banner">최근 본 상품<br><br>
 	<a href="#" onclick="fn_detail('${list.auctionunq}')">
 	<table border="1" align="center" style="width:100px; height:100px;">
 		<tr>
@@ -191,7 +171,7 @@ $(document).ready(function() {
 	</a>
 <br><br>
 	<a href="#" id="topBtn">TOP</a><!-- topBtn: 페이지 상단으로 가는 버튼 -->
-</div> 
+</div>  --%>
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../../../vendor/jquery/jquery.min.js"></script>
