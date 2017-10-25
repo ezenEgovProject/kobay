@@ -17,9 +17,9 @@ public class DetailServiceImpl implements DetailService {
 	
 	/** Detail Select **/
 	@Override
-	public DetailVO selectDetail(int auctionUnq) throws Exception {
+	public DetailVO selectDetail(DetailVO vo) throws Exception {
 		
-		return (DetailVO) detailDao.selectDetail(auctionUnq);
+		return (DetailVO) detailDao.selectDetail(vo);
 
 	}
 	
@@ -34,6 +34,12 @@ public class DetailServiceImpl implements DetailService {
 	@Override
 	public void epriceUpdate(BidVO bidVO) throws Exception {
 		detailDao.epriceUpdate(bidVO);
+	}
+
+	@Override
+	public int getMaxBidprice(int auctionUnq) throws Exception {
+		// TODO Auto-generated method stub
+		return detailDao.getMaxBidprcie(auctionUnq);
 	}
 
 

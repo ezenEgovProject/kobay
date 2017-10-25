@@ -36,7 +36,10 @@ public class AuctionController {
 	// http://localhost:8080/kobayDetail_detail?auctionUnq=1
 	@RequestMapping (value="/kobayDetail_detail")
 	public String kobayDetail_detailView(DetailVO vo, Model model, HttpSession session) throws Exception {
-		vo = detailService.selectDetail(vo.getAuctionUnq());
+		
+		int maxBidprice = detailService.getMaxBidprice(vo.getAuctionUnq());
+		vo.setBidPrice(maxBidprice);
+		vo = detailService.selectDetail(vo);
 		model.addAttribute("detailResult", vo);
 		
 		BidVO bo = new BidVO();
@@ -172,14 +175,14 @@ public class AuctionController {
 	
 	@RequestMapping (value="/kobayDetail_pay")
 	public String kobayDetail_payView(@RequestParam("bidPrice") String bidPrice, DetailVO vo, Model model) throws Exception {
-		
-		int bidP = Integer.valueOf(bidPrice);
-		vo = detailService.selectDetail(bidP);
-		model.addAttribute("vo", vo);
-		
-		vo = detailService.selectDetail(vo.getAuctionUnq());
-		model.addAttribute("detailResult", vo);
-		
+//		
+//		int bidP = Integer.valueOf(bidPrice);
+//		vo = detailService.selectDetail(bidP);
+//		model.addAttribute("vo", vo);
+//		
+//		vo = detailService.selectDetail(vo.getAuctionUnq());
+//		model.addAttribute("detailResult", vo);
+//		
 		return "auction/kobayDetail_pay";
 	}
 	

@@ -23,8 +23,10 @@ public class DetailVO {
 	private int aucStatus = 0;
 	private int delStatus = 0;
 	
+	/** auctionBid테이블에서 가져올 정보*/
 	private int bidUnq = 0;
 	private int bidPrice = 0;
+	private int bidmemberUnq = 0;
 	private String bidRdate;
 	
 	public int getMemberUnq() {
@@ -166,6 +168,12 @@ public class DetailVO {
 	}
 	public void setBidRdate(String bidRdate) {
 		this.bidRdate = bidRdate;
+	}
+	public int getBidmemberUnq() {
+		return bidmemberUnq;
+	}
+	public void setBidmemberUnq(int bidmemberUnq) {
+		this.bidmemberUnq = bidmemberUnq;
 	}	
 	
 	

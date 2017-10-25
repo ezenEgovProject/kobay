@@ -12,8 +12,8 @@ import kobay.com.service.DetailVO;
 public class DetailDAO extends EgovAbstractDAO {
 	
 	/** Detail Select **/
-	public DetailVO selectDetail (int auctionUnq) {
-		return (DetailVO) select("detail.selectDetail", auctionUnq);
+	public DetailVO selectDetail (DetailVO vo) {
+		return (DetailVO) select("detail.selectDetail", vo);
 	}
 	
 	/** Detail Select Winner **/
@@ -26,5 +26,11 @@ public class DetailDAO extends EgovAbstractDAO {
 	public void epriceUpdate(BidVO bidVO) throws Exception {
 		update("detail.epriceUpdate", bidVO);
 	}
+
+	public int getMaxBidprcie(int auctionUnq) {
+		// TODO Auto-generated method stub
+		return (int)select("bid.maxPrice", auctionUnq);
+	}
+
 	
 }

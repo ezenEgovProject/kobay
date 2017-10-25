@@ -7,9 +7,18 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="bidVO" type="kobay.com.service.BidVO"/>
 
-	<!-- Detail페이지 SELECT문 NEW -->
-	<select id="detail.selectDetail" resultClass="detailVO">
+	<select id="bid.maxPrice" resultClass="java.lang.Integer">
 		SELECT 
+			nvl(max(bidPrice),0) 
+		FROM 
+			auctionBid 
+		WHERE 
+			auctionUnq = #auctionUnq#
+	</select>
+
+	<!-- Detail페이지 SELECT문 NEW -->
+	<select id="detail.selectDetail" parameterClass="detailVO" resultClass="detailVO">
+       SELECT 
 		       k.memberUnq,
 		       k.auctionUnq,
 		       k.lCtg,
@@ -29,24 +38,16 @@
 		       k.sellerPhone,
 		       k.aucDetail,
 		       k.delStatus,
-		       a.bidUnq,
-		       a.auctionUnq,
-		       a.memberUnq,
-		       a.bidPrice,
-		       a.bidRdate,
-		       a.aucStatus
-		FROM kobayAuction k
-		LEFT OUTER JOIN auctionBid a
-		ON k.auctionUnq = a.auctionUnq
-		AND k.sDate = to_char(k.sDate, 'YYYY-MM-DD HH24:MI:SS')
-		AND k.eDate = to_char(k.eDate, 'YYYY-MM-DD HH24:MI:SS')
-		WHERE a.bidPrice = (SELECT max(bidPrice)
-		                    FROM auctionBid
-		                    WHERE auctionUnq = a.auctionUnq
-		                  )
-		AND a.auctionUnq = #auctionUnq#
-	</select>
-	
+               k.aucStatus,
+               (nvl(a.bidunq, 0))bidUnq,
+               (nvl(a.memberunq, 0))bidmemberUnq,
+               (nvl(a.bidprice, 0))bidPrice
+		 From kobayAuction k
+         LEFT OUTER JOIN (select * from auctionbid where auctionunq = #auctionUnq# and bidprice = #bidPrice# ) a
+         ON k.AUCTIONUNQ = (select distinct(a.auctionunq) from auctionbid where auctionunq = #auctionUnq# )
+         WHERE k.AUCTIONUNQ= #auctionUnq#
+	</select> 
+
 	
 	<!-- 낙찰자 -->
 	<select id="detail.selectWinner" resultClass="detailVO">
