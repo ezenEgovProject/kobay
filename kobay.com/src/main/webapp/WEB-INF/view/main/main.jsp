@@ -192,43 +192,7 @@ function fn_detail(value) {
 								</div>	<!-- /.list -->
 							</c:forEach>
        					</div>
-       				</div>
-       				<div class="tab-pane active" id="A01">
-       					<div id="itemList1" class="row">
-       						<c:forEach items="${A01List}" var="mainList">
-								<div id="item " class="col-lg-4 col-sm-6 portfolio-item">
-									<div id="itemCard" class="card">
-										<div class="item-body">
-											<a href="javascript:fn_detail('${mainList.auctionunq}')" class="item">
-												<img class="card-img-top" src="/upload/${mainList.aucimagemain}" alt="">
-												<span class="item item-content">
-													<span class="item-text c-grey" style="font-size: 10pt;">[${mainList.mctg}]</span>
-													<span class="item-text item-title ">${mainList.auctitle}</span>
-													<span class="item-text">
-														<c:choose>
-															<c:when test="${mainList.price eq null || mainList.price eq '0'}">
-																<span class="item-left h6 c-black"><strong>\ ${mainList.sprice }</strong></span>
-															</c:when>
-															<c:otherwise>
-																<span class="item-left h6 c-black"><strong>\ ${mainList.price }</strong></span>
-															</c:otherwise>
-														</c:choose>				  			
-														<span class="item-right" style="text-align: right; margin-bottom: .5rem">
-															<span style="color:red;">${mainList.bids }</span>명 입찰참여
-														</span>
-													</span>		
-												</span>   
-											</a>
-										</div>
-										<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
-											<div class="col-4">${mainList.sellername}</div>
-											<div class="col-8">${mainList.sdate}~${mainList.edate }</div>
-										 </div>
-									</div>
-								</div>	<!-- /.list -->
-							</c:forEach>
-       					</div>
-       				</div>
+					</div>
        				<div class="tab-pane" id="A02">
        					<div id="itemList2" class="row">
        						<c:forEach items="${A02List}" var="mainList">
