@@ -18,11 +18,6 @@ public class MainController {
 	
 	@RequestMapping (value="/main")
 	public String mainView(Model model) throws Exception {
-		
-		List<?> nullList = service.getNullList();
-		model.addAttribute("nullList", nullList);
-		
-		
 		List<?> lCtgList = service.selectctglist();
 		model.addAttribute("lCtgList", lCtgList);
 		for(int i = 0; i < lCtgList.size(); i++) {

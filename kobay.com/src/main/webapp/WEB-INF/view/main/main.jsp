@@ -90,31 +90,9 @@ function fn_detail(value) {
           		</div>
           		<!-- Slide Three - Set the background image for this slide in the line below -->
 	            <div class="carousel-item" style="background-image: url('../../../images/slide01_bg.jpg'); padding-left: 5%;">
-	            	<div class="d-md-block" style="margin-left: 5%;">
-	              		<div id="nullList" class="row" style="padding-top: 5%">
-							<c:forEach items="${nullList}" end="2" var="nullList">
-								<div id="item" class="col-lg-2 col-sm-2 portfolio-item">
-									<div id="itemCard" class="card">
-										<div class="item-body">
-											<div class="item">
-										 		<img class="card-img-top slide-item-img" src="/upload/${nullList.aucimagemain}" alt="">
-										  		<span class="item item-content">
-										  			<span class="item-text c-grey" style="font-size: 10pt;">[${nullList.mctg}]</span>
-										    		<span class="item-text item-title ">${nullList.auctitle}</span>
-										  			<span class="item-text">
-										  				<strong>₩ ${nullList.price }</strong>
-										  			</span>		
-												</span>   
-											</div>
-										</div>
-									</div>
-				    			</div>	<!-- /.list -->
-							</c:forEach><!-- /list-foreach -->
-							<div style="text-align: right; margin-left: 10%; margin-top: 10%;">
-								<h2 class="strong slide-main-text"><a class="text-warning" href="/list_1">진행중인 경매 보러가기!</a></h2>
-							</div>
-						</div>
-	            	</div>
+	            	<div class="d-md-block" style="margin-left: 15%">
+              			<a href="/list_1"><img src="../../../images/slide01_content.png"/></a>
+            		</div>
 	          	</div>
 	        </div>
 	        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
