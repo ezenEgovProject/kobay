@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import kobay.com.service.MemberVO;
 public class LoginController {
 	
 	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+	static String url = "";
 	
 	@Resource(name = "loginService")
 	private LoginService loginService;
@@ -41,12 +43,10 @@ public class LoginController {
 	}
 		
 	@RequestMapping("/loginreg") /*로그인 회원가입 페이지*/
-	public String loginRegPage(MemberVO vo, HttpSession session)  throws Exception {
-		
-		loginBack();
-		regBack();
+	public String loginRegPage(MemberVO vo, HttpSession session, HttpServletRequest req)  throws Exception {
 		
 		String memberId = (String) session.getAttribute("id");
+		url = req.getHeader("REFERER").split("/")[req.getHeader("REFERER").split("/").length-1];
 		
 		if(memberId != null) {
 			return "redirect:/main";
@@ -84,7 +84,7 @@ public class LoginController {
 			session.setAttribute("unq", unq); 
 			session.setAttribute("name", name);
 			/* */
-			
+			map.put("getback", url);
 		}
 		map.put("result", result);
 		return map;
@@ -92,14 +92,16 @@ public class LoginController {
 	
 	
 	@RequestMapping(value = "/logout") /*로그아웃 실행*/
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletRequest req) {
 		
 		String curTime = new SimpleDateFormat("yyyy/MM/dd/HH:mm").format(new Date());
 		log.info(session.getAttribute("id") + " Logout 현재시간 : "+curTime);
 		
+		url = req.getHeader("REFERER").split("/")[req.getHeader("REFERER").split("/").length-1];
+		
 		session.invalidate();
 		
-		return "redirect:/main";
+		return "redirect:/"+url;
 	}
 	
 }

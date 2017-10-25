@@ -26,7 +26,7 @@ function member_Login() {
 		success:function(data) {
 			if(data.result == "ok") {
 				alert("로그인 되었습니다.");
-				location.href="<c:url value='/main' />";
+				location.href="<c:url value='/"+data.getback+"' />";
 			} else{
 				alert("다시 확인해주세요.");
 			}
