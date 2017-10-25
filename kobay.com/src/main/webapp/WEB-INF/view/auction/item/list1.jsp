@@ -6,9 +6,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="utf-8">
-<script>
-	/* 상세보기 페이지 */
-</script>
 <body>
  	<!-- 진행 중인 경매 리스트  -->    
     <!-- Marketing Icons Section -->

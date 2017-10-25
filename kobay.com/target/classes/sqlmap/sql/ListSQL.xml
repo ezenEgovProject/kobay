@@ -257,7 +257,7 @@
 					ORDER BY bids DESC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="newest">
-					ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B  
+					ORDER BY eDate DESC ) B  
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
 					ORDER BY price ASC ) B
@@ -307,7 +307,7 @@
 					ORDER BY bids DESC ) B
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="newest">
-					ORDER BY to_date(sysdate,'yyyy/mm/dd hh24:mi') - to_date(eDate,'yyyy/mm/dd hh24:mi') ASC ) B  
+					ORDER BY eDate DESC ) B 
 				</isEqual>
 				<isEqual property="orderCondition" compareValue="lowprice">
 					ORDER BY price ASC ) B

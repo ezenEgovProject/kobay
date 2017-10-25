@@ -6,16 +6,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="utf-8">
-<script>
-  
-	/* 상세보기 페이지 */
-	function fn_detail(a) {
-		var f = document.hiddenFrm;
-		f.auctionunq.value = a;
-		f.submit();
-	}
-
-</script>
 <body>
       <!-- 낙찰된 경매 리스트 -->    
       <!-- Marketing Icons Section -->
@@ -29,19 +19,20 @@
               <span class="item-text c-grey" style="font-size: 10pt;">[${list.mctg}]</span>
 					    	<span class="item-text item-title ">${list.auctitle}</span>
 					  		<span class="item-text">
-					  			<c:if test="${list.price eq null || list.price eq 0}">
-					  				<c:set var="price" value="${list.sprice}"/>
-					  				<span class="item-left h6 c-black"><strong>₩ ${price }</strong></span>
-					  			</c:if>
+					  			<c:choose>
+					  			<c:when test="${list.price eq null || list.price eq 0}">
+					  			</c:when>
+					  			<c:otherwise>
 					  			<span class="item-left h6 c-black"><strong>₩ ${list.price }</strong></span>
+					  			</c:otherwise>
+					  		</c:choose>
 				   				<span class="item-right" style="text-align: right; margin-bottom: .5rem"><span style="color:red;">${list.bids }</span>명 입찰참여</span>
-					  		</span>		
+					  		</span>			
 						</span>   
 					</a>
 				</div>
 			   	<div class="item-footer pb-1 pt-1 row" style="margin-right: 0px; margin-left: 0px;">
 			   		<div class="col-4">${list.sellername}</div>
-			   		<div class="col-8 text-right">마감 : ${list.edate }</div>
 			  	</div>
 			</div>
       	</div>	<!-- /.list -->
