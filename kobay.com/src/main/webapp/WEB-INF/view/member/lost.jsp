@@ -39,7 +39,6 @@ function member_Find(va) {
 					window.open(link,popTitle,"width=600, height=275"); //팝업창 실행
 					formData.submit(); //팝업창으로 값 전송
 					
-					alert(formData.memberName.value);
 					/* 부모창 값 초기화 */
 					formData.memberName.value = "";
 					formData.memberPhone.value = "";
