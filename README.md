@@ -21,9 +21,9 @@ css - search.css
 **ibatis에서 다양한 쿼리 활용도 체크(iterater, isNotNull, isNotEmpty등의 태그사용)
 
 
-KoBay 팀원
-강수연 pialissue@google.com
-김종연 rla210218@naver.com
-김민우kkimmotti2@gmail.com
-김현지ksesur4140@naver.com
-이진경kegljk@hanmail.net
+[KoBay 팀원]
+강수연 pialissue@google.com <br/>
+김종연 rla210218@naver.com <br/>
+김민우 kkimmotti2@gmail.com <br/>
+김현지 ksesur4140@naver.com <br/>
+이진경 kegljk@hanmail.net <br/>
