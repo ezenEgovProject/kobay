@@ -22,8 +22,8 @@ css - search.css
 
 
 [KoBay 팀원] <br/>
-강수연 pialissue@google.com <br/>
-김종연 rla210218@naver.com <br/>
-김민우 kkimmotti2@gmail.com <br/>
-김현지 ksesur4140@naver.com <br/>
-이진경 kegljk@hanmail.net <br/>
+강수연(ezenProject) pialissue@google.com <br/>
+김종연(rla210218) rla210218@naver.com <br/>
+김민우(minuchi) kkimmotti2@gmail.com <br/>
+김현지(kimkimhyeonji) ksesur4140@naver.com <br/>
+이진경(JkLee893) kegljk@hanmail.net <br/>
