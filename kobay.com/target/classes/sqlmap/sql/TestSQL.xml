@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="searchSpace">
+	<typeAlias alias="searchVO" type="kobay.com.service.SearchVO"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="pageVO" type="kobay.com.cmmn.PageVO"/>
+	
+	<!-- SearchList -->
+	<select id="search.getList" parameterClass="searchVO" resultClass="egovMap">
+		SELECT A.* FROM (
+			SELECT ROWNUM RN, B.* FROM (
+				SELECT  k.auctionUnq, 
+	                to_char(k.sdate, 'yyyy-mm-dd')sDate, 
+	                to_char(k.eDate, 'yyyy-mm-dd')eDate,
+	                k.aucTitle,
+	                k.aucImageMain, 
+	                k.aucImageSub1, 
+	                k.aucImageSub2, 
+	                k.aucImageSub3,
+	                k.sPrice, 
+	                k.ePrice, 
+	                k.sellerName, 
+	                k.aucStatus,
+	                k.aucdetail,
+	                k.deliveryway,
+                    k.deliveryfee,
+	                (select max(bidprice) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)price,
+	                (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
+	                (select ctgnm from auctionctg where ctgcd = k.lctg)lctg,
+        			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg
+				FROM   KOBAYAUCTION k
+				WHERE  1=1
+				AND (
+	           			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	            		AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	            		SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+					OR 
+	               		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	                	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+	        	)
+	        	<isNotNull prepend="AND" open="(" close=")" property="innerKeyword">
+						AUCTITLE LIKE '%' || #innerKeyword# || '%' 
+	            	OR 
+	            		AUCDETAIL LIKE '%' || #innerKeyword# || '%' 
+	            	OR 
+	            		SELLERNAME LIKE '%' || #innerKeyword# || '%' 
+					OR 
+	               		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #innerKeyword# || '%' 
+	            	OR 
+	                	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #innerKeyword# || '%'
+				</isNotNull>
+	        	<isNotNull property="mCtgList">
+					<iterate prepend="AND" property="mCtgList" open="(" close=")" conjunction="OR">
+						<!-- AND -->
+						 (select ctgcd from auctionctg where ctgcd = k.mctg) LIKE '%' || #mCtgList[]# || '%'
+					</iterate>  
+				</isNotNull>
+				<isNotNull  property="orderCondition">
+					<isEqual property="orderCondition" compareValue="best">
+						ORDER BY bids DESC ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="close">
+						ORDER BY abs( TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="recent">
+						ORDER BY abs( TO_DATE( sdate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="lowprice">
+						ORDER BY price asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="highprice">
+						ORDER BY price DESC ) B  
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="">
+						ORDER BY abs( TO_DATE( sdate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B  
+					</isEqual>
+				</isNotNull>
+				<isNull property="orderCondition">
+					ORDER BY price asc ) B
+				</isNull>	
+				 WHERE  (TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD'))<![CDATA[>]]> 0
+				<isNotNull prepend="AND" property="deliveryWay">
+					<isEqual property="deliveryWay" compareValue="contact">
+						deliveryway = 1
+					</isEqual>
+					<isEqual property="deliveryWay" compareValue="free">
+						deliveryway = 0 and deliveryfee = 0
+					</isEqual>
+				</isNotNull>
+				<isNotNull prepend="AND" property="aucStatus">
+					<isEqual property="aucStatus" compareValue="progress">
+						TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') <![CDATA[>=]]> 0
+						AND TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[>=]]> 0
+					</isEqual>
+					<isEqual property="aucStatus" compareValue="expect">
+						TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[<]]> 0
+					</isEqual>
+				</isNotNull>
+			
+				<isNotEqual prepend="AND" property="minPrice" compareValue="0">
+					price <![CDATA[>=]]> #minPrice#
+				</isNotEqual>
+				<isNotEqual prepend="AND" property="maxPrice" compareValue="0">
+					price <![CDATA[<=]]> #maxPrice#
+				</isNotEqual>
+				) A
+				<!-- WHERE RN > 0 AND RN <![CDATA[<=]]> 100 -->
+				WHERE RN > #firstIndex# AND RN <![CDATA[<=]]> #lastIndex#
+				
+	</select>
+
+	<!-- SearchList DataCount -->
+	<select id="search.getListCnt" parameterClass="searchVO" resultClass="java.lang.Integer">
+		SELECT count(*) FROM 
+   		 (SELECT A.* FROM (
+			SELECT ROWNUM RN, B.* FROM (
+				SELECT  k.auctionUnq, 
+	                to_char(k.sdate, 'yyyy-mm-dd')sDate, 
+	                to_char(k.eDate, 'yyyy-mm-dd')eDate,
+	                k.aucTitle,
+	                k.aucImageMain, 
+	                k.aucImageSub1, 
+	                k.aucImageSub2, 
+	                k.aucImageSub3, 
+	               	k.sPrice,
+	                k.ePrice, 
+	                k.sellerName, 
+	                k.aucStatus,
+	                k.aucdetail,
+	                (select max(bidprice) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)price,
+	                (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
+	                (select ctgnm from auctionctg where ctgcd = k.lctg)lctg,
+        			(select ctgnm from auctionctg where ctgcd = k.mctg)mctg
+				FROM   KOBAYAUCTION K
+				WHERE  1=1
+				AND (
+	           			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	            		AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	            		SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+					OR 
+	               		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+	            	OR 
+	                	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+	        	)
+	        	<isNotNull property="innerKeyword">
+					AND(
+						AUCTITLE LIKE '%' || #innerKeyword# || '%' 
+	            	OR 
+	            		AUCDETAIL LIKE '%' || #innerKeyword# || '%' 
+	            	OR 
+	            		SELLERNAME LIKE '%' || #innerKeyword# || '%' 
+					OR 
+	               		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #innerKeyword# || '%' 
+	            	OR 
+	                	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #innerKeyword# || '%'
+					)
+				</isNotNull>
+	        	<isNotNull property="mCtgList">
+					<iterate prepend="AND" property="mCtgList" open="(" close=")" conjunction="OR">
+						<!-- AND -->
+						 (select ctgcd from auctionctg where ctgcd = k.mctg) LIKE '%' || #mCtgList[]# || '%'
+					</iterate>  
+				</isNotNull>
+	
+				<isNotNull  property="orderCondition">
+					<isEqual property="orderCondition" compareValue="best">
+						ORDER BY bids DESC ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="close">
+						ORDER BY abs( TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="recent">
+						ORDER BY abs( TO_DATE( sdate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="lowprice">
+						ORDER BY price asc ) B 
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="highprice">
+						ORDER BY price DESC ) B  
+					</isEqual>
+					<isEqual property="orderCondition" compareValue="">
+						ORDER BY abs( TO_DATE( sdate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD')) asc ) B  
+					</isEqual>
+				</isNotNull>
+				<isNull property="orderCondition">
+					ORDER BY price asc ) B 
+				</isNull>
+				WHERE  (TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD'))<![CDATA[>]]> 0
+				<isNotNull prepend="AND" property="deliveryWay">
+					<isEqual property="deliveryWay" compareValue="contact">
+						deliveryway = 1
+					</isEqual>
+					<isEqual property="deliveryWay" compareValue="free">
+						deliveryway = 0 and deliveryfee = 0
+					</isEqual>
+				</isNotNull>
+				<isNotNull prepend="AND" property="aucStatus">
+					<isEqual property="aucStatus" compareValue="progress">
+						TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') <![CDATA[>=]]> 0
+						AND TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[>=]]> 0
+					</isEqual>
+					<isEqual property="aucStatus" compareValue="expect">
+						TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[<]]> 0
+					</isEqual>
+				</isNotNull>
+			
+				<isNotEqual prepend="AND" property="minPrice" compareValue="0">
+					price <![CDATA[>=]]> #minPrice#
+				</isNotEqual>
+				<isNotEqual prepend="AND" property="maxPrice" compareValue="0">
+					price <![CDATA[<=]]> #maxPrice#
+				</isNotEqual>	
+				) A
+				<!-- WHERE RN > 0 AND RN <![CDATA[<=]]> 100 -->
+				WHERE TO_DATE( edate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0	
+			)
+	</select>	
+	
+	<!-- 검색값이 없을 때 가져올 리스트  -->
+	<select id="search.nullList" resultClass="egovMap">
+		SELECT A.* FROM (
+			SELECT ROWNUM RN, B.* FROM (
+			        SELECT  k.auctionUnq, 
+			            to_char(k.sdate, 'yyyy-mm-dd')sDate, 
+			            to_char(k.eDate, 'yyyy-mm-dd')eDate,
+			            k.aucTitle,
+			            k.aucImageMain, 
+			            k.aucImageSub1, 
+			            k.aucImageSub2, 
+			            k.aucImageSub3, 
+			            k.ePrice, 
+			            k.sellerName, 
+			            k.aucStatus,
+			            k.aucdetail,
+			            (select max(bidprice) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)price,
+			            (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
+			            (select ctgnm from auctionctg where ctgcd = k.lctg)lctg,
+			            (select ctgnm from auctionctg where ctgcd = k.mctg)mctg
+			    	FROM    KOBAYAUCTION K
+					WHERE  TO_DATE(to_char(k.edate, 'YYYY-mm-dd') ,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
+			 		ORDER BY bids DESC 
+			 		) B 
+			 	WHERE TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') <![CDATA[>=]]> 0
+				AND TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[>=]]> 0	
+			)A
+		WHERE RN <![CDATA[>]]> 0 AND RN <![CDATA[<=]]> 6
+	</select>
+	
+	<!-- Category 관련 -->
+	<!-- 각 대메뉴 카테고리별로 가져오기  -->
+	<select id="search.getMCtgList" parameterClass="searchVO" resultClass="java.lang.Integer">
+		SELECT  count(*)
+		FROM    KOBAYAUCTION K
+		WHERE   1=1
+		AND (
+       			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+        	OR 
+        		AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+        	OR 
+        		SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+			OR 
+           		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+        	OR 
+            	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+	        	)
+		AND
+		        (select ctgcd from auctionctg where ctgcd = k.mctg) LIKE '%' || #mCtgcd#  || '%' 
+		AND TO_DATE( to_char(k.eDate, 'yyyy-mm-dd'),'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0
+
+	</select>
+	
+	<select id="search.selectLCtgList" resultClass="egovMap">
+		SELECT 
+			A.ctgcd,
+			A.ctgnm
+			(SELECT  count(*)
+			FROM    KOBAYAUCTION K
+			WHERE  1=1
+			AND (
+	       			AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+	        	OR 
+	        		AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+	        	OR 
+	        		SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+				OR 
+	           		(select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+	        	OR 
+	            	(select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+		        	)
+			AND
+			        (select ctgcd from auctionctg where ctgcd = k.mctg) LIKE '%' || #mCtgcd#  || '%' 
+			AND TO_DATE( to_char(k.eDate, 'yyyy-mm-dd'),'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0)		
+ 		FROM  
+ 			AUCTIONCTG A
+ 		WHERE 1=1
+ 		AND
+ 			LENGTH(a.ctgcd) <![CDATA[<]]> 4
+ 		
+	</select>
+	
+	<select id="search.selectMCtgList" parameterClass="searchVO" resultClass="egovMap">
+		SELECT 
+		    distinct(A.ctgcd),
+		    A.ctgnm,
+		    (SELECT count(*) 
+		    FROM  
+		            KOBAYAUCTION k
+		    WHERE ctgcd = k.mctg
+		    AND (
+		        k.AUCTITLE LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		        k.AUCDETAIL LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		            k.SELLERNAME LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		            (select ctgnm from auctionctg where ctgcd = k.lctg) LIKE '%' || #searchKeyword# || '%' 
+		        OR 
+		            (select ctgnm from auctionctg where ctgcd = k.mctg) LIKE '%' || #searchKeyword# || '%'
+		    )
+		    AND TO_DATE( to_char(k.eDate, 'yyyy-mm-dd'),'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0)count
+		FROM AUCTIONCTG A
+		WHERE ctgcd like #ctgcd# || '_%'
+	</select>
+	
+	<select id="main.selectLctgList" resultClass="egovMap">
+		SELECT A.* FROM (
+			SELECT ROWNUM RN, B.* FROM (
+			        SELECT  k.auctionUnq, 
+			            to_char(k.sdate, 'yyyy-mm-dd')sDate, 
+			            to_char(k.eDate, 'yyyy-mm-dd')eDate,
+			            k.lctg,
+			            k.aucTitle,
+			            k.aucImageMain, 
+			            k.aucImageSub1, 
+			            k.aucImageSub2, 
+			            k.aucImageSub3, 
+			            k.ePrice, 
+			            k.sellerName, 
+			            k.aucStatus,
+			            k.aucdetail,
+			            (select max(bidprice) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)price,
+			            (select count(*) from AUCTIONBID where AUCTIONUNQ =  K.AUCTIONUNQ)bids,
+			            (select ctgnm from auctionctg where ctgcd = k.mctg)mctg
+			    	FROM    KOBAYAUCTION K
+					WHERE	lctg = #lctg# 
+					<!-- AND
+						TO_zDATE(to_char(k.edate, 'YYYY-mm-dd') ,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') > 0 -->
+			 		ORDER BY bids DESC 
+			 		) B 
+			 	<!-- WHERE TO_DATE(eDate,'YYYY-MM-DD') - TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') <![CDATA[>=]]> 0
+				AND TO_DATE( to_char(sysdate, 'YYYY-mm-dd'),'YYYY-MM-DD') - TO_DATE(sDate,'YYYY-MM-DD') <![CDATA[>=]]> 0	 -->
+			)A
+		WHERE RN <![CDATA[>]]> 0 AND RN <![CDATA[<=]]> 100
+	</select>
+	
+	
+
+</sqlMap>

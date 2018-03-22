@@ -1,0 +1,79 @@
+@CHARSET "UTF-8";
+.tab {position:relative; padding-top:31px;}
+.tab>li>a {
+    display:block;
+    position:absolute;
+    top:0;
+    width:95px;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    background:#eee;
+    color:#555;
+    border:1px solid #767676;
+    border-bottom:0;
+}
+.tab>li.on>a {background:#767676; color:#fff;}
+.tab>li:first-child>a {left:0;}
+.tab>li+li>a {left:100px;}
+.tab>li+li+li>a {left:200px;}
+.tab>li>div {height:0; overflow:hidden; position:absolute;}
+.tab>li.on>div {height:auto; position:static; border:1px solid #767676; padding:10px;}
+
+
+.tab-content {
+	padding-top: 1.5rem;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+}
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding-right: 0.3rem;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    color: #999999;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: transparent;
+    border-radius: 10px;
+}
+.nav-tabs li {
+	display:block; 
+	width:25%;
+	background: transparent;
+	font-size: .9rem; 
+	font-family:"나눔고딕";
+	text-decoration:none;
+}
+.sub-body {
+	border-top: 1px solid rgba(0,0,0,.125);
+	display: none; 
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+.nav{padding-left:0;margin-bottom:0;list-style:none}
+.nav>li{position:relative;display:block}
+.nav>li>a{position:relative;display:block;padding:1rem 1rem}
+.nav>li>a:focus,.nav>li>a:hover{text-decoration:none;background-color:#eee}
+.nav>li.disabled>a{color:#777}
+.nav>li.disabled>a:focus,.nav>li.disabled>a:hover{color:#777;text-decoration:none;cursor:not-allowed;background-color:transparent}
+.nav .open>a,.nav .open>a:focus,.nav .open>a:hover{background-color:#eee;border-color:#337ab7}
+.nav .nav-divider{height:1px;margin:9px 0;overflow:hidden;background-color:#e5e5e5}
+.nav>li>a>img{max-width:none}
+.nav-tabs{border-bottom:1px solid #ddd}
+.nav-tabs>li{float:left;margin-bottom:-1px}
+.nav-tabs>li>a{margin-right:0px;line-height:1.42857143;border:1px solid transparent;border-radius:4px 4px 0 0}
+.nav-tabs>li>a:hover{border-color:#eee #eee #ddd}
+.nav-tabs>li.active>a,.nav-tabs>li.active>a:focus,.nav-tabs>li.active>a:hover{
+	color:#555;cursor:default;
+	background-color:#fff;
+	border:1px solid #ddd;
+	border-bottom-color:transparent
+	}

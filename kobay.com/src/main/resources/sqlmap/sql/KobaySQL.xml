@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="kobaySQL">
+
+	<typeAlias alias="kobayVO" type="kobay.com.service.KobayVO" />
+	<typeAlias alias="egovMap"
+		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+	<typeAlias alias="tableVO" type="kobay.com.service.TableVO" />
+
+
+	<insert id="kobayDAO.insertWrite">
+		insert into kobayAuction(
+							memberUnq, 
+							auctionUnq, 
+							lCtg, 
+							mCtg, 
+							sDate, 
+							eDate, 
+							aucTitle,
+							aucimagemain,
+							AUCIMAGESUB1,
+							AUCIMAGESUB2,
+							AUCIMAGESUB3, 
+							sPrice, 
+							deliveryWay,
+							deliveryFee, 
+							sellerName, 
+							sellerPhone,
+							aucDetail )
+
+					values(
+					#memberunq#,
+					AUCTION_SEQ.nextval,
+					#lctg#,
+					#mctg#,
+					#sdate#,
+					#edate#,
+					#auctitle#,
+					#aucimagemain#,
+					#aucimagesub1#,
+					#aucimagesub2#,
+					#aucimagesub3#,
+					#sprice#,
+					#deliveryway#,
+					#deliveryfee#,
+					#sellername#,
+					#sellerphone#,
+					#aucdetail#
+					)
+
+
+	</insert>
+
+	<select id="selectCtgList" resultClass="egovMap">
+		SELECT
+		CTGCD,
+		CTGNM
+		FROM
+		AUCTIONCTG
+		where length(AUCTIONCTG.ctgcd) = 3
+	</select>
+
+	<select id="selectMCtgList" resultClass="egovMap">
+		select
+		ctgcd,
+		ctgnm
+		from
+		AUCTIONCTG
+		<dynamic prepend="where">
+			
+			<isNotEmpty property="ctgcd">
+				ctgcd like #ctgcd# || '_%'
+			</isNotEmpty>
+			
+			<isEmpty property="ctgcd">
+				1=2
+			</isEmpty>
+		</dynamic>
+		
+	</select>
+
+</sqlMap>

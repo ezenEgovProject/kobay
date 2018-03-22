@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MemberSpace">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="memberVO" type="kobay.com.service.MemberVO"/>
+	<typeAlias alias="pageVO" type="kobay.com.cmmn.PageVO"/>
+	
+	
+<insert id="memberDAO.insertMember">
+	INSERT INTO kobayMember(
+		memberUnq,
+		memberId,
+		memberPwd,
+		memberName,
+		memberPhone,
+		memberRdate,
+		memberMdate
+	)
+	VALUES(
+		member_seq.NEXTVAL,
+		'$memberId$',
+		'$memberPwd$',
+		'$memberName$',
+		'$memberPhone$',
+		sysdate,
+		sysdate
+	)
+</insert>
+<select id="memberDAO.selectMemberTotal" resultClass="java.lang.Integer">
+	SELECT COUNT(memberUnq) total FROM kobayMember
+</select>
+
+<select id="memberDAO.selectMemberList" resultClass="egovMap">
+	SELECT  memberUnq,
+			memberId,
+			memberPwd,
+			memberName,
+			memberPhone,
+			TO_CHAR(memberRdate, 'yyyy-mm-dd') memberRdate
+	FROM	kobayMember
+</select>
+
+<select id="memberDAO.selectMemberDetail" resultClass="memberVO">
+	SELECT memberUnq,
+		   memberId,
+		   memberName,
+		   memberPhone,
+		   TO_CHAR(memberRdate, 'yyyy-mm-dd') memberRdate,
+		   TO_CHAR(memberMdate, 'yyyy-mm-dd') memberMdate
+	FROM kobayMember
+	WHERE memberId = '$memberId$'
+</select>
+
+<select id="memberDAO.memberCheckId" resultClass="java.lang.Integer">
+	SELECT COUNT(memberId)
+	FROM kobayMember
+	WHERE memberId = #memberId#
+</select>
+
+<update id="memberDAO.editProfile">
+	UPDATE kobayMember SET memberPwd='$memberPwd$',
+						   memberName='$memberName$', 
+						   memberPhone='$memberPhone$',
+						   memberMdate = sysdate
+				  WHERE memberUnq = '$memberUnq$'
+</update>
+
+<select id="memberDAO.foundId" resultClass="egovMap">
+	SELECT memberId
+	FROM   kobayMember
+	WHERE  memberName = '$memberName$' AND
+		   memberPhone = '$memberPhone$'
+	
+</select>
+
+<update id="memberDAO.updateRandomPassword">
+	UPDATE kobayMember SET memberPwd='$memberPwd$'
+	WHERE  memberId = '$memberId$' AND
+		   memberName = '$memberName$' AND
+		   memberPhone = '$memberPhone$'
+</update>
+
+
+<select id="memberDAO.findMember" resultClass="java.lang.Integer">
+			SELECT COUNT(memberId) 
+			FROM kobayMember
+			WHERE  memberName = '$memberName$' AND
+				   memberPhone = '$memberPhone$'
+	<isNotNull property="memberId">
+		<isNotEmpty property="memberId">
+											   AND
+				   memberId = '$memberId$'
+			</isNotEmpty>
+	</isNotNull>
+</select>
+
+</sqlMap>

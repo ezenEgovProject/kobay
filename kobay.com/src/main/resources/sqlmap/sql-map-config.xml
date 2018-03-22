@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/sql/TestSQL.xml" />
+	<sqlMap resource="sqlmap/sql/KobaySQL.xml" />
+	
+	
+	<sqlMap resource="sqlmap/sql/ListSQL.xml" />
+	<sqlMap resource="sqlmap/sql/MemberSQL.xml" />
+	<sqlMap resource="sqlmap/sql/LoginSQL.xml" />
+<sqlMap resource="sqlmap/sql/DetailSQL.xml"></sqlMap></sqlMapConfig>

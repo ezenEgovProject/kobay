@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+.member-margin-settings {
+		margin-top: 50px;
+		margin-bottom: 50px;
+		text-align: center;
+	}
+.title-margin-settings {
+		margin-bottom: 20px;
+		text-align: center;
+	}
+.p-margin-settings {
+	text-align: center;
+}
+.member-margin-settings .control-label {
+	padding-left: 80px;
+}
+.member-margin-settings .form-control {
+	display: inline-block;
+	width: 45%;
+	margin-right: 7%;
+}
